@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siyonu Pradhana Mandhiram</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Royal Christmas Palette */
+            --royal-red: #7b1113;
+            --royal-gold: #c5a059;
+            --forest-green: #1b4d3e;
+            --cream-bg: #fffbf2;
+            --text-dark: #2d2d2d;
+            --text-light: #555;
+            
+            --card-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--cream-bg);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            padding-top: 40px; 
+        }
+
+        /* --- FIXED MARQUEE --- */
+        .top-marquee {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: var(--royal-red); color: white; padding: 10px 0;
+            overflow: hidden; white-space: nowrap; z-index: 1000;
+            border-bottom: 2px solid var(--royal-gold);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .marquee-content {
+            display: inline-block; padding-left: 100%;
+            animation: marquee 25s linear infinite;
+            font-family: 'Playfair Display', serif; letter-spacing: 1px; font-size: 0.95rem;
+        }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0; transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        /* --- BACKGROUND SETTINGS --- */
+        /* Common class for parallax backgrounds */
+        .parallax-section {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates the cool scrolling effect */
+            position: relative;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh; width: 100%; 
+            /* Dark Green/Snow Background */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(27, 77, 62, 0.8)), url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=1974&auto=format&fit=crop');
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: white; padding: 20px;
+            margin-top: -40px;
+        }
+
+        .snow {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+            background-image: url('https://library.kissclipart.com/20180904/qww/kissclipart-white-snowflakes-png-clipart-snowflake-clip-art-7f4c5453673078a0.png');
+            animation: snow 25s linear infinite; opacity: 0.3;
+        }
+        @keyframes snow { 0% { background-position: 0 0; } 100% { background-position: 100px 500px; } }
+
+        .hero h1 { 
+            font-size: 3.5rem; margin-bottom: 15px; 
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            animation: fadeInDown 1.5s ease;
+        }
+        
+        .shimmer-text {
+            background: linear-gradient(to right, #c5a059 0%, #fff 50%, #c5a059 100%);
+            background-size: 200% auto;
+            color: transparent; -webkit-background-clip: text; background-clip: text;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+
+        .motto-container {
+            margin: 20px 0 30px; padding: 10px 30px;
+            border-top: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 2s ease;
+        }
+        .motto {
+            font-family: 'Cinzel', serif; font-size: 1.1rem; letter-spacing: 3px; color: var(--royal-gold); text-transform: uppercase;
+        }
+
+        .hero-desc {
+            max-width: 700px; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6; color: rgba(255,255,255,0.9);
+        }
+
+        .hero-btn { 
+            padding: 15px 45px; background: transparent; color: var(--royal-gold); 
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem;
+            text-decoration: none; border: 2px solid var(--royal-gold);
+            transition: 0.3s; position: relative; overflow: hidden;
+        }
+        .hero-btn:hover { background: var(--royal-gold); color: #fff; box-shadow: 0 0 20px var(--royal-gold); }
+
+        /* --- SECTIONS COMMON --- */
+        section { padding: 90px 5%; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.8rem; color: var(--royal-red); display: inline-block; position: relative; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
+        .section-header p { margin-top: 15px; color: #444; font-weight: 600; max-width: 600px; margin-left: auto; margin-right: auto; background: rgba(255,255,255,0.7); display: inline-block; padding: 5px 15px; border-radius: 20px; }
+
+        /* --- WELCOME SECTION --- */
+        #welcome {
+            /* Warm Candle/Bible Background */
+            background-image: linear-gradient(rgba(255, 251, 242, 0.7), rgba(255, 251, 242, 0.7)), url('https://images.unsplash.com/photo-1513297887119-d46091b24bfa?q=80&w=2070&auto=format&fit=crop');
+        }
+
+        .welcome-box {
+            max-width: 900px; margin: 0 auto;
+            border: 3px double var(--royal-gold); padding: 50px;
+            background: rgba(255, 255, 255, 0.95); /* Slight transparency */
+            position: relative;
+            box-shadow: var(--card-shadow); text-align: center;
+        }
+        .welcome-text { font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 20px; }
+        
+        .corner-deco {
+            position: absolute; width: 40px; height: 40px;
+            border-top: 3px solid var(--royal-red); border-left: 3px solid var(--royal-red);
+        }
+        .tl { top: 10px; left: 10px; }
+        .tr { top: 10px; right: 10px; transform: rotate(90deg); }
+        .bl { bottom: 10px; left: 10px; transform: rotate(-90deg); }
+        .br { bottom: 10px; right: 10px; transform: rotate(180deg); }
+
+        /* --- SERVICES SECTION --- */
+        #services {
+            /* Festive Lights Background */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1576612628636-628d00249219?q=80&w=2070&auto=format&fit=crop');
+        }
+        /* Override header color for dark background */
+        #services .section-header h2 { color: white; text-shadow: 0 0 10px var(--royal-gold); }
+        #services .section-header p { background: transparent; color: #ddd; }
+
+        .timings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .time-card {
+            background: rgba(255, 255, 255, 0.95); padding: 40px 30px; text-align: center;
+            border-radius: 5px; transition: 0.4s; border: 1px solid #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .time-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px rgba(255,255,255,0.4); border-color: var(--royal-gold); }
+        .time-card i { font-size: 2.5rem; color: var(--royal-gold); margin-bottom: 20px; }
+        .card-desc { font-size: 0.95rem; color: #666; margin: 15px 0; line-height: 1.6; }
+
+        /* --- TEAM SECTION --- */
+        #team {
+            /* Red Festive Bokeh Background */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1543258103-a62bdc069624?q=80&w=2070&auto=format&fit=crop');
+        }
+
+        .team-container { display: flex; justify-content: center; }
+        .team-card {
+            background: white; box-shadow: var(--card-shadow);
+            max-width: 900px; width: 100%; display: flex; flex-wrap: wrap;
+            border-radius: 10px; overflow: hidden;
+        }
+        .team-img-wrapper { flex: 1; min-width: 300px; height: 400px; }
+        .team-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .team-content { flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        
+        /* --- CONTACT SECTION --- */
+        #contact {
+            /* Dark Holy Night Background */
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1482517967863-00e15c9b44be?q=80&w=2070&auto=format&fit=crop');
+            color: white;
+        }
+
+        /* --- FOOTER & SOCIALS --- */
+        footer { background: #111; color: #bbb; padding: 60px 5%; text-align: center; border-top: 3px solid var(--royal-gold); }
+        .social-icons { margin: 20px 0; }
+        .social-icons a {
+            display: inline-flex; justify-content: center; align-items: center;
+            width: 45px; height: 45px; border: 1px solid #444; border-radius: 50%;
+            margin: 0 10px; color: var(--royal-gold); transition: 0.3s; text-decoration: none; font-size: 1.2rem;
+        }
+        .social-icons a:hover { background: var(--royal-gold); color: #1a1a1a; border-color: var(--royal-gold); transform: translateY(-3px); }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .team-card { flex-direction: column; }
+            .team-img-wrapper { height: 300px; }
+            .team-content { text-align: center; }
+            .section-header h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-marquee">
+        <div class="marquee-content">
+            ✨ Merry Christmas & A Happy New Year 2026!  |  May the Peace of Christ be with you  |  Join us this Sunday  |  Jesus is the Reason for the Season ✨
+        </div>
+    </div>
+
+    <section class="hero parallax-section">
+        <div class="snow"></div>
+        
+        <h1 class="shimmer-text">Siyonu Pradhana Mandhiram</h1>
+        
+        <div class="motto-container">
+            <span class="motto">"To Know Christ and To Make Him Known"</span>
+        </div>
+
+        <p class="hero-desc">
+            Welcome to a sanctuary of peace and presence. We are a community of believers dedicated to the Holy Scriptures, passionate worship, and loving fellowship. Join us as we celebrate the season of light.
+        </p>
+
+        <a href="#services" class="hero-btn">View Weekly Services</a>
+    </section>
+
+    <section id="welcome" class="parallax-section">
+        <div class="section-header reveal">
+            <h2>Season's Greetings</h2>
+            <p>A message from our hearts to yours</p>
+        </div>
+        <div class="welcome-box reveal">
+            <div class="corner-deco tl"></div><div class="corner-deco tr"></div>
+            <div class="corner-deco bl"></div><div class="corner-deco br"></div>
+            
+            <h3 style="font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--royal-red); margin-bottom: 20px;">Welcome Home</h3>
+            
+            <p class="welcome-text">
+                Grace and Peace to you from God our Father and the Lord Jesus Christ. At Siyonu Pradhana Mandhiram, we believe that the church is not just a building, but a family. Whether you are seeking spiritual renewal, looking for a community to belong to, or simply curious about the Christian faith, you are welcome here.
+            </p>
+            <p class="welcome-text">
+                This season, we remember the greatest gift ever given—Jesus. We pray that as you browse through our ministry and join us in service, you will encounter His love in a tangible way. May your 2026 be filled with divine favor and breakthrough.
+            </p>
+
+            <div style="margin-top: 30px; font-family: 'Cinzel', serif; color: var(--royal-gold); font-weight: 700;">
+                - In His Service, The Church Leadership
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="parallax-section">
+        <div class="section-header reveal">
+            <h2>Weekly Services</h2>
+            <p>Gather with us to honor the King of Kings throughout the week</p>
+        </div>
+        
+        <div class="timings-grid">
+            <div class="time-card reveal">
+                <i class="fas fa-church"></i>
+                <h3>Sunday Worship</h3>
+                <div class="card-desc">
+                    Start your week with powerful praise, deep worship, and an encouraging message from the Word of God. Sunday school for children is available.
+                </div>
+                <span style="color:var(--royal-red); font-weight:700; display:block; border-top:1px solid #eee; padding-top:15px;">Every Sunday | 10:00 AM</span>
+            </div>
+
+            <div class="time-card reveal">
+                <i class="fas fa-praying-hands"></i>
+                <h3>Fasting Prayer</h3>
+                <div class="card-desc">
+                    A dedicated time of intercession, healing prayer, and seeking God's face for our families and the nation. Come expecting a breakthrough.
+                </div>
+                <span style="color:var(--royal-red); font-weight:700; display:block; border-top:1px solid #eee; padding-top:15px;">Every Friday | 6:00 PM</span>
+            </div>
+
+            <div class="time-card reveal">
+                <i class="fas fa-users"></i>
+                <h3>Youth Fellowship</h3>
+                <div class="card-desc">
+                    A vibrant gathering for the next generation to grow in faith through music, bible study, and fellowship. Building strong foundations for Christ.
+                </div>
+                <span style="color:var(--royal-red); font-weight:700; display:block; border-top:1px solid #eee; padding-top:15px;">Every Saturday | 5:00 PM</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="parallax-section">
+        <div class="section-header reveal">
+            <h2>Our Leadership</h2>
+            <p>Serving with humility and grace</p>
+        </div>
+
+        <div class="team-container reveal">
+            <div class="team-card">
+                <div class="team-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop" alt="Sis. Daya Mani">
+                </div>
+                <div class="team-content">
+                    <h3 style="font-size: 2rem; margin-bottom: 5px; color: var(--text-dark);">Sis. Daya Mani</h3>
+                    <span style="color: var(--royal-gold); font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 2px; margin-bottom: 20px; display:block;">Choir Lead & Ministry</span>
+                    
+                    <p style="color: #666; line-height: 1.7; margin-bottom: 20px;">
+                        With a heart fully surrendered to the Holy Spirit, Sis. Daya Mani has been leading the congregation in worship for over a decade. Her ministry is focused on bringing people into the Holy of Holies through song and scripture. She believes that true worship breaks chains and heals hearts.
+                    </p>
+                    <p style="font-style: italic; color: var(--royal-red);">
+                        "I will sing to the Lord all my life; I will sing praise to my God as long as I live." - Psalm 104:33
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="parallax-section">
+        <div style="max-width: 700px; margin: 0 auto; text-align: center;" class="reveal">
+            <i class="fas fa-praying-hands" style="font-size: 3rem; color: var(--royal-gold); margin-bottom: 20px;"></i>
+            <h2 style="color: white;">We Are Here For You</h2>
+            <p style="color: #ddd; margin: 15px 0 30px;">
+                Whether you have a prayer request, a testimony to share, or questions about salvation and baptism, please reach out. Our prayer team intercedes daily for these requests.
+            </p>
+            
+            <form style="text-align: left; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);">
+                <input type="text" placeholder="Your Name" style="width: 100%; padding: 15px; margin-bottom: 15px; background: rgba(0,0,0,0.4); border: 1px solid #555; color: white; border-radius: 5px;">
+                <input type="email" placeholder="Your Email" style="width: 100%; padding: 15px; margin-bottom: 15px; background: rgba(0,0,0,0.4); border: 1px solid #555; color: white; border-radius: 5px;">
+                <textarea rows="4" placeholder="How can we pray for you?" style="width: 100%; padding: 15px; margin-bottom: 20px; background: rgba(0,0,0,0.4); border: 1px solid #555; color: white; border-radius: 5px;"></textarea>
+                <button style="width: 100%; padding: 15px; background: var(--royal-gold); border: none; font-weight: bold; cursor: pointer; color: #1a1a1a; font-family: 'Cinzel', serif; letter-spacing: 1px;">SEND REQUEST</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <h3 style="color: white; font-size: 1.5rem; margin-bottom: 10px; font-family: 'Playfair Display', serif;">Siyonu Pradhana Mandhiram</h3>
+        <p>Main Road, Hyderabad, Telangana</p>
+        
+        <div class="social-icons">
+            <a href="https://youtube.com" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+
+        <div style="margin-top: 20px; font-size: 0.8rem; border-top: 1px solid #333; padding-top: 20px;">
+            &copy; 2025 Siyonu Pradhana Mandhiram. All Rights Reserved.<br>
+            <span style="color: #555;">Designed for the Glory of God.</span>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', reveal);
+
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+
+            for (var i = 0; i < reveals.length; i++) {
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if (revealtop < windowheight - revealpoint) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
