@@ -16,7 +16,6 @@
            1. CORE VARIABLES & RESET
            ========================================= */
         :root {
-            /* Professional Christmas Palette */
             --primary-gold: #d4af37; 
             --secondary-gold: #f1e2c3;
             --deep-red: #800000; 
@@ -24,10 +23,9 @@
             --text-light: #f4f4f9;
             --text-muted: #c0c0c8;
             
-            /* Refined Glassmorphism */
-            --glass-bg: rgba(20, 25, 35, 0.80);
+            --glass-bg: rgba(20, 25, 35, 0.85);
             --glass-border: 1px solid rgba(212, 175, 55, 0.2);
-            --card-shadow: 0 30px 60px rgba(0,0,0,0.7);
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,339 +35,206 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-light);
-            overflow-x: hidden; /* Hide scrollbar when modal is open */
-            line-height: 1.8;
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-size: 16px; /* Base size */
         }
 
         /* =========================================
-           2. CHRISTMAS POPUP DIALOG CSS
+           2. POPUP DIALOG CSS
            ========================================= */
-        
-        /* The Dark Backdrop */
         #modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85); /* Dimmed background */
-            backdrop-filter: blur(5px);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
             transition: opacity 0.5s ease, visibility 0.5s ease;
+            padding: 20px;
         }
 
-        /* The Box Itself */
         #intro-dialog {
             position: relative;
-            width: 90%;
-            max-width: 600px; /* Max width of the box */
-            height: 400px;
-            background: linear-gradient(135deg, #8E0E00 0%, #2b0404 100%); /* Festive Red */
-            border-radius: 20px;
+            width: 100%; max-width: 500px; /* Reduced max-width */
+            height: auto; min-height: 350px;
+            background: linear-gradient(135deg, #8E0E00 0%, #2b0404 100%);
+            border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.3);
             border: 2px solid var(--primary-gold);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow: hidden; /* Keeps snow inside the box */
-            transform: scale(1);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; overflow: hidden;
+            transform: scale(1); transition: transform 0.3s;
         }
 
-        /* Close Button ('X') */
         #close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            color: rgba(255, 255, 255, 0.7);
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 10;
-            transition: 0.3s;
-        }
-        #close-btn:hover {
-            color: #fff;
-            transform: rotate(90deg);
+            position: absolute; top: 10px; right: 15px;
+            font-size: 1.8rem; color: rgba(255, 255, 255, 0.7);
+            background: none; border: none; cursor: pointer; z-index: 10;
         }
 
-        /* Hide State */
-        #modal-backdrop.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        #modal-backdrop.hidden #intro-dialog {
-            transform: scale(0.8);
-        }
+        #modal-backdrop.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #modal-backdrop.hidden #intro-dialog { transform: scale(0.8); }
 
-        /* Content inside the box */
-        .intro-content {
-            z-index: 2; 
-            padding: 30px;
-            animation: zoomIn 0.8s ease-out;
-        }
-
+        .intro-content { z-index: 2; padding: 30px 20px; animation: zoomIn 0.8s ease-out; }
         .intro-content h1 {
-            font-size: 3rem;
-            color: var(--primary-gold); 
+            font-size: 2.5rem; color: var(--primary-gold); 
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-            margin-bottom: 10px;
-            font-family: 'Playfair Display', serif;
-            line-height: 1.2;
+            margin-bottom: 10px; font-family: 'Playfair Display', serif; line-height: 1.2;
         }
+        .intro-content p { font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; font-family: 'Cinzel', serif; color: #fff; }
 
-        .intro-content p {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-family: 'Cinzel', serif;
-            color: #fff;
-        }
-
-        /* Snowflake CSS (Scoped to Box) */
-        .snowflake {
-            position: absolute;
-            top: -20px; /* Start slightly above box */
-            color: white;
-            opacity: 0.8;
-            z-index: 1;
-            pointer-events: none;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(450px); } /* Fall distance relative to box height */
-        }
-
-        @keyframes zoomIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .snowflake { position: absolute; top: -20px; color: white; opacity: 0.8; z-index: 1; pointer-events: none; animation: fall linear forwards; }
+        @keyframes fall { to { transform: translateY(500px); } }
+        @keyframes zoomIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         /* =========================================
-           3. MAIN SITE CSS (Siyonu Prardhana Mandhiram)
+           3. MAIN SITE CSS
            ========================================= */
-        
-        /* Parallax & Layout */
         .parallax-section {
             background-size: cover; background-position: center; background-attachment: fixed; position: relative;
-            min-height: 95vh; display: flex; align-items: center; justify-content: center;
+            min-height: 90vh; /* Reduced from 95vh */
+            display: flex; align-items: center; justify-content: center;
         }
         .overlay {
             position: absolute; top:0; left:0; width:100%; height:100%;
-            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.4), rgba(10, 10, 15, 0.95));
-            z-index: 1;
+            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.4), rgba(10, 10, 15, 0.95)); z-index: 1;
         }
-        .content-container {
-            position: relative; z-index: 2; width: 100%; padding: 140px 5%;
-        }
+        .content-container { position: relative; z-index: 2; width: 100%; padding: 100px 5%; max-width: 1200px; margin: 0 auto; }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            background-image: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2074&auto=format&fit=crop');
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            border-bottom: 3px solid var(--primary-gold);
-        }
-
-        /* Background Animated Snow for Hero */
-        .bg-snow {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
-            background-image: url('https://library.kissclipart.com/20180904/qww/kissclipart-white-snowflakes-png-clipart-snowflake-clip-art-7f4c5453673078a0.png');
-            animation: bg-snow-anim 45s linear infinite; opacity: 0.08; z-index: 2;
-        }
+        /* HERO SECTION */
+        .hero { min-height: 100vh; background-image: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2074&auto=format&fit=crop'); text-align: center; border-bottom: 3px solid var(--primary-gold); }
+        .bg-snow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background-image: url('https://library.kissclipart.com/20180904/qww/kissclipart-white-snowflakes-png-clipart-snowflake-clip-art-7f4c5453673078a0.png'); animation: bg-snow-anim 45s linear infinite; opacity: 0.08; z-index: 2; }
         @keyframes bg-snow-anim { 0% { background-position: 0 0; } 100% { background-position: 100px 500px; } }
 
-        /* Hero Styling */
-        .hero-logo-img {
-            max-height: 180px; width: auto; display: block;
-            margin: 0 auto 30px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
-        }
+        .hero-logo-img { max-height: 140px; /* Reduced */ width: auto; display: block; margin: 0 auto 20px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
 
         .hero h1 {
-            font-family: 'Playfair Display', serif; font-size: 5.5rem; color: #fff;
-            text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;
-            text-shadow: 0 10px 50px rgba(0,0,0,1);
+            font-family: 'Playfair Display', serif; 
+            font-size: 4.5rem; /* Reduced from 5.5rem */
+            color: #fff; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px;
             background: linear-gradient(to bottom, #ffffff 30%, var(--primary-gold) 100%); -webkit-background-clip: text;
             line-height: 1.1;
         }
         
         .motto-box {
             border-top: 2px solid var(--primary-gold); border-bottom: 2px solid var(--primary-gold);
-            padding: 20px 60px; margin: 40px 0; display: inline-block;
+            padding: 15px 40px; margin: 30px 0; display: inline-block;
             background: rgba(10, 10, 15, 0.6); backdrop-filter: blur(10px);
         }
-        .motto {
-            font-family: 'Cinzel', serif; color: var(--primary-gold); letter-spacing: 6px; font-size: 1.3rem; font-weight: 700;
-        }
+        .motto { font-family: 'Cinzel', serif; color: var(--primary-gold); letter-spacing: 4px; font-size: 1.1rem; font-weight: 700; }
 
-        .hero-desc {
-            font-size: 1.3rem; color: var(--secondary-gold); max-width: 850px; margin: 0 auto 60px; font-weight: 400; line-height: 1.8;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        }
+        .hero-desc { font-size: 1.1rem; color: var(--secondary-gold); max-width: 800px; margin: 0 auto 50px; font-weight: 400; line-height: 1.8; }
 
         .hero-btn {
-            padding: 22px 70px; background: linear-gradient(to right, var(--deep-red), #5a0000); color: #fff;
-            font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 4px;
-            text-decoration: none; border: 1px solid var(--primary-gold); border-radius: 4px;
-            transition: 0.4s; position: relative; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: inline-block;
+            padding: 18px 50px; background: linear-gradient(to right, var(--deep-red), #5a0000); color: #fff;
+            font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 3px;
+            text-decoration: none; border: 1px solid var(--primary-gold); border-radius: 4px; transition: 0.4s;
+            display: inline-block; font-size: 0.9rem;
         }
-        .hero-btn:hover { 
-            background: var(--primary-gold); color: #0b0f19; 
-            box-shadow: 0 15px 50px rgba(212, 175, 55, 0.6); transform: translateY(-5px);
-        }
+        .hero-btn:hover { background: var(--primary-gold); color: #0b0f19; transform: translateY(-5px); }
 
-        /* Glass Cards */
+        /* SECTIONS & CARDS */
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px) saturate(110%); -webkit-backdrop-filter: blur(25px) saturate(110%);
-            border: var(--glass-border);
-            padding: 80px; border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            color: var(--text-light); text-align: center;
-            position: relative; overflow: hidden;
+            background: var(--glass-bg); backdrop-filter: blur(25px) saturate(110%);
+            border: var(--glass-border); padding: 60px 40px; border-radius: 12px;
+            box-shadow: var(--card-shadow); color: var(--text-light); text-align: center;
         }
-        .glass-card::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to bottom right, rgba(212, 175, 55, 0.1), transparent, transparent);
-            transform: rotate(45deg); transition: 0.8s; opacity: 0; pointer-events: none;
-        }
-        .glass-card:hover::after { opacity: 1; transform: rotate(45deg) translateY(10%); }
 
-        /* Typography & Components */
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-header h2 {
-            font-family: 'Playfair Display', serif; font-size: 4.5rem; color: var(--primary-gold);
-            margin-bottom: 20px; letter-spacing: -1px;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-        .section-header p {
-            font-family: 'Playfair Display', serif; font-style: italic; font-size: 2rem; color: #fff; opacity: 0.8; letter-spacing: 1px;
-        }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary-gold); margin-bottom: 15px; }
+        .section-header p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: #fff; opacity: 0.8; }
         
-        h3 { font-family: 'Cinzel', serif; font-weight: 700; color: #fff; margin-bottom: 25px; font-size: 1.6rem; letter-spacing: 1px; }
-        p { line-height: 2; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 25px; }
+        h3 { font-family: 'Cinzel', serif; font-weight: 700; color: #fff; margin-bottom: 20px; font-size: 1.4rem; letter-spacing: 1px; }
+        p { line-height: 1.8; color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; }
         b { color: var(--primary-gold); font-weight: 600; }
 
-        /* Services Grid */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 50px; }
+        /* SERVICES GRID */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .service-item {
             background: rgba(255,255,255,0.02); border: 1px solid rgba(212, 175, 55, 0.1);
-            padding: 60px 40px; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1); border-radius: 12px;
+            padding: 40px 30px; border-radius: 12px; transition: 0.3s;
         }
-        .service-item:hover { 
-            transform: translateY(-20px); 
-            background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(20, 25, 35, 0.9));
-            border-color: var(--primary-gold); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
-        }
-        .service-icon { font-size: 3.5rem; color: var(--primary-gold); margin-bottom: 35px; filter: drop-shadow(0 5px 15px rgba(212, 175, 55, 0.3)); }
-        .service-time { 
-            display: block; margin-top: 30px; padding-top: 30px; 
-            border-top: 1px solid rgba(212, 175, 55, 0.2); 
-            color: var(--primary-gold); font-weight: 700; letter-spacing: 3px; font-size: 0.95rem;
-        }
+        .service-item:hover { transform: translateY(-10px); background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(20, 25, 35, 0.9)); border-color: var(--primary-gold); }
+        .service-icon { font-size: 2.5rem; color: var(--primary-gold); margin-bottom: 25px; }
+        .service-time { display: block; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(212, 175, 55, 0.2); color: var(--primary-gold); font-weight: 700; letter-spacing: 2px; font-size: 0.85rem; }
 
-        /* Team Section */
+        /* TEAM SECTION */
         .team-wrapper {
-            display: flex; flex-wrap: wrap; 
-            background: var(--glass-bg); border: var(--glass-border);
-            box-shadow: var(--card-shadow); max-width: 1300px; margin: 0 auto;
-            border-radius: 12px; overflow: hidden;
-            backdrop-filter: blur(25px) saturate(110%);
+            display: flex; flex-wrap: wrap; background: var(--glass-bg); border: var(--glass-border);
+            box-shadow: var(--card-shadow); max-width: 1100px; margin: 0 auto; border-radius: 12px; overflow: hidden;
         }
-        .team-image {
-            flex: 1; min-width: 500px; position: relative; overflow: hidden;
-        }
-        .team-image img {
-            width: 100%; height: 100%; object-fit: cover; object-position: top center;
-            transition: transform 1s ease; filter: contrast(1.1) saturate(1.1);
-        }
-        .team-wrapper:hover .team-image img { transform: scale(1.05); }
-        
-        .team-details {
-            flex: 1.3; padding: 90px 70px; display: flex; flex-direction: column; justify-content: center; text-align: left;
-            border-left: 3px solid rgba(212, 175, 55, 0.3);
-        }
-        .team-role {
-            color: var(--primary-gold); text-transform: uppercase; letter-spacing: 4px; font-size: 0.95rem; margin-bottom: 15px; display: block; font-weight: 700;
-        }
-        .team-name {
-            font-size: 4rem; margin-bottom: 40px; color: #fff; font-family: 'Playfair Display', serif; letter-spacing: -1px;
-        }
+        .team-image { flex: 1; min-width: 400px; }
+        .team-image img { width: 100%; height: 100%; object-fit: cover; }
+        .team-details { flex: 1.3; padding: 60px 50px; border-left: 3px solid rgba(212, 175, 55, 0.3); }
+        .team-role { color: var(--primary-gold); text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 10px; display: block; font-weight: 700; }
+        .team-name { font-size: 3rem; margin-bottom: 30px; color: #fff; font-family: 'Playfair Display', serif; }
         .team-quote {
-            margin-top: 45px; padding: 30px 40px; 
-            background: linear-gradient(to right, rgba(128, 0, 0, 0.2), transparent);
-            border-left: 5px solid var(--deep-red);
-            font-style: italic; color: var(--secondary-gold);
-            font-family: 'Playfair Display', serif; font-size: 1.25rem; line-height: 1.6;
+            margin-top: 30px; padding: 20px 30px; background: linear-gradient(to right, rgba(128, 0, 0, 0.2), transparent);
+            border-left: 4px solid var(--deep-red); font-style: italic; color: var(--secondary-gold);
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
         }
 
-        /* Contact Form */
+        /* CONTACT & FOOTER */
         .contact-form input, .contact-form textarea {
-            width: 100%; padding: 22px; margin-bottom: 25px;
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
-            color: #fff; font-family: 'Montserrat', sans-serif; font-size: 1.05rem;
-            border-radius: 6px; transition: 0.3s;
+            width: 100%; padding: 15px; margin-bottom: 20px; background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08); color: #fff; font-family: 'Montserrat', sans-serif;
+            border-radius: 6px;
         }
-        .contact-form input:focus, .contact-form textarea:focus {
-            outline: none; border-color: var(--primary-gold); background: rgba(0,0,0,0.5); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-        }
-        .contact-btn {
-            width: 100%; padding: 22px; background: var(--primary-gold); color: var(--dark-bg); border: none;
-            font-weight: 700; letter-spacing: 3px; cursor: pointer; transition: 0.4s;
-            font-family: 'Montserrat', sans-serif; border-radius: 6px; font-size: 1.1rem;
-        }
-        .contact-btn:hover { background: #fff; color: var(--deep-red); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4); }
+        .contact-btn { width: 100%; padding: 18px; background: var(--primary-gold); color: var(--dark-bg); border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: 0.4s; font-family: 'Montserrat', sans-serif; border-radius: 6px; }
 
-        /* Footer */
-        footer {
-            background: #08080a; color: #888; padding: 120px 5%; text-align: center;
-            border-top: 3px solid var(--primary-gold);
-            background-image: linear-gradient(rgba(8, 8, 10, 0.9), rgba(8, 8, 10, 0.9)), url('https://www.transparenttextures.com/patterns/cubes.png');
-        }
-        .footer-logo { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--primary-gold); margin-bottom: 30px; display: block; letter-spacing: 3px; font-weight: 700; }
-        .socials { margin: 40px 0; }
-        .socials a {
-            display: inline-flex; width: 60px; height: 60px; border: 2px solid rgba(255,255,255,0.1);
-            border-radius: 50%; justify-content: center; align-items: center;
-            color: #fff; font-size: 1.4rem; margin: 0 12px; transition: 0.4s;
-            text-decoration: none;
-        }
-        .socials a:hover { color: var(--primary-gold); border-color: var(--primary-gold); transform: translateY(-8px); background: rgba(212, 175, 55, 0.15); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        footer { background: #08080a; color: #888; padding: 80px 5%; text-align: center; border-top: 3px solid var(--primary-gold); }
+        .footer-logo { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--primary-gold); margin-bottom: 20px; display: block; letter-spacing: 2px; font-weight: 700; }
+        .socials a { display: inline-flex; width: 50px; height: 50px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; justify-content: center; align-items: center; color: #fff; font-size: 1.2rem; margin: 0 8px; text-decoration: none; transition: 0.3s; }
+        .socials a:hover { color: var(--primary-gold); border-color: var(--primary-gold); background: rgba(212, 175, 55, 0.15); }
 
-        /* Animation Classes */
         .reveal { opacity: 0; transform: translateY(50px); transition: all 1.4s cubic-bezier(0.215, 0.610, 0.355, 1.000); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 1200px) {
-            .hero h1 { font-size: 4rem; }
-            .team-image { min-width: 400px; }
-        }
+        /* =========================================
+           4. RESPONSIVE DESIGN (MOBILE & TABLET)
+           ========================================= */
         @media (max-width: 992px) {
-            .hero-logo-img { max-height: 140px; }
-            .hero h1 { font-size: 3.2rem; letter-spacing: 2px; }
-            .hero-desc { font-size: 1.15rem; }
+            .content-container { padding: 80px 5%; }
+            .hero h1 { font-size: 3.5rem; }
             .team-wrapper { flex-direction: column; }
-            .team-image { height: 550px; min-width: 100%; width: 100%; }
-            .team-details { padding: 60px 40px; border-left: none; border-top: 3px solid var(--primary-gold); text-align: center; }
-            .section-header h2 { font-size: 3.5rem; }
-            .glass-card { padding: 50px 30px; }
+            .team-image { height: 400px; min-width: 100%; }
+            .team-details { border-left: none; border-top: 3px solid var(--primary-gold); text-align: center; padding: 40px 30px; }
+            .team-name { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            /* General text adjustments */
+            body { font-size: 15px; }
             
-            /* Modal Adjustments */
-            #intro-dialog { height: 350px; width: 95%; }
-            .intro-content h1 { font-size: 2.2rem; }
+            /* Dialog */
+            #intro-dialog { width: 95%; min-height: 300px; }
+            .intro-content h1 { font-size: 2rem; }
+
+            /* Hero adjustments */
+            .hero h1 { font-size: 2.2rem; letter-spacing: 1px; margin-bottom: 15px; }
+            .hero-desc { font-size: 1rem; line-height: 1.6; }
+            .hero-logo-img { max-height: 100px; margin-bottom: 15px; }
+            .hero-btn { padding: 15px 30px; width: 80%; }
+            .motto-box { padding: 10px 20px; width: 100%; }
+            .motto { font-size: 0.9rem; letter-spacing: 1px; }
+
+            /* Section Headers */
+            .section-header h2 { font-size: 2.2rem; }
+            .section-header p { font-size: 1.1rem; }
+
+            /* Services */
+            .services-grid { grid-template-columns: 1fr; }
+            .service-item { padding: 30px 20px; }
+
+            /* Cards */
+            .glass-card { padding: 40px 20px; }
+            
+            /* Team */
+            .team-image { height: 300px; }
+            .team-name { font-size: 2rem; }
+            .team-quote { font-size: 1rem; padding: 15px; }
+
+            /* Footer */
+            footer { padding: 50px 5%; }
+            .footer-logo { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -378,21 +243,18 @@
     <div id="modal-backdrop">
         <div id="intro-dialog">
             <button id="close-btn">&times;</button>
-            
             <div class="intro-content">
                 <h1>Merry Christmas</h1>
                 <p>Welcome to</p>
                 <p style="color: #FFD700; margin-top: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif;">Siyonu Prardhana Mandhiram</p>
                 <div style="font-size: 2.5rem; margin-top: 15px;">🎄✝️✨</div>
             </div>
-            
-            </div>
+        </div>
     </div>
-
 
     <section class="hero parallax-section">
         <div class="overlay"></div>
-        <div class="content-container" style="text-align: center;">
+        <div class="content-container">
             <div class="bg-snow"></div>
             
             <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" alt="Siyonu Prardhana Mandhiram Logo" class="hero-logo-img reveal">
@@ -404,30 +266,30 @@
             </div>
 
             <p class="hero-desc reveal">
-                A beacon of hope in Yernagudem. This Christmas, we invite you to step out of the shadows and into His marvelous light. Join our spiritual family as we celebrate the Incarnation of our Savior, finding eternal peace, purpose, and community in His presence.
+                A beacon of hope in Yernagudem. This Christmas, we invite you to step out of the shadows and into His marvelous light. Join our spiritual family as we celebrate the Incarnation of our Savior.
             </p>
 
-            <a href="#services" class="hero-btn reveal">join us</a>
+            <a href="#services" class="hero-btn reveal">Join Us</a>
         </div>
     </section>
 
     <section id="welcome" class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1576083282776-049e435cb7ee?q=80&w=2069&auto=format&fit=crop');">
         <div class="overlay"></div>
         <div class="content-container">
-            <div class="glass-card reveal" style="max-width: 1100px; margin: 0 auto;">
+            <div class="glass-card reveal" style="max-width: 1000px; margin: 0 auto;">
                 <div class="section-header">
                     <h2>Welcome Home</h2>
                     <p>Grace, Mercy, and Peace unto you</p>
                 </div>
                 
-                <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                <p>
                     Welcome to <b>Siyonu Prardhana Mandhiram</b> in Yernagudem. We are a community defined not by perfection, but by the transforming grace of Jesus Christ. We believe the church is a family where every person is valued, loved, and called to a higher purpose in His Kingdom.
                 </p>
-                <p style="font-size: 1.2rem; margin-bottom: 40px;">
-                    As we celebrate the miracle of Christmas, our deepest prayer is that you would encounter the living God in a tangible way. We are driven by a vision to see every life transformed by the Gospel. Whether you are navigating a season of abounding joy or walking through a valley of shadow, you will find a supportive community here dedicated to walking alongside you.
+                <p>
+                    As we celebrate the miracle of Christmas, our deepest prayer is that you would encounter the living God in a tangible way. Whether you are navigating a season of abounding joy or walking through a valley of shadow, you will find a supportive community here.
                 </p>
                 
-                <div style="font-family: 'Cinzel', serif; color: var(--primary-gold); font-size: 1.1rem; letter-spacing: 4px; margin-top: 50px; font-weight: 700;">
+                <div style="font-family: 'Cinzel', serif; color: var(--primary-gold); font-size: 1rem; letter-spacing: 3px; margin-top: 40px; font-weight: 700;">
                     — THE CHURCH LEADERSHIP
                 </div>
             </div>
@@ -446,21 +308,21 @@
                 <div class="service-item reveal">
                     <i class="fas fa-church service-icon"></i>
                     <h3>Sunday Worship</h3>
-                    <p>The pinnacle of our week. We gather for vibrant, Spirit-led praise, solemn Holy Communion, and a deep, expository dive into the Holy Scriptures. We assemble not merely to attend a service, but to encounter the living God and be equipped as disciples for the week ahead.</p>
+                    <p>The pinnacle of our week. We gather for vibrant, Spirit-led praise, solemn Holy Communion, and a deep, expository dive into the Holy Scriptures.</p>
                     <span class="service-time">SUNDAYS | 10:00 AM</span>
                 </div>
 
                 <div class="service-item reveal">
                     <i class="fas fa-praying-hands service-icon"></i>
                     <h3>Fasting Prayer</h3>
-                    <p>A dedicated sanctuary in time for spiritual warfare and intercession. We humble ourselves through fasting to seek God's face for healing, deliverance, and breakthroughs in our families and community. We believe fervent prayer moves mountains.</p>
+                    <p>A dedicated sanctuary in time for spiritual warfare and intercession. We humble ourselves through fasting to seek God's face for healing and deliverance.</p>
                     <span class="service-time">FRIDAYS | 6:00 PM</span>
                 </div>
 
                 <div class="service-item reveal">
                     <i class="fas fa-guitar service-icon"></i>
                     <h3>Youth Fellowship</h3>
-                    <p>Empowering the next generation. Our youth gather for dynamic Bible study, contemporary worship, and honest fellowship, learning how to be bold light-bearers in their schools and colleges. Building strong foundations for eternity.</p>
+                    <p>Empowering the next generation. Our youth gather for dynamic Bible study, contemporary worship, and honest fellowship, learning how to be bold light-bearers.</p>
                     <span class="service-time">SATURDAYS | 5:00 PM</span>
                 </div>
             </div>
@@ -484,15 +346,15 @@
                     <h3 class="team-name">Sis. Daya Mani</h3>
                     
                     <p>
-                        With over a decade of faithful, consecrated service, Sis. Daya Mani is a foundational pillar at Siyonu Prardhana Mandhiram. Her ministry is defined by a deep sensitivity to the Holy Spirit and an unwavering passion for biblical truth. She leads the congregation not just in songs, but into the very Holy of Holies, fostering an atmosphere where yokes are broken and hearts are healed.
+                        With over a decade of faithful service, Sis. Daya Mani is a foundational pillar at Siyonu Prardhana Mandhiram. Her ministry is defined by a deep sensitivity to the Holy Spirit. She leads the congregation not just in songs, but into the very Holy of Holies.
                     </p>
-                    <p style="margin-top: 25px;">
-                        Her influence extends far beyond the pulpit; she is a spiritual mother to many, mentoring young women and cultivating an environment where the gifts of the Spirit can flourish in the next generation of believers.
+                    <p style="margin-top: 15px;">
+                        She is a spiritual mother to many, mentoring young women and cultivating an environment where the gifts of the Spirit can flourish in the next generation.
                     </p>
 
                     <div class="team-quote">
-                        "I will sing to the Lord all my life; I will sing praise to my God as long as I live. May my meditation be pleasing to him, as I rejoice in the Lord." <br>
-                        <span style="color: var(--primary-gold); font-size: 0.9rem; margin-top: 20px; display:block; font-family: 'Montserrat', sans-serif; font-style: normal; letter-spacing: 3px; font-weight: 600;">— PSALM 104:33-34</span>
+                        "I will sing to the Lord all my life; I will sing praise to my God as long as I live..." <br>
+                        <span style="color: var(--primary-gold); font-size: 0.85rem; margin-top: 15px; display:block; font-family: 'Montserrat', sans-serif; font-style: normal; letter-spacing: 2px; font-weight: 600;">— PSALM 104:33-34</span>
                     </div>
                 </div>
             </div>
@@ -502,17 +364,17 @@
     <section id="contact" class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=2069&auto=format&fit=crop');">
         <div class="overlay"></div>
         <div class="content-container">
-            <div class="glass-card reveal" style="max-width: 900px; margin: 0 auto;">
-                <i class="fas fa-star-of-bethlehem" style="color: var(--primary-gold); font-size: 3.5rem; margin-bottom: 30px; filter: drop-shadow(0 0 15px var(--primary-gold));"></i>
-                <h2 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 25px; color: #fff;">Prayer Requests</h2>
-                <p style="margin-bottom: 40px; font-size: 1.2rem;">
-                    We believe that prayer is the conduit for God's power and that He hears the cries of His children. If you are carrying a burden, facing a giant, or simply need someone to agree with you in faith this season, please share your request. Our dedicated intercessory team lifts these needs daily. You are never alone.
+            <div class="glass-card reveal" style="max-width: 800px; margin: 0 auto;">
+                <i class="fas fa-star-of-bethlehem" style="color: var(--primary-gold); font-size: 3rem; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--primary-gold));"></i>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 20px; color: #fff;">Prayer Requests</h2>
+                <p style="margin-bottom: 30px;">
+                    If you are carrying a burden, facing a giant, or simply need someone to agree with you in faith this season, please share your request. Our dedicated intercessory team lifts these needs daily.
                 </p>
 
                 <form class="contact-form">
                     <input type="text" placeholder="Your Full Name">
                     <input type="email" placeholder="Your Email Address">
-                    <textarea rows="6" placeholder="How can we pray for you today? Share your burden or testimony."></textarea>
+                    <textarea rows="5" placeholder="How can we pray for you today? Share your burden or testimony."></textarea>
                     <button class="contact-btn">SEND PRAYER REQUEST</button>
                 </form>
             </div>
@@ -521,7 +383,7 @@
 
     <footer>
         <span class="footer-logo">Siyonu Prardhana Mandhiram</span>
-        <p style="margin-bottom: 35px; font-size: 1.2rem; color: var(--secondary-gold);">Main Road, Yernagudem, Andhra Pradesh</p>
+        <p style="margin-bottom: 30px; font-size: 1rem; color: var(--secondary-gold);">Main Road, Yernagudem, Andhra Pradesh</p>
         
         <div class="socials">
             <a href="https://www.youtube.com/@SiyonuPrardhanaMandhiram-1"><i class="fab fa-youtube"></i></a>
@@ -529,72 +391,53 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
 
-        <div style="margin-top: 60px; font-size: 0.95rem; color: var(--text-muted); letter-spacing: 1px;">
+        <div style="margin-top: 50px; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px;">
             &copy; 2025 Siyonu Prardhana Mandhiram. All Rights Reserved. <br> <span style="color: var(--primary-gold);">Designed with excellence for His Glory.</span>
         </div>
     </footer>
 
     <script>
-        // --- SCRIPT 1: MODAL DIALOG & SNOW GLOBE ---
         window.addEventListener('load', () => {
             const backdrop = document.getElementById('modal-backdrop');
             const dialog = document.getElementById('intro-dialog');
             const closeBtn = document.getElementById('close-btn');
             let snowInterval;
 
-            // 1. Function to Close Modal
             function closeModal() {
                 backdrop.classList.add('hidden');
-                clearInterval(snowInterval); // Stop creating snow
-                // Re-enable scrolling on body
+                clearInterval(snowInterval);
                 document.body.style.overflowX = 'hidden'; 
                 document.body.style.overflowY = 'auto';
-                reveal(); // Trigger reveal for hero elements
+                reveal();
             }
 
-            // Event Listeners
             closeBtn.addEventListener('click', closeModal);
-            // Optional: Close if clicked outside the box
-            backdrop.addEventListener('click', (e) => {
-                if(e.target === backdrop) closeModal();
-            });
+            backdrop.addEventListener('click', (e) => { if(e.target === backdrop) closeModal(); });
 
-            // 2. Snow Logic (Falls inside the Dialog Box)
             function createSnowflake() {
                 const snowflake = document.createElement('div');
                 snowflake.classList.add('snowflake');
                 snowflake.innerHTML = '❄'; 
-                
-                // Randomize position (Percentage relative to BOX width)
                 snowflake.style.left = Math.random() * 100 + '%';
                 snowflake.style.animationDuration = Math.random() * 2 + 2 + 's'; 
                 snowflake.style.opacity = Math.random();
                 snowflake.style.fontSize = Math.random() * 10 + 8 + 'px'; 
-
                 dialog.appendChild(snowflake);
-
-                // Cleanup
                 setTimeout(() => { snowflake.remove(); }, 4000);
             }
 
-            // Start Snowing
             snowInterval = setInterval(createSnowflake, 150);
         });
 
-        // --- SCRIPT 2: SCROLL REVEAL ANIMATIONS ---
         window.addEventListener('scroll', reveal);
-        
         function reveal() {
             var reveals = document.querySelectorAll('.reveal');
             for (var i = 0; i < reveals.length; i++) {
                 var windowheight = window.innerHeight;
                 var revealtop = reveals[i].getBoundingClientRect().top;
-                if (revealtop < windowheight - 150) {
-                    reveals[i].classList.add('active');
-                }
+                if (revealtop < windowheight - 150) { reveals[i].classList.add('active'); }
             }
         }
     </script>
-
 </body>
 </html>
