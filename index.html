@@ -37,11 +37,34 @@
             color: var(--text-light);
             overflow-x: hidden;
             line-height: 1.6;
-            font-size: 16px; /* Base size */
+            font-size: 16px; 
         }
 
         /* =========================================
-           2. POPUP DIALOG CSS
+           2. ANIMATIONS
+           ========================================= */
+        /* Float Animation for Graphics */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Pulse Animation for Buttons */
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        /* Shimmer Text Effect */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* =========================================
+           3. POPUP DIALOG CSS
            ========================================= */
         #modal-backdrop {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -53,8 +76,8 @@
 
         #intro-dialog {
             position: relative;
-            width: 100%; max-width: 500px; /* Reduced max-width */
-            height: auto; min-height: 350px;
+            width: 100%; max-width: 500px;
+            height: auto; min-height: 400px;
             background: linear-gradient(135deg, #8E0E00 0%, #2b0404 100%);
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.3);
@@ -74,6 +97,15 @@
         #modal-backdrop.hidden #intro-dialog { transform: scale(0.8); }
 
         .intro-content { z-index: 2; padding: 30px 20px; animation: zoomIn 0.8s ease-out; }
+        
+        /* Intro Graphic */
+        .intro-graphic-img {
+            width: 120px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+            animation: float 3s ease-in-out infinite; /* Floating Animation */
+        }
+
         .intro-content h1 {
             font-size: 2.5rem; color: var(--primary-gold); 
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
@@ -86,11 +118,11 @@
         @keyframes zoomIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 
         /* =========================================
-           3. MAIN SITE CSS
+           4. MAIN SITE CSS
            ========================================= */
         .parallax-section {
             background-size: cover; background-position: center; background-attachment: fixed; position: relative;
-            min-height: 90vh; /* Reduced from 95vh */
+            min-height: 90vh; 
             display: flex; align-items: center; justify-content: center;
         }
         .overlay {
@@ -104,11 +136,11 @@
         .bg-snow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background-image: url('https://library.kissclipart.com/20180904/qww/kissclipart-white-snowflakes-png-clipart-snowflake-clip-art-7f4c5453673078a0.png'); animation: bg-snow-anim 45s linear infinite; opacity: 0.08; z-index: 2; }
         @keyframes bg-snow-anim { 0% { background-position: 0 0; } 100% { background-position: 100px 500px; } }
 
-        .hero-logo-img { max-height: 140px; /* Reduced */ width: auto; display: block; margin: 0 auto 20px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
+        .hero-logo-img { max-height: 140px; width: auto; display: block; margin: 0 auto 20px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)); }
 
         .hero h1 {
             font-family: 'Playfair Display', serif; 
-            font-size: 4.5rem; /* Reduced from 5.5rem */
+            font-size: 4.5rem; 
             color: #fff; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 20px;
             background: linear-gradient(to bottom, #ffffff 30%, var(--primary-gold) 100%); -webkit-background-clip: text;
             line-height: 1.1;
@@ -128,8 +160,9 @@
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 3px;
             text-decoration: none; border: 1px solid var(--primary-gold); border-radius: 4px; transition: 0.4s;
             display: inline-block; font-size: 0.9rem;
+            animation: pulse-gold 2s infinite; /* Pulsing Button */
         }
-        .hero-btn:hover { background: var(--primary-gold); color: #0b0f19; transform: translateY(-5px); }
+        .hero-btn:hover { background: var(--primary-gold); color: #0b0f19; transform: translateY(-5px); animation: none; }
 
         /* SECTIONS & CARDS */
         .glass-card {
@@ -144,7 +177,24 @@
         
         h3 { font-family: 'Cinzel', serif; font-weight: 700; color: #fff; margin-bottom: 20px; font-size: 1.4rem; letter-spacing: 1px; }
         p { line-height: 1.8; color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; }
-        b { color: var(--primary-gold); font-weight: 600; }
+        
+        /* SPECIAL HIGHLIGHT FOR CHURCH NAME IN WELCOME */
+        .church-highlight {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            /* Gradient Text */
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0px 0px 15px rgba(255, 215, 0, 0.4);
+            position: relative;
+            display: inline-block;
+        }
 
         /* SERVICES GRID */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
@@ -178,8 +228,13 @@
             border: 1px solid rgba(255,255,255,0.08); color: #fff; font-family: 'Montserrat', sans-serif;
             border-radius: 6px;
         }
-        .contact-btn { width: 100%; padding: 18px; background: var(--primary-gold); color: var(--dark-bg); border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: 0.4s; font-family: 'Montserrat', sans-serif; border-radius: 6px; }
-        .contact-btn:hover { background: #fff; color: var(--deep-red); }
+        .contact-btn { 
+            width: 100%; padding: 18px; background: var(--primary-gold); color: var(--dark-bg); border: none; 
+            font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: 0.4s; 
+            font-family: 'Montserrat', sans-serif; border-radius: 6px;
+            animation: pulse-gold 3s infinite;
+        }
+        .contact-btn:hover { background: #fff; color: var(--deep-red); animation: none; }
 
         footer { background: #08080a; color: #888; padding: 80px 5%; text-align: center; border-top: 3px solid var(--primary-gold); }
         .footer-logo { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--primary-gold); margin-bottom: 20px; display: block; letter-spacing: 2px; font-weight: 700; }
@@ -190,7 +245,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* =========================================
-           4. RESPONSIVE DESIGN (MOBILE & TABLET)
+           5. RESPONSIVE DESIGN (MOBILE & TABLET)
            ========================================= */
         @media (max-width: 992px) {
             .content-container { padding: 80px 5%; }
@@ -202,14 +257,11 @@
         }
 
         @media (max-width: 768px) {
-            /* General text adjustments */
             body { font-size: 15px; }
             
-            /* Dialog */
             #intro-dialog { width: 95%; min-height: 300px; }
             .intro-content h1 { font-size: 2rem; }
 
-            /* Hero adjustments */
             .hero h1 { font-size: 2.2rem; letter-spacing: 1px; margin-bottom: 15px; }
             .hero-desc { font-size: 1rem; line-height: 1.6; }
             .hero-logo-img { max-height: 100px; margin-bottom: 15px; }
@@ -217,25 +269,19 @@
             .motto-box { padding: 10px 20px; width: 100%; }
             .motto { font-size: 0.9rem; letter-spacing: 1px; }
 
-            /* Section Headers */
             .section-header h2 { font-size: 2.2rem; }
             .section-header p { font-size: 1.1rem; }
-
-            /* Services */
             .services-grid { grid-template-columns: 1fr; }
             .service-item { padding: 30px 20px; }
-
-            /* Cards */
             .glass-card { padding: 40px 20px; }
-            
-            /* Team */
             .team-image { height: 300px; }
             .team-name { font-size: 2rem; }
             .team-quote { font-size: 1rem; padding: 15px; }
-
-            /* Footer */
             footer { padding: 50px 5%; }
             .footer-logo { font-size: 1.3rem; }
+            
+            /* Smaller Church Highlight on Mobile */
+            .church-highlight { font-size: 1rem; }
         }
     </style>
 </head>
@@ -245,6 +291,8 @@
         <div id="intro-dialog">
             <button id="close-btn">&times;</button>
             <div class="intro-content">
+                <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" alt="Christmas Bells" class="intro-graphic-img">
+                
                 <h1>Merry Christmas</h1>
                 <p>Welcome to</p>
                 <p style="color: #FFD700; margin-top: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif;">Siyonu Prardhana Mandhiram</p>
@@ -284,7 +332,7 @@
                 </div>
                 
                 <p>
-                    Welcome to <b>Siyonu Prardhana Mandhiram</b> in Yernagudem. We are a community defined not by perfection, but by the transforming grace of Jesus Christ. We believe the church is a family where every person is valued, loved, and called to a higher purpose in His Kingdom.
+                    Welcome to <span class="church-highlight">Siyonu Prardhana Mandhiram</span> in Yernagudem. We are a community defined not by perfection, but by the transforming grace of Jesus Christ. We believe the church is a family where every person is valued, loved, and called to a higher purpose in His Kingdom.
                 </p>
                 <p>
                     As we celebrate the miracle of Christmas, our deepest prayer is that you would encounter the living God in a tangible way. Whether you are navigating a season of abounding joy or walking through a valley of shadow, you will find a supportive community here.
@@ -374,7 +422,6 @@
 
                 <form class="contact-form" onsubmit="sendToWhatsapp(event)">
                     <input type="text" id="prayer-name" placeholder="Your Full Name" required>
-                    <input type="email" id="prayer-email" placeholder="Your Email Address">
                     <textarea id="prayer-message" rows="5" placeholder="How can we pray for you today? Share your burden or testimony." required></textarea>
                     <button type="submit" class="contact-btn">SEND PRAYER REQUEST</button>
                 </form>
@@ -399,18 +446,17 @@
     </footer>
 
     <script>
-        // --- WHATSAPP FUNCTION ---
+        // --- WHATSAPP FUNCTION (REMOVED EMAIL) ---
         function sendToWhatsapp(e) {
-            e.preventDefault(); // Prevent standard form submission
+            e.preventDefault(); 
 
             var name = document.getElementById('prayer-name').value;
-            var email = document.getElementById('prayer-email').value;
+            // Removed email variable
             var message = document.getElementById('prayer-message').value;
 
-            // Construct the WhatsApp message
+            // Construct the WhatsApp message without email
             var whatsappMessage = "Praise the Lord. I have a Prayer Request.%0A%0A" + 
                                   "*Name:* " + name + "%0A" + 
-                                  "*Email:* " + email + "%0A" + 
                                   "*Request:* " + message;
 
             // Open WhatsApp with the message (Phone: 7093165056)
