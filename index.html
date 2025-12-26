@@ -179,6 +179,7 @@
             border-radius: 6px;
         }
         .contact-btn { width: 100%; padding: 18px; background: var(--primary-gold); color: var(--dark-bg); border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: 0.4s; font-family: 'Montserrat', sans-serif; border-radius: 6px; }
+        .contact-btn:hover { background: #fff; color: var(--deep-red); }
 
         footer { background: #08080a; color: #888; padding: 80px 5%; text-align: center; border-top: 3px solid var(--primary-gold); }
         .footer-logo { font-family: 'Cinzel', serif; font-size: 1.6rem; color: var(--primary-gold); margin-bottom: 20px; display: block; letter-spacing: 2px; font-weight: 700; }
@@ -371,11 +372,11 @@
                     If you are carrying a burden, facing a giant, or simply need someone to agree with you in faith this season, please share your request. Our dedicated intercessory team lifts these needs daily.
                 </p>
 
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Full Name">
-                    <input type="email" placeholder="Your Email Address">
-                    <textarea rows="5" placeholder="How can we pray for you today? Share your burden or testimony."></textarea>
-                    <button class="contact-btn">SEND PRAYER REQUEST</button>
+                <form class="contact-form" onsubmit="sendToWhatsapp(event)">
+                    <input type="text" id="prayer-name" placeholder="Your Full Name" required>
+                    <input type="email" id="prayer-email" placeholder="Your Email Address">
+                    <textarea id="prayer-message" rows="5" placeholder="How can we pray for you today? Share your burden or testimony." required></textarea>
+                    <button type="submit" class="contact-btn">SEND PRAYER REQUEST</button>
                 </form>
             </div>
         </div>
@@ -383,12 +384,13 @@
 
     <footer>
         <span class="footer-logo">Siyonu Prardhana Mandhiram</span>
-        <p style="margin-bottom: 30px; font-size: 1rem; color: var(--secondary-gold);">Main Road, Yernagudem, Andhra Pradesh</p>
+        <p style="margin-bottom: 30px; font-size: 1rem; color: var(--secondary-gold);">Eluru Road, Yernagudem, Andhra Pradesh, 534313</p>
         
         <div class="socials">
-            <a href="https://www.youtube.com/@SiyonuPrardhanaMandhiram-1"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/zion.prayer_house?igsh=c3h6MzJnNWJxcHA="><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@SiyonuPrardhanaMandhiram-1" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://wa.me/917093165056" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/zion.prayer_house?igsh=c3h6MzJnNWJxcHA=" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://share.google/jg3ZX9Kbc4TXySSkw" target="_blank" title="Location"><i class="fas fa-map-marker-alt"></i></a>
         </div>
 
         <div style="margin-top: 50px; font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px;">
@@ -397,6 +399,27 @@
     </footer>
 
     <script>
+        // --- WHATSAPP FUNCTION ---
+        function sendToWhatsapp(e) {
+            e.preventDefault(); // Prevent standard form submission
+
+            var name = document.getElementById('prayer-name').value;
+            var email = document.getElementById('prayer-email').value;
+            var message = document.getElementById('prayer-message').value;
+
+            // Construct the WhatsApp message
+            var whatsappMessage = "Praise the Lord. I have a Prayer Request.%0A%0A" + 
+                                  "*Name:* " + name + "%0A" + 
+                                  "*Email:* " + email + "%0A" + 
+                                  "*Request:* " + message;
+
+            // Open WhatsApp with the message (Phone: 7093165056)
+            var whatsappUrl = "https://wa.me/917093165056?text=" + whatsappMessage;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // --- EXISTING SCRIPTS (Snow & Reveal) ---
         window.addEventListener('load', () => {
             const backdrop = document.getElementById('modal-backdrop');
             const dialog = document.getElementById('intro-dialog');
