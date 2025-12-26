@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siyonu Prardhana Mandhiram | Christmas Season</title>
+    <title>Siyonu Prardhana Mandhiram | Christmas Celebration</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +12,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET
+           ========================================= */
         :root {
             /* Professional Christmas Palette */
             --primary-gold: #d4af37; /* Richer Antique Gold */
             --secondary-gold: #f1e2c3;
             --deep-red: #800000; /* Burgundy */
             --dark-bg: #0a0a0f;
-            --header-bg: #0f0f12; /* Deep warm charcoal for header */
             --text-light: #f4f4f9;
             --text-muted: #c0c0c8;
             
@@ -39,28 +41,85 @@
             line-height: 1.8;
         }
 
-        /* --- NEW LOGO HEADER --- */
-        .site-header {
-            background-color: var(--header-bg);
+        /* =========================================
+           2. INTRO OVERLAY & SNOW (Festive Vibes)
+           ========================================= */
+        #intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            /* Festive Gradient: Red to Dark */
+            background: linear-gradient(135deg, #8E0E00 0%, #2b0404 100%); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000; /* Highest priority to cover site */
+            color: #fff;
             text-align: center;
-            padding: 30px 0;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-            position: relative; z-index: 100;
-        }
-        .site-logo {
-            max-height: 140px; /* Increased size for presence */
-            width: auto;
-            display: inline-block;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+            overflow: hidden; 
+            transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
         }
 
-        /* --- PARALLAX & LAYOUT --- */
+        /* Class to hide the overlay */
+        #intro-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-content {
+            z-index: 2; 
+            animation: zoomIn 1s ease-out;
+            padding: 20px;
+        }
+
+        .intro-content h1 {
+            font-size: 4rem;
+            color: var(--primary-gold); 
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .intro-content p {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Snowflake CSS */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            z-index: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* =========================================
+           3. MAIN SITE CSS (Siyonu Prardhana Mandhiram)
+           ========================================= */
+        
+        /* Parallax & Layout */
         .parallax-section {
             background-size: cover; background-position: center; background-attachment: fixed; position: relative;
             min-height: 95vh; display: flex; align-items: center; justify-content: center;
         }
-        /* Pro Overlay - Richer dark gradient */
         .overlay {
             position: absolute; top:0; left:0; width:100%; height:100%;
             background: linear-gradient(to bottom, rgba(10, 10, 15, 0.4), rgba(10, 10, 15, 0.95));
@@ -70,31 +129,35 @@
             position: relative; z-index: 2; width: 100%; padding: 140px 5%;
         }
 
-        /* --- HERO SECTION --- */
+        /* Hero Section */
         .hero {
-            min-height: 88vh;
-            /* Pro Christmas Background: Snowy Church at Night */
+            min-height: 100vh;
             background-image: url('https://images.unsplash.com/photo-1543589077-47d81606c1bf?q=80&w=2074&auto=format&fit=crop');
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
             border-bottom: 3px solid var(--primary-gold);
         }
 
-        /* Refined Snow - Subtler and slower */
-        .snow {
+        /* Background Animated Snow for Hero */
+        .bg-snow {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
             background-image: url('https://library.kissclipart.com/20180904/qww/kissclipart-white-snowflakes-png-clipart-snowflake-clip-art-7f4c5453673078a0.png');
-            animation: snow 45s linear infinite; opacity: 0.08; z-index: 2;
+            animation: bg-snow-anim 45s linear infinite; opacity: 0.08; z-index: 2;
         }
-        @keyframes snow { 0% { background-position: 0 0; } 100% { background-position: 100px 500px; } }
+        @keyframes bg-snow-anim { 0% { background-position: 0 0; } 100% { background-position: 100px 500px; } }
 
-        /* Hero Typography */
+        /* Hero Styling */
+        .hero-logo-img {
+            max-height: 180px; width: auto; display: block;
+            margin: 0 auto 30px auto; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6));
+        }
+
         .hero h1 {
             font-family: 'Playfair Display', serif; font-size: 5.5rem; color: #fff;
             text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;
             text-shadow: 0 10px 50px rgba(0,0,0,1);
-            /* Radiant gold gradient text */
             background: linear-gradient(to bottom, #ffffff 30%, var(--primary-gold) 100%); -webkit-background-clip: text;
+            line-height: 1.1;
         }
         
         .motto-box {
@@ -117,13 +180,14 @@
             text-decoration: none; border: 1px solid var(--primary-gold); border-radius: 4px;
             transition: 0.4s; position: relative; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: inline-block;
         }
         .hero-btn:hover { 
             background: var(--primary-gold); color: #0b0f19; 
             box-shadow: 0 15px 50px rgba(212, 175, 55, 0.6); transform: translateY(-5px);
         }
 
-        /* --- PROFESSIONAL GLASS CARDS --- */
+        /* Glass Cards */
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(25px) saturate(110%); -webkit-backdrop-filter: blur(25px) saturate(110%);
@@ -133,7 +197,6 @@
             color: var(--text-light); text-align: center;
             position: relative; overflow: hidden;
         }
-        /* Subtle gold sheen on hover */
         .glass-card::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(to bottom right, rgba(212, 175, 55, 0.1), transparent, transparent);
@@ -141,8 +204,7 @@
         }
         .glass-card:hover::after { opacity: 1; transform: rotate(45deg) translateY(10%); }
 
-
-        /* --- TYPOGRAPHY --- */
+        /* Typography & Components */
         .section-header { text-align: center; margin-bottom: 80px; }
         .section-header h2 {
             font-family: 'Playfair Display', serif; font-size: 4.5rem; color: var(--primary-gold);
@@ -157,10 +219,8 @@
         p { line-height: 2; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 25px; }
         b { color: var(--primary-gold); font-weight: 600; }
 
-        /* --- SERVICES GRID --- */
-        .services-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 50px;
-        }
+        /* Services Grid */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 50px; }
         .service-item {
             background: rgba(255,255,255,0.02); border: 1px solid rgba(212, 175, 55, 0.1);
             padding: 60px 40px; transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1); border-radius: 12px;
@@ -178,7 +238,7 @@
             color: var(--primary-gold); font-weight: 700; letter-spacing: 3px; font-size: 0.95rem;
         }
 
-        /* --- TEAM SECTION --- */
+        /* Team Section */
         .team-wrapper {
             display: flex; flex-wrap: wrap; 
             background: var(--glass-bg); border: var(--glass-border);
@@ -213,7 +273,7 @@
             font-family: 'Playfair Display', serif; font-size: 1.25rem; line-height: 1.6;
         }
 
-        /* --- CONTACT FORM --- */
+        /* Contact Form */
         .contact-form input, .contact-form textarea {
             width: 100%; padding: 22px; margin-bottom: 25px;
             background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
@@ -230,7 +290,7 @@
         }
         .contact-btn:hover { background: #fff; color: var(--deep-red); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4); }
 
-        /* --- FOOTER --- */
+        /* Footer */
         footer {
             background: #08080a; color: #888; padding: 120px 5%; text-align: center;
             border-top: 3px solid var(--primary-gold);
@@ -242,16 +302,21 @@
             display: inline-flex; width: 60px; height: 60px; border: 2px solid rgba(255,255,255,0.1);
             border-radius: 50%; justify-content: center; align-items: center;
             color: #fff; font-size: 1.4rem; margin: 0 12px; transition: 0.4s;
+            text-decoration: none;
         }
         .socials a:hover { color: var(--primary-gold); border-color: var(--primary-gold); transform: translateY(-8px); background: rgba(212, 175, 55, 0.15); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
-        /* --- MEDIA QUERIES --- */
+        /* Animation Classes */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1.4s cubic-bezier(0.215, 0.610, 0.355, 1.000); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Mobile Responsiveness */
         @media (max-width: 1200px) {
             .hero h1 { font-size: 4rem; }
             .team-image { min-width: 400px; }
         }
         @media (max-width: 992px) {
-            .site-logo { max-height: 110px; }
+            .hero-logo-img { max-height: 140px; }
             .hero h1 { font-size: 3.2rem; letter-spacing: 2px; }
             .hero-desc { font-size: 1.15rem; }
             .team-wrapper { flex-direction: column; }
@@ -259,23 +324,28 @@
             .team-details { padding: 60px 40px; border-left: none; border-top: 3px solid var(--primary-gold); text-align: center; }
             .section-header h2 { font-size: 3.5rem; }
             .glass-card { padding: 50px 30px; }
+            .intro-content h1 { font-size: 2.5rem; } /* Smaller intro font on mobile */
         }
-
-        /* Animation Classes */
-        .reveal { opacity: 0; transform: translateY(50px); transition: all 1.4s cubic-bezier(0.215, 0.610, 0.355, 1.000); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <header class="site-header">
-        <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" alt="Siyonu Prardhana Mandhiram Logo" class="site-logo">
-    </header>
+    <div id="intro-overlay">
+        <div class="intro-content">
+            <h1>Merry Christmas</h1>
+            <p>Welcome to</p>
+            <p style="color: #FFD700; margin-top: 10px; font-weight: bold;">Siyonu Prardhana Mandhiram</p>
+            <div style="font-size: 3rem; margin-top: 15px;">🎄✝️✨</div>
+        </div>
+        </div>
+
 
     <section class="hero parallax-section">
         <div class="overlay"></div>
         <div class="content-container" style="text-align: center;">
-            <div class="snow"></div>
+            <div class="bg-snow"></div>
+            
+            <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" alt="Siyonu Prardhana Mandhiram Logo" class="hero-logo-img reveal">
             
             <h1 class="reveal">Siyonu Prardhana <br>Mandhiram</h1>
             
@@ -415,7 +485,43 @@
     </footer>
 
     <script>
+        // --- SCRIPT 1: INTRO OVERLAY & SNOW LOGIC ---
+        window.addEventListener('load', () => {
+            const overlay = document.getElementById('intro-overlay');
+            
+            // 1. Create Falling Snow Effect for Intro
+            function createSnowflake() {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.innerHTML = '❄'; 
+                
+                // Randomize position, size, and speed
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; 
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; 
+
+                overlay.appendChild(snowflake);
+
+                // Cleanup
+                setTimeout(() => { snowflake.remove(); }, 5000);
+            }
+
+            // Generate a snowflake every 100ms
+            const snowInterval = setInterval(createSnowflake, 100);
+
+            // 2. Hide Intro after 3.5 seconds
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                clearInterval(snowInterval); // Stop creating snow after hide to save memory
+                // Trigger reveal immediately for hero elements
+                reveal(); 
+            }, 3500); 
+        });
+
+        // --- SCRIPT 2: SCROLL REVEAL ANIMATIONS ---
         window.addEventListener('scroll', reveal);
+        
         function reveal() {
             var reveals = document.querySelectorAll('.reveal');
             for (var i = 0; i < reveals.length; i++) {
@@ -426,8 +532,7 @@
                 }
             }
         }
-        // Trigger once on load to show above-the-fold content
-        setTimeout(reveal, 200);
     </script>
+
 </body>
 </html>
