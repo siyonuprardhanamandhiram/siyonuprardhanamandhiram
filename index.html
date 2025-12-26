@@ -17,9 +17,9 @@
            ========================================= */
         :root {
             /* Professional Christmas Palette */
-            --primary-gold: #d4af37; /* Richer Antique Gold */
+            --primary-gold: #d4af37; 
             --secondary-gold: #f1e2c3;
-            --deep-red: #800000; /* Burgundy */
+            --deep-red: #800000; 
             --dark-bg: #0a0a0f;
             --text-light: #f4f4f9;
             --text-muted: #c0c0c8;
@@ -37,73 +37,115 @@
             font-family: 'Montserrat', sans-serif;
             background-color: var(--dark-bg);
             color: var(--text-light);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Hide scrollbar when modal is open */
             line-height: 1.8;
         }
 
         /* =========================================
-           2. INTRO OVERLAY & SNOW (Festive Vibes)
+           2. CHRISTMAS POPUP DIALOG CSS
            ========================================= */
-        #intro-overlay {
+        
+        /* The Dark Backdrop */
+        #modal-backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
-            /* Festive Gradient: Red to Dark */
-            background: linear-gradient(135deg, #8E0E00 0%, #2b0404 100%); 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85); /* Dimmed background */
+            backdrop-filter: blur(5px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        /* The Box Itself */
+        #intro-dialog {
+            position: relative;
+            width: 90%;
+            max-width: 600px; /* Max width of the box */
+            height: 400px;
+            background: linear-gradient(135deg, #8E0E00 0%, #2b0404 100%); /* Festive Red */
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.3);
+            border: 2px solid var(--primary-gold);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10000; /* Highest priority to cover site */
-            color: #fff;
             text-align: center;
-            overflow: hidden; 
-            transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
+            overflow: hidden; /* Keeps snow inside the box */
+            transform: scale(1);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Class to hide the overlay */
-        #intro-overlay.hidden {
+        /* Close Button ('X') */
+        #close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        #close-btn:hover {
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        /* Hide State */
+        #modal-backdrop.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
+        #modal-backdrop.hidden #intro-dialog {
+            transform: scale(0.8);
+        }
 
+        /* Content inside the box */
         .intro-content {
             z-index: 2; 
-            animation: zoomIn 1s ease-out;
-            padding: 20px;
+            padding: 30px;
+            animation: zoomIn 0.8s ease-out;
         }
 
         .intro-content h1 {
-            font-size: 4rem;
+            font-size: 3rem;
             color: var(--primary-gold); 
             text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-family: 'Playfair Display', serif;
+            line-height: 1.2;
         }
 
         .intro-content p {
-            font-size: 1.5rem;
-            letter-spacing: 3px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
             font-family: 'Cinzel', serif;
+            color: #fff;
         }
 
-        /* Snowflake CSS */
+        /* Snowflake CSS (Scoped to Box) */
         .snowflake {
             position: absolute;
-            top: -10px;
+            top: -20px; /* Start slightly above box */
             color: white;
-            font-size: 1em;
             opacity: 0.8;
             z-index: 1;
+            pointer-events: none;
             animation: fall linear forwards;
         }
 
         @keyframes fall {
-            to { transform: translateY(110vh); }
+            to { transform: translateY(450px); } /* Fall distance relative to box height */
         }
 
         @keyframes zoomIn {
@@ -324,20 +366,28 @@
             .team-details { padding: 60px 40px; border-left: none; border-top: 3px solid var(--primary-gold); text-align: center; }
             .section-header h2 { font-size: 3.5rem; }
             .glass-card { padding: 50px 30px; }
-            .intro-content h1 { font-size: 2.5rem; } /* Smaller intro font on mobile */
+            
+            /* Modal Adjustments */
+            #intro-dialog { height: 350px; width: 95%; }
+            .intro-content h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div class="intro-content">
-            <h1>Merry Christmas</h1>
-            <p>Welcome to</p>
-            <p style="color: #FFD700; margin-top: 10px; font-weight: bold;">Siyonu Prardhana Mandhiram</p>
-            <div style="font-size: 3rem; margin-top: 15px;">🎄✝️✨</div>
-        </div>
-        </div>
+    <div id="modal-backdrop">
+        <div id="intro-dialog">
+            <button id="close-btn">&times;</button>
+            
+            <div class="intro-content">
+                <h1>Merry Christmas</h1>
+                <p>Welcome to</p>
+                <p style="color: #FFD700; margin-top: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif;">Siyonu Prardhana Mandhiram</p>
+                <div style="font-size: 2.5rem; margin-top: 15px;">🎄✝️✨</div>
+            </div>
+            
+            </div>
+    </div>
 
 
     <section class="hero parallax-section">
@@ -357,7 +407,7 @@
                 A beacon of hope in Yernagudem. This Christmas, we invite you to step out of the shadows and into His marvelous light. Join our spiritual family as we celebrate the Incarnation of our Savior, finding eternal peace, purpose, and community in His presence.
             </p>
 
-            <a href="#services" class="hero-btn reveal">Plan Your Holiday Visit</a>
+            <a href="#services" class="hero-btn reveal">join us</a>
         </div>
     </section>
 
@@ -430,7 +480,7 @@
                     <img src="https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg?q=80&w=1888&auto=format&fit=crop" alt="Sis. Daya Mani">
                 </div>
                 <div class="team-details">
-                    <span class="team-role">Choir Lead & Ministry Pillar</span>
+                    <span class="team-role">Woman of God & Ministry Pillar</span>
                     <h3 class="team-name">Sis. Daya Mani</h3>
                     
                     <p>
@@ -474,7 +524,7 @@
         <p style="margin-bottom: 35px; font-size: 1.2rem; color: var(--secondary-gold);">Main Road, Yernagudem, Andhra Pradesh</p>
         
         <div class="socials">
-            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.youtube.com/@SiyonuPrardhanaMandhiram-1"><i class="fab fa-youtube"></i></a>
             <a href="#"><i class="fab fa-facebook-f"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
@@ -485,38 +535,50 @@
     </footer>
 
     <script>
-        // --- SCRIPT 1: INTRO OVERLAY & SNOW LOGIC ---
+        // --- SCRIPT 1: MODAL DIALOG & SNOW GLOBE ---
         window.addEventListener('load', () => {
-            const overlay = document.getElementById('intro-overlay');
-            
-            // 1. Create Falling Snow Effect for Intro
+            const backdrop = document.getElementById('modal-backdrop');
+            const dialog = document.getElementById('intro-dialog');
+            const closeBtn = document.getElementById('close-btn');
+            let snowInterval;
+
+            // 1. Function to Close Modal
+            function closeModal() {
+                backdrop.classList.add('hidden');
+                clearInterval(snowInterval); // Stop creating snow
+                // Re-enable scrolling on body
+                document.body.style.overflowX = 'hidden'; 
+                document.body.style.overflowY = 'auto';
+                reveal(); // Trigger reveal for hero elements
+            }
+
+            // Event Listeners
+            closeBtn.addEventListener('click', closeModal);
+            // Optional: Close if clicked outside the box
+            backdrop.addEventListener('click', (e) => {
+                if(e.target === backdrop) closeModal();
+            });
+
+            // 2. Snow Logic (Falls inside the Dialog Box)
             function createSnowflake() {
                 const snowflake = document.createElement('div');
                 snowflake.classList.add('snowflake');
                 snowflake.innerHTML = '❄'; 
                 
-                // Randomize position, size, and speed
-                snowflake.style.left = Math.random() * 100 + 'vw';
-                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; 
+                // Randomize position (Percentage relative to BOX width)
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = Math.random() * 2 + 2 + 's'; 
                 snowflake.style.opacity = Math.random();
-                snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; 
+                snowflake.style.fontSize = Math.random() * 10 + 8 + 'px'; 
 
-                overlay.appendChild(snowflake);
+                dialog.appendChild(snowflake);
 
                 // Cleanup
-                setTimeout(() => { snowflake.remove(); }, 5000);
+                setTimeout(() => { snowflake.remove(); }, 4000);
             }
 
-            // Generate a snowflake every 100ms
-            const snowInterval = setInterval(createSnowflake, 100);
-
-            // 2. Hide Intro after 3.5 seconds
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                clearInterval(snowInterval); // Stop creating snow after hide to save memory
-                // Trigger reveal immediately for hero elements
-                reveal(); 
-            }, 3500); 
+            // Start Snowing
+            snowInterval = setInterval(createSnowflake, 150);
         });
 
         // --- SCRIPT 2: SCROLL REVEAL ANIMATIONS ---
