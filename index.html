@@ -43,24 +43,16 @@
         /* =========================================
            2. ANIMATIONS
            ========================================= */
-        /* Float Animation for Graphics */
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
 
-        /* Pulse Animation for Buttons */
         @keyframes pulse-gold {
             0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
             70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
             100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-        }
-
-        /* Shimmer Text Effect */
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
         }
 
         /* =========================================
@@ -98,12 +90,11 @@
 
         .intro-content { z-index: 2; padding: 30px 20px; animation: zoomIn 0.8s ease-out; }
         
-        /* Intro Graphic */
         .intro-graphic-img {
             width: 120px;
             margin-bottom: 15px;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
-            animation: float 3s ease-in-out infinite; /* Floating Animation */
+            animation: float 3s ease-in-out infinite; 
         }
 
         .intro-content h1 {
@@ -160,7 +151,7 @@
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 3px;
             text-decoration: none; border: 1px solid var(--primary-gold); border-radius: 4px; transition: 0.4s;
             display: inline-block; font-size: 0.9rem;
-            animation: pulse-gold 2s infinite; /* Pulsing Button */
+            animation: pulse-gold 2s infinite; 
         }
         .hero-btn:hover { background: var(--primary-gold); color: #0b0f19; transform: translateY(-5px); animation: none; }
 
@@ -178,22 +169,35 @@
         h3 { font-family: 'Cinzel', serif; font-weight: 700; color: #fff; margin-bottom: 20px; font-size: 1.4rem; letter-spacing: 1px; }
         p { line-height: 1.8; color: var(--text-muted); font-size: 1rem; margin-bottom: 20px; }
         
-        /* SPECIAL HIGHLIGHT FOR CHURCH NAME IN WELCOME */
         .church-highlight {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #FFD700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            /* Gradient Text */
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 800; color: #FFD700;
+            text-transform: uppercase; letter-spacing: 1px;
             background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
             text-shadow: 0px 0px 15px rgba(255, 215, 0, 0.4);
-            position: relative;
+            position: relative; display: inline-block;
+        }
+
+        /* NEW: Daily Verse Button Styles */
+        .verse-btn-container { margin-top: 30px; }
+        .verse-btn {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 15px 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: 0.3s;
             display: inline-block;
+        }
+        .verse-btn:hover {
+            background: var(--primary-gold);
+            color: #000;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
         /* SERVICES GRID */
@@ -245,7 +249,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* =========================================
-           5. RESPONSIVE DESIGN (MOBILE & TABLET)
+           5. RESPONSIVE DESIGN
            ========================================= */
         @media (max-width: 992px) {
             .content-container { padding: 80px 5%; }
@@ -258,17 +262,14 @@
 
         @media (max-width: 768px) {
             body { font-size: 15px; }
-            
             #intro-dialog { width: 95%; min-height: 300px; }
             .intro-content h1 { font-size: 2rem; }
-
             .hero h1 { font-size: 2.2rem; letter-spacing: 1px; margin-bottom: 15px; }
             .hero-desc { font-size: 1rem; line-height: 1.6; }
             .hero-logo-img { max-height: 100px; margin-bottom: 15px; }
             .hero-btn { padding: 15px 30px; width: 80%; }
             .motto-box { padding: 10px 20px; width: 100%; }
             .motto { font-size: 0.9rem; letter-spacing: 1px; }
-
             .section-header h2 { font-size: 2.2rem; }
             .section-header p { font-size: 1.1rem; }
             .services-grid { grid-template-columns: 1fr; }
@@ -279,8 +280,6 @@
             .team-quote { font-size: 1rem; padding: 15px; }
             footer { padding: 50px 5%; }
             .footer-logo { font-size: 1.3rem; }
-            
-            /* Smaller Church Highlight on Mobile */
             .church-highlight { font-size: 1rem; }
         }
     </style>
@@ -291,8 +290,7 @@
         <div id="intro-dialog">
             <button id="close-btn">&times;</button>
             <div class="intro-content">
-                <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" alt="Christmas Bells" class="intro-graphic-img">
-                
+                <img src="https://cdn-icons-png.flaticon.com/512/3504/3504818.png" alt="Christmas Bells" class="intro-graphic-img">
                 <h1>Merry Christmas</h1>
                 <p>Welcome to</p>
                 <p style="color: #FFD700; margin-top: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif;">Siyonu Prardhana Mandhiram</p>
@@ -305,24 +303,19 @@
         <div class="overlay"></div>
         <div class="content-container">
             <div class="bg-snow"></div>
-            
             <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" alt="Siyonu Prardhana Mandhiram Logo" class="hero-logo-img reveal">
-            
             <h1 class="reveal">Siyonu Prardhana <br>Mandhiram</h1>
-            
             <div class="motto-box reveal">
                 <span class="motto">"To Know Christ and To Make Him Known"</span>
             </div>
-
             <p class="hero-desc reveal">
                 A beacon of hope in Yernagudem. This Christmas, we invite you to step out of the shadows and into His marvelous light. Join our spiritual family as we celebrate the Incarnation of our Savior.
             </p>
-
             <a href="#services" class="hero-btn reveal">Join Us</a>
         </div>
     </section>
 
-    <section id="welcome" class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1576083282776-049e435cb7ee?q=80&w=2069&auto=format&fit=crop');">
+    <section id="welcome" class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1576612628636-628d00249219?q=80&w=2070&auto=format&fit=crop');">
         <div class="overlay"></div>
         <div class="content-container">
             <div class="glass-card reveal" style="max-width: 1000px; margin: 0 auto;">
@@ -330,16 +323,29 @@
                     <h2>Welcome Home</h2>
                     <p>Grace, Mercy, and Peace unto you</p>
                 </div>
-                
                 <p>
                     Welcome to <span class="church-highlight">Siyonu Prardhana Mandhiram</span> in Yernagudem. We are a community defined not by perfection, but by the transforming grace of Jesus Christ. We believe the church is a family where every person is valued, loved, and called to a higher purpose in His Kingdom.
                 </p>
                 <p>
                     As we celebrate the miracle of Christmas, our deepest prayer is that you would encounter the living God in a tangible way. Whether you are navigating a season of abounding joy or walking through a valley of shadow, you will find a supportive community here.
                 </p>
-                
                 <div style="font-family: 'Cinzel', serif; color: var(--primary-gold); font-size: 1rem; letter-spacing: 3px; margin-top: 40px; font-weight: 700;">
                     — THE CHURCH LEADERSHIP
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="verses-section" class="parallax-section" style="background-image: url('https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1974&auto=format&fit=crop');">
+        <div class="overlay" style="background: linear-gradient(to bottom, rgba(10, 10, 15, 0.8), rgba(10, 10, 15, 0.95));"></div>
+        <div class="content-container">
+            <div class="glass-card reveal" style="max-width: 800px; margin: 0 auto;">
+                <i class="fas fa-bible" style="color: var(--primary-gold); font-size: 3.5rem; margin-bottom: 25px;"></i>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 20px;">Daily Spiritual Food</h2>
+                <p>Start your day with a word from the Lord. Read today's scripture and share the blessing with others.</p>
+                
+                <div class="verse-btn-container">
+                    <a href="daily-verse.html" class="verse-btn">Read Today's Verse</a>
                 </div>
             </div>
         </div>
@@ -393,14 +399,12 @@
                 <div class="team-details">
                     <span class="team-role">Woman of God & Ministry Pillar</span>
                     <h3 class="team-name">Sis. Daya Mani</h3>
-                    
                     <p>
                         With over a decade of faithful service, Sis. Daya Mani is a foundational pillar at Siyonu Prardhana Mandhiram. Her ministry is defined by a deep sensitivity to the Holy Spirit. She leads the congregation not just in songs, but into the very Holy of Holies.
                     </p>
                     <p style="margin-top: 15px;">
                         She is a spiritual mother to many, mentoring young women and cultivating an environment where the gifts of the Spirit can flourish in the next generation.
                     </p>
-
                     <div class="team-quote">
                         "I will sing to the Lord all my life; I will sing praise to my God as long as I live..." <br>
                         <span style="color: var(--primary-gold); font-size: 0.85rem; margin-top: 15px; display:block; font-family: 'Montserrat', sans-serif; font-style: normal; letter-spacing: 2px; font-weight: 600;">— PSALM 104:33-34</span>
@@ -446,26 +450,19 @@
     </footer>
 
     <script>
-        // --- WHATSAPP FUNCTION (REMOVED EMAIL) ---
+        // --- 1. PRAYER REQUEST WHATSAPP ---
         function sendToWhatsapp(e) {
             e.preventDefault(); 
-
             var name = document.getElementById('prayer-name').value;
-            // Removed email variable
             var message = document.getElementById('prayer-message').value;
-
-            // Construct the WhatsApp message without email
             var whatsappMessage = "Praise the Lord. I have a Prayer Request.%0A%0A" + 
                                   "*Name:* " + name + "%0A" + 
                                   "*Request:* " + message;
-
-            // Open WhatsApp with the message (Phone: 7093165056)
             var whatsappUrl = "https://wa.me/917093165056?text=" + whatsappMessage;
-            
             window.open(whatsappUrl, '_blank');
         }
 
-        // --- EXISTING SCRIPTS (Snow & Reveal) ---
+        // --- 2. INTRO & ANIMATIONS ---
         window.addEventListener('load', () => {
             const backdrop = document.getElementById('modal-backdrop');
             const dialog = document.getElementById('intro-dialog');
