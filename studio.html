@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zion Divine Architect v12</title>
+    <title>Zion Visual Commander v13</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +17,8 @@
             --bg-body: #121212;
             --panel-bg: #1e1e1e;
             --text-main: #e0e0e0;
-            --accent: #00e5ff;
-            --accent-hover: #00b8d4;
+            --accent: #00bcd4;
+            --accent-hover: #00acc1;
             --border: #333;
             --input-bg: #252525;
         }
@@ -74,47 +74,33 @@
             display: flex; flex-direction: column;
         }
 
-        /* CARD ELEMENTS */
-        .bg-layer { position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, #00464f 0%, #021a1a 80%); z-index: 1; transition:0.3s; }
+        /* Elements */
+        .bg-layer { position: absolute; inset: 0; background: radial-gradient(circle at 20% 20%, #00464f 0%, #021a1a 80%); z-index: 1; transition: 0.3s; }
         .layout-curve { clip-path: ellipse(100% 75% at 20% 10%); }
-        .layout-diag { clip-path: polygon(0 0, 100% 0, 100% 30%, 0 90%); }
-        
         .texture-layer { position: absolute; inset: 0; z-index: 2; opacity: 0.15; pointer-events: none; mix-blend-mode: overlay; }
         .tex-noise { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); }
-
-        .particles-layer {
-            position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0.4; mix-blend-mode: screen;
-            background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 5px), radial-gradient(white, rgba(255,255,255,.1) 1px, transparent 3px);
-            background-size: 150px 150px, 100px 100px; background-position: 0 0, 50px 50px;
-        }
-
-        /* Icons */
-        .icon-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; display: none; pointer-events: none; }
+        .particles-layer { position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0.4; mix-blend-mode: screen; background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 5px); background-size: 150px 150px; }
         .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
         .quote-bg::after { content: '“'; }
 
-        /* Movable Elements */
+        /* Tag */
         .tag-pill {
             position: absolute; top: 40px; right: 0;
             background: #c0392b; padding: 12px 45px 12px 25px;
             border-radius: 50px 0 0 50px; z-index: 20;
             display: flex; flex-direction: column; align-items: flex-end;
             border: 4px solid #fff; border-right: none;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3); transition: 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
         .tag-small { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 15px; font-weight: 700; opacity: 0.9; }
         .tag-big { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 28px; font-weight: 900; line-height: 1; }
 
-        .text-area { position: absolute; top: 100px; left: 60px; width: 620px; z-index: 10; text-align: center; transition: 0.2s; }
-        
+        /* Text */
+        .text-area { position: absolute; top: 100px; left: 60px; width: 620px; z-index: 10; text-align: center; }
         .telugu-white { font-family: 'Ramabhadra'; font-size: 48px; color: #fff; line-height: 1.4; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .telugu-yellow { 
-            font-family: 'Ramabhadra'; font-size: 80px; color: #ffee00; line-height: 1.1; margin-top: 10px; 
-            text-shadow: 0 4px 0 rgba(0,0,0,0.2); -webkit-text-stroke: 0px transparent;
-        }
+        .telugu-yellow { font-family: 'Ramabhadra'; font-size: 80px; color: #ffee00; line-height: 1.1; margin-top: 10px; text-shadow: 0 4px 0 rgba(0,0,0,0.2); -webkit-text-stroke: 0px transparent; }
         .verse-ref { font-family: 'Ramabhadra'; font-size: 26px; color: #a0c4c7; margin-top: 15px; }
         .watermark { font-family: 'Oswald'; font-weight: 900; font-size: 45px; color: rgba(255,255,255,0.06); text-transform: uppercase; margin-top: 35px; letter-spacing: 5px; }
-
         .eng-box {
             background: linear-gradient(90deg, #3d0a0a, #2b0505);
             width: 100%; padding: 25px; border-left: 12px solid #5e1b1b;
@@ -124,20 +110,29 @@
         .eng-txt { font-family: 'Oswald'; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; line-height: 1.3; }
         .eng-ref { font-family: 'Oswald'; font-size: 16px; color: #bbb; text-align: right; margin-top: 8px; letter-spacing: 1px; }
 
+        /* IMAGES - Key Update: Object-Fit Cover + Position */
         .img-child-frame {
             position: absolute; top: 50%; right: -60px; transform: translateY(-50%);
             width: 640px; height: 640px; border-radius: 50%; overflow: hidden; z-index: 15;
-            border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4); transition: 0.2s;
+            border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4);
         }
-        .img-child { width: 100%; height: 100%; object-fit: cover; transition: filter 0.3s; }
+        .img-child { 
+            width: 100%; height: 100%; object-fit: cover; 
+            object-position: center; /* Default */
+            transition: filter 0.2s, transform 0.2s; 
+        }
 
         .img-pastor-con {
             position: absolute; bottom: 40px; left: 50px;
             width: 340px; height: 340px; border-radius: 50%; border: 12px solid #fff;
             background: #9ab0ff; overflow: hidden; z-index: 20;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.25); transition: 0.2s;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.25);
         }
-        .img-pastor { width: 100%; height: 100%; object-fit: cover; }
+        .img-pastor { 
+            width: 100%; height: 100%; object-fit: cover; 
+            object-position: center;
+            transition: filter 0.2s, transform 0.2s;
+        }
 
         .footer-sig {
             position: absolute; bottom: 50px; right: 50px;
@@ -154,7 +149,6 @@
         }
         @media (min-width: 900px) { .editor-panel { width: 440px; height: 100%; } }
 
-        /* Layer Select */
         .layer-nav {
             padding: 10px; border-bottom: 1px solid var(--border); background: #111;
             display: flex; gap: 8px; overflow-x: auto;
@@ -168,53 +162,30 @@
         .nav-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
         .nav-btn:hover { color: #fff; border-color: #666; }
 
-        /* Controls Area */
         .controls-scroll { flex: 1; overflow-y: auto; padding: 15px; }
-        
         .control-group { margin-bottom: 20px; border: 1px solid #3a3a3a; border-radius: 8px; padding: 12px; background: #252525; }
         .group-title { font-size: 10px; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
 
         .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 10px; }
         .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .col-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .lbl { font-size: 11px; color: #ccc; white-space: nowrap; }
         
-        .lbl { font-size: 11px; color: #ccc; }
-        
-        /* Inputs */
-        input[type=text], textarea {
-            width: 100%; background: var(--input-bg); border: 1px solid #444; color: #eee;
-            padding: 8px; border-radius: 4px; font-size: 12px; font-family: inherit;
-        }
-        input[type=text]:focus, textarea:focus { border-color: var(--accent); }
-
-        /* Sliders */
+        input[type=text], textarea { width: 100%; background: var(--input-bg); border: 1px solid #444; color: #eee; padding: 8px; border-radius: 4px; font-size: 12px; }
         input[type=range] { width: 100%; accent-color: var(--accent); height: 4px; cursor: pointer; }
-        
-        /* Color Picker */
-        input[type=color] {
-            width: 30px; height: 30px; border: none; padding: 0; background: none; cursor: pointer;
-        }
+        input[type=color] { width: 30px; height: 30px; border: none; padding: 0; background: none; cursor: pointer; }
 
-        /* Icon Buttons */
-        .icon-btn {
-            background: #333; border: 1px solid #444; color: #ccc; border-radius: 4px;
-            height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
-        }
+        .icon-btn { background: #333; border: 1px solid #444; color: #ccc; border-radius: 4px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
         .icon-btn:hover { background: #444; color: #fff; border-color: var(--accent); }
-        .icon-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
         .btn-text { font-size: 10px; font-weight: 700; }
-
-        /* Toggles */
-        .toggle-btn { font-size: 11px; padding: 4px 8px; background: #333; border: 1px solid #444; color: #aaa; cursor: pointer; border-radius: 4px; }
-        .toggle-btn.active { background: var(--accent); color: #000; }
 
     </style>
 </head>
 <body>
 
     <header>
-        <div class="brand"><i class="material-icons-round">architecture</i> ZION DIVINE <span>ARCHITECT</span></div>
-        <button class="action-btn" onclick="downloadImage(this)"><i class="material-icons-round">download</i> EXPORT</button>
+        <div class="brand"><i class="material-icons-round">photo_camera</i> ZION VISUAL <span>COMMANDER</span></div>
+        <button class="action-btn" onclick="downloadImage(this)">EXPORT CARD</button>
     </header>
 
     <main>
@@ -222,13 +193,9 @@
             <div id="scaler">
                 <div id="captureCard" class="card">
                     <div id="bgLayer" class="bg-layer layout-curve"></div>
-                    <div id="texLayer" class="texture-layer tex-noise"></div>
-                    <div id="elParticles" class="particles-layer"></div>
+                    <div class="texture-layer tex-noise"></div>
+                    <div class="particles-layer"></div>
                     <div class="quote-bg"></div>
-                    
-                    <div id="iconDove" class="icon-overlay" style="font-size:300px">🕊️</div>
-                    <div id="iconCross" class="icon-overlay" style="font-size:500px">✝</div>
-                    <div id="iconBook" class="icon-overlay" style="font-size:300px">📖</div>
 
                     <div id="elTag" class="tag-pill">
                         <div id="tagTop" class="tag-small">అనుదినం</div>
@@ -239,7 +206,7 @@
                         <div id="telWhite" class="telugu-white">మేలుతో<br>నీ హృదయమును</div>
                         <div id="telYellow" class="telugu-yellow">తృప్తిపరచుచున్నాడు</div>
                         <div id="telRef" class="verse-ref">కీర్తనలు 103:5</div>
-                        <div id="elWatermark" class="watermark">ZION PRAYER HOUSE</div>
+                        <div class="watermark">ZION PRAYER HOUSE</div>
                         <div id="elEngBox" class="eng-box">
                             <div id="engTxt" class="eng-txt">HE WHO SATISFIES<br>YOUR MOUTH WITH GOOD THINGS</div>
                             <div id="engRef" class="eng-ref">PSALMS 103:5</div>
@@ -254,13 +221,9 @@
                         <img id="pastorImg" class="img-pastor" crossorigin="anonymous" src="https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg">
                     </div>
 
-                    <div class="footer-sig" id="elFooter">
+                    <div class="footer-sig">
                         <div id="sigName" class="sig-text">Sis. Dayamani</div>
                         <div class="social-bar">
-                            <div style="display:flex; gap:5px;">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" width="30">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="30">
-                            </div>
                             <span id="socialHandle">@Zion.Prayer_House</span>
                         </div>
                         <div id="phoneNum" class="prayer-req">For prayer requests: 7093165056</div>
@@ -271,11 +234,11 @@
 
         <div class="editor-panel">
             <div class="layer-nav">
-                <button class="nav-btn active" onclick="setLayer('telugu')">🕉️ Telugu</button>
+                <button class="nav-btn active" onclick="setLayer('mainImg')">🖼️ Main Photo</button>
+                <button class="nav-btn" onclick="setLayer('pastor')">👤 Pastor Photo</button>
+                <button class="nav-btn" onclick="setLayer('telugu')">🕉️ Telugu</button>
                 <button class="nav-btn" onclick="setLayer('english')">🅰️ English</button>
-                <button class="nav-btn" onclick="setLayer('mainImg')">🖼️ Main</button>
-                <button class="nav-btn" onclick="setLayer('bg')">🎨 Decor</button>
-                <button class="nav-btn" onclick="setLayer('pastor')">👤 Pastor</button>
+                <button class="nav-btn" onclick="setLayer('bg')">🎨 Style</button>
             </div>
 
             <div class="controls-scroll" id="controls">
@@ -284,116 +247,114 @@
     </main>
 
     <script>
-        let rotationImg = 0;
-        let rotationGrad = 135;
+        // State for filters
+        let filters = {
+            mainImg: { bri: 100, con: 100, sat: 100, hue: 0, sep: 0, blur: 0 },
+            pastorImg: { bri: 100, con: 100, sat: 100, hue: 0, sep: 0, blur: 0 }
+        };
+        // State for transforms
+        let transforms = {
+            mainImg: { scale: 1, rotate: 0, scaleX: 1, scaleY: 1, x: 50, y: 50 },
+            pastorImg: { scale: 1, rotate: 0, scaleX: 1, scaleY: 1, x: 50, y: 50 }
+        };
 
         const layers = {
-            telugu: {
-                html: `
-                    <div class="control-group">
-                        <div class="group-title">Content Editor</div>
-                        <textarea rows="2" oninput="updateText('telWhite', this.value)">మేలుతో<br>నీ హృదయమును</textarea>
-                        <input type="text" value="తృప్తిపరచుచున్నాడు" oninput="updateText('telYellow', this.value)" style="margin-top:10px;">
-                    </div>
-                    
-                    <div class="control-group">
-                        <div class="group-title">Typography Physics</div>
-                        <div class="row"><span class="lbl">Size</span><input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Letter Spacing</span><input type="range" min="0" max="20" value="0" oninput="setStyle('telYellow', 'letterSpacing', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Line Height</span><input type="range" min="0.8" max="2" step="0.1" value="1.1" oninput="setStyle('telYellow', 'lineHeight', this.value)"></div>
-                        <div class="row"><span class="lbl">Color</span><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
-                    </div>
-
-                    <div class="control-group">
-                        <div class="group-title">FX Studio</div>
-                        <div class="row"><span class="lbl">Outline Width</span><input type="range" min="0" max="5" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Outline Color</span><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
-                    </div>
-                `
-            },
-            english: {
-                html: `
-                    <div class="control-group">
-                        <div class="group-title">English Content</div>
-                        <textarea rows="2" oninput="updateText('engTxt', this.value)">HE WHO SATISFIES<br>YOUR MOUTH WITH GOOD THINGS</textarea>
-                    </div>
-                    <div class="control-group">
-                        <div class="group-title">Box Positioning</div>
-                        <div class="row"><span class="lbl">Width</span><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'width', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Margin Top</span><input type="range" min="0" max="100" value="25" oninput="setStyle('elEngBox', 'marginTop', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Opacity</span><input type="range" min="0" max="100" value="100" oninput="setStyle('elEngBox', 'opacity', this.value/100)"></div>
-                    </div>
-                `
-            },
             mainImg: {
                 html: `
                     <div class="control-group">
-                        <div class="group-title">Source & Transform</div>
+                        <div class="group-title">Source & Geometry</div>
                         <div class="col-2">
                             <button class="icon-btn btn-text" onclick="document.getElementById('fileMain').click()">UPLOAD</button>
                             <button class="icon-btn btn-text" onclick="randomMain()">SHUFFLE</button>
                         </div>
                         <input type="file" id="fileMain" hidden accept="image/*" onchange="handleFile(this, 'mainImg')">
-                        <div class="col-2" style="margin-top:10px;">
-                            <button class="icon-btn btn-text" onclick="flipImg('scaleX')">FLIP H</button>
-                            <button class="icon-btn btn-text" onclick="flipImg('scaleY')">FLIP V</button>
-                        </div>
+                        
+                        <div class="row" style="margin-top:10px;"><span class="lbl">Frame Radius</span><input type="range" min="0" max="50" value="50" oninput="setStyle('elMainImg', 'borderRadius', this.value + '%')"></div>
+                        <div class="row"><span class="lbl">Frame Border</span><input type="range" min="0" max="50" value="15" oninput="setStyle('elMainImg', 'borderWidth', this.value + 'px')"></div>
+                        <div class="row"><span class="lbl">Border Color</span><input type="color" value="#ffffff" oninput="setStyle('elMainImg', 'borderColor', this.value)"></div>
+                        <div class="row"><span class="lbl">Shadow Opacity</span><input type="range" min="0" max="100" value="40" oninput="setShadow('elMainImg', this.value)"></div>
                     </div>
 
                     <div class="control-group">
-                        <div class="group-title">Blending & Shape</div>
-                        <div class="row"><span class="lbl">Opacity</span><input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)"></div>
+                        <div class="group-title">Pan & Zoom Engine</div>
+                        <div class="row"><span class="lbl">Zoom</span><input type="range" min="1" max="3" step="0.1" value="1" oninput="setTransform('mainImg', 'scale', this.value)"></div>
+                        <div class="row"><span class="lbl">Pan Horizontal (X)</span><input type="range" min="0" max="100" value="50" oninput="setObjPos('mainImg', 'x', this.value)"></div>
+                        <div class="row"><span class="lbl">Pan Vertical (Y)</span><input type="range" min="0" max="100" value="50" oninput="setObjPos('mainImg', 'y', this.value)"></div>
                         <div class="col-3" style="margin-top:10px;">
-                            <button class="icon-btn btn-text" onclick="setStyle('elMainImg', 'borderRadius', '50%')">CIRCLE</button>
-                            <button class="icon-btn btn-text" onclick="setStyle('elMainImg', 'borderRadius', '40px')">ROUND</button>
-                            <button class="icon-btn btn-text" onclick="setStyle('elMainImg', 'borderRadius', '0')">SQUARE</button>
+                            <button class="icon-btn btn-text" onclick="setTransform('mainImg', 'rotate', -90)">↺ -90°</button>
+                            <button class="icon-btn btn-text" onclick="setTransform('mainImg', 'rotate', 0)">RESET</button>
+                            <button class="icon-btn btn-text" onclick="setTransform('mainImg', 'rotate', 90)">↻ +90°</button>
                         </div>
-                    </div>
-                `
-            },
-            bg: {
-                html: `
-                    <div class="control-group">
-                        <div class="group-title">Environment</div>
-                        <div class="row"><span class="lbl">Gradient Angle</span><input type="range" min="0" max="360" value="135" id="gAng" oninput="updateGradient()"></div>
-                        <div class="col-2">
-                            <div><span class="lbl">Start</span><input type="color" value="#00464f" id="c1" oninput="updateGradient()"></div>
-                            <div><span class="lbl">End</span><input type="color" value="#021a1a" id="c2" oninput="updateGradient()"></div>
+                        <div class="col-2" style="margin-top:10px;">
+                            <button class="icon-btn btn-text" onclick="toggleFlip('mainImg', 'scaleX')">FLIP H</button>
+                            <button class="icon-btn btn-text" onclick="toggleFlip('mainImg', 'scaleY')">FLIP V</button>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <div class="group-title">Icon Library</div>
-                        <div class="col-3">
-                            <button class="icon-btn" onclick="toggleIcon('iconCross')">✝</button>
-                            <button class="icon-btn" onclick="toggleIcon('iconDove')">🕊️</button>
-                            <button class="icon-btn" onclick="toggleIcon('iconBook')">📖</button>
-                        </div>
-                        <div class="row" style="margin-top:10px;"><span class="lbl">Particles</span><button class="toggle-btn active" onclick="toggleDisplay('elParticles')">ON/OFF</button></div>
+                        <div class="group-title">Color Grade</div>
+                        <div class="row"><span class="lbl">Brightness</span><input type="range" min="50" max="150" value="100" oninput="setFilter('mainImg', 'bri', this.value)"></div>
+                        <div class="row"><span class="lbl">Contrast</span><input type="range" min="50" max="150" value="100" oninput="setFilter('mainImg', 'con', this.value)"></div>
+                        <div class="row"><span class="lbl">Saturation</span><input type="range" min="0" max="200" value="100" oninput="setFilter('mainImg', 'sat', this.value)"></div>
+                        <div class="row"><span class="lbl">Sepia</span><input type="range" min="0" max="100" value="0" oninput="setFilter('mainImg', 'sep', this.value)"></div>
+                        <div class="row"><span class="lbl">Blur</span><input type="range" min="0" max="10" value="0" oninput="setFilter('mainImg', 'blur', this.value)"></div>
                     </div>
                 `
             },
             pastor: {
                 html: `
                     <div class="control-group">
-                        <div class="group-title">Details</div>
-                        <input type="text" value="Sis. Dayamani" oninput="updateText('sigName', this.value)">
-                        <input type="text" value="@Zion.Prayer_House" oninput="updateText('socialHandle', this.value)" style="margin-top:5px;">
-                    </div>
-                    
-                    <div class="control-group">
-                        <div class="group-title">Move & Scale</div>
-                        <div class="row"><span class="lbl">Size</span><input type="range" min="100" max="500" value="340" oninput="resizePastor(this.value)"></div>
-                        <div class="row"><span class="lbl">Left X</span><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Bottom Y</span><input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')"></div>
-                        <button class="action-btn" style="width:100%; margin-top:10px;" onclick="document.getElementById('filePastor').click()">Change Photo</button>
+                        <div class="group-title">Pastor Photo Lab</div>
+                        <button class="action-btn" style="width:100%; margin-bottom:10px;" onclick="document.getElementById('filePastor').click()">UPLOAD PHOTO</button>
                         <input type="file" id="filePastor" hidden accept="image/*" onchange="handleFile(this, 'pastorImg')">
+                        
+                        <div class="row"><span class="lbl">Frame Size</span><input type="range" min="150" max="500" value="340" oninput="resizeEl('elPastor', this.value)"></div>
+                        <div class="row"><span class="lbl">Position X</span><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
+                        <div class="row"><span class="lbl">Position Y</span><input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')"></div>
                     </div>
+
+                    <div class="control-group">
+                        <div class="group-title">Internal Adjustments</div>
+                        <div class="row"><span class="lbl">Zoom Face</span><input type="range" min="1" max="3" step="0.1" value="1" oninput="setTransform('pastorImg', 'scale', this.value)"></div>
+                        <div class="row"><span class="lbl">Pan X</span><input type="range" min="0" max="100" value="50" oninput="setObjPos('pastorImg', 'x', this.value)"></div>
+                        <div class="row"><span class="lbl">Pan Y</span><input type="range" min="0" max="100" value="50" oninput="setObjPos('pastorImg', 'y', this.value)"></div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="group-title">Correction</div>
+                        <div class="row"><span class="lbl">Brightness</span><input type="range" min="50" max="150" value="100" oninput="setFilter('pastorImg', 'bri', this.value)"></div>
+                        <div class="row"><span class="lbl">Contrast</span><input type="range" min="50" max="150" value="100" oninput="setFilter('pastorImg', 'con', this.value)"></div>
+                    </div>
+                `
+            },
+            telugu: {
+                html: `
+                    <div class="control-group"><div class="group-title">Content</div><textarea rows="2" oninput="updateText('telWhite', this.value)">మేలుతో<br>నీ హృదయమును</textarea><input type="text" value="తృప్తిపరచుచున్నాడు" oninput="updateText('telYellow', this.value)" style="margin-top:10px;"></div>
+                    <div class="control-group"><div class="group-title">Styling</div>
+                        <div class="row"><span class="lbl">Size</span><input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')"></div>
+                        <div class="row"><span class="lbl">Color</span><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
+                        <div class="col-3" style="margin-top:10px;">
+                            <button class="icon-btn" onclick="setStyle('telYellow', 'fontWeight', '900')">B</button>
+                            <button class="icon-btn" onclick="setStyle('telYellow', 'textTransform', 'uppercase')">AA</button>
+                            <button class="icon-btn" onclick="setStyle('telYellow', 'webkitTextStroke', '2px #000')">Str</button>
+                        </div>
+                    </div>
+                `
+            },
+            english: {
+                html: `
+                    <div class="control-group"><div class="group-title">English</div><textarea rows="2" oninput="updateText('engTxt', this.value)">HE WHO SATISFIES<br>YOUR MOUTH WITH GOOD THINGS</textarea></div>
+                    <div class="control-group"><div class="group-title">Box</div><div class="row"><span class="lbl">Width</span><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'width', this.value + '%')"></div><div class="row"><span class="lbl">Opacity</span><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'opacity', this.value/100)"></div></div>
+                `
+            },
+            bg: {
+                html: `
+                    <div class="control-group"><div class="group-title">Theme</div><div class="row"><span class="lbl">Inner</span><input type="color" value="#00464f" id="c1" oninput="updateGradient()"></div><div class="row"><span class="lbl">Outer</span><input type="color" value="#021a1a" id="c2" oninput="updateGradient()"></div></div>
                 `
             }
         };
 
-        window.onload = () => { fitCard(); window.onresize = fitCard; setLayer('telugu'); };
+        window.onload = () => { fitCard(); window.onresize = fitCard; setLayer('mainImg'); };
 
         function setLayer(key) {
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -401,43 +362,36 @@
             document.getElementById('controls').innerHTML = layers[key].html;
         }
 
-        /* --- LOGIC --- */
-        function updateText(id, val) { document.getElementById(id).innerHTML = val; }
-        function setStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
-        
-        function updateGradient() {
-            const c1 = document.getElementById('c1').value;
-            const c2 = document.getElementById('c2').value;
-            const ang = document.getElementById('gAng').value;
-            document.getElementById('bgLayer').style.background = `radial-gradient(circle at 20% 20%, ${c1} 0%, ${c2} 80%)`;
-            // Note: Radial doesn't support angle well, switch to linear for rotation if needed, or rotate div
-            // For this design, linear gradient rotation works best:
-            if(ang != 0) document.getElementById('bgLayer').style.background = `linear-gradient(${ang}deg, ${c1}, ${c2})`;
+        /* --- IMAGE LOGIC --- */
+        function setFilter(id, key, val) {
+            filters[id][key] = val;
+            const f = filters[id];
+            document.getElementById(id).style.filter = `brightness(${f.bri}%) contrast(${f.con}%) saturate(${f.sat}%) hue-rotate(${f.hue}deg) sepia(${f.sep}%) blur(${f.blur}px)`;
         }
 
-        function toggleDisplay(id) {
-            const el = document.getElementById(id);
-            el.style.display = (el.style.display === 'block' || el.style.display === '') ? 'none' : 'block';
+        function setTransform(id, key, val) {
+            if(key === 'rotate') { // Additive rotation
+                transforms[id].rotate = parseInt(transforms[id].rotate) + parseInt(val);
+                if(val === 0) transforms[id].rotate = 0; // Reset
+            } else {
+                transforms[id][key] = val;
+            }
+            applyTransform(id);
         }
 
-        function toggleIcon(id) {
-            // Hide all icons first
-            ['iconCross', 'iconDove', 'iconBook'].forEach(i => document.getElementById(i).style.display = 'none');
-            // Show selected
-            document.getElementById(id).style.display = 'block';
+        function toggleFlip(id, axis) {
+            transforms[id][axis] = transforms[id][axis] * -1;
+            applyTransform(id);
         }
 
-        let scaleX = 1, scaleY = 1;
-        function flipImg(axis) {
-            if(axis === 'scaleX') scaleX = scaleX * -1;
-            if(axis === 'scaleY') scaleY = scaleY * -1;
-            document.getElementById('mainImg').style.transform = `scale(${scaleX}, ${scaleY})`;
+        function applyTransform(id) {
+            const t = transforms[id];
+            document.getElementById(id).style.transform = `scale(${t.scale}) rotate(${t.rotate}deg) scaleX(${t.scaleX}) scaleY(${t.scaleY})`;
         }
 
-        function resizePastor(val) {
-            const el = document.getElementById('elPastor');
-            el.style.width = val + 'px';
-            el.style.height = val + 'px';
+        function setObjPos(id, axis, val) {
+            transforms[id][axis] = val;
+            document.getElementById(id).style.objectPosition = `${transforms[id].x}% ${transforms[id].y}%`;
         }
 
         function handleFile(input, imgId) {
@@ -449,11 +403,23 @@
         }
 
         function randomMain() {
-            const bgs = [
-                "https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800",
-                "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800"
-            ];
+            const bgs = ["https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800", "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800"];
             document.getElementById('mainImg').src = bgs[Math.floor(Math.random()*bgs.length)];
+        }
+
+        /* --- GENERAL LOGIC --- */
+        function updateText(id, val) { document.getElementById(id).innerHTML = val; }
+        function setStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
+        function resizeEl(id, val) { 
+            const el = document.getElementById(id); el.style.width = val+'px'; el.style.height = val+'px'; 
+        }
+        function setShadow(id, val) {
+            document.getElementById(id).style.boxShadow = `-20px 30px 60px rgba(0,0,0,${val/100})`;
+        }
+        function updateGradient() {
+            const c1 = document.getElementById('c1').value;
+            const c2 = document.getElementById('c2').value;
+            document.getElementById('bgLayer').style.background = `radial-gradient(circle at 20% 20%, ${c1} 0%, ${c2} 80%)`;
         }
 
         function fitCard() {
@@ -464,7 +430,7 @@
 
         async function downloadImage(btn) {
             const oldText = btn.innerHTML;
-            btn.innerHTML = "⏳ GENERATING...";
+            btn.innerHTML = "⏳ ...";
             document.fonts.ready.then(async () => {
                 const card = document.getElementById('captureCard');
                 const clone = card.cloneNode(true);
@@ -475,7 +441,7 @@
                 try {
                     const canvas = await html2canvas(clone, { scale: 1, useCORS: true, backgroundColor: null, width: 1080, height: 1080 });
                     const link = document.createElement('a');
-                    link.download = `Zion_Divine_${Date.now()}.png`;
+                    link.download = `Zion_Visual_${Date.now()}.png`;
                     link.href = canvas.toDataURL("image/png");
                     link.click();
                 } catch (err) { alert("Error"); }
