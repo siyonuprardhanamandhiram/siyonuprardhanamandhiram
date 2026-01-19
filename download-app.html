@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install App | Siyonu Prardhana Mandhiram</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3504/3504818.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-gold: #d4af37; 
+            --dark-bg: #0a0a0f;
+            --glass-bg: rgba(20, 25, 35, 0.90);
+            --glass-border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: url('https://images.unsplash.com/photo-1511871893393-82e9c16b8d77?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 0;
+        }
+
+        .container {
+            position: relative; z-index: 2;
+            width: 100%; max-width: 600px;
+            margin: auto; padding: 40px 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .home-link {
+            position: absolute; top: 20px; left: 20px; z-index: 10;
+            text-decoration: none; color: var(--primary-gold);
+            font-family: 'Cinzel', serif; font-weight: 700;
+            border: 1px solid var(--primary-gold); padding: 8px 15px; border-radius: 30px;
+            background: rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+        .home-link:hover { background: var(--primary-gold); color: #000; }
+
+        .install-card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            padding: 50px 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+            animation: popIn 0.8s ease-out;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+        }
+
+        p { font-size: 1rem; line-height: 1.6; margin-bottom: 30px; color: #ccc; }
+
+        /* BUTTONS */
+        .btn-group {
+            display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%;
+        }
+
+        .action-btn {
+            width: 100%; max-width: 280px;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Install Button Style */
+        #install-btn {
+            background: var(--primary-gold); color: #000;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            /* Always show for testing, logic handles functionality */
+            display: flex; 
+        }
+        #install-btn:hover { transform: scale(1.05); background: #fff; }
+
+        /* Share Button Style */
+        #share-btn {
+            background: transparent; border: 2px solid var(--primary-gold); color: var(--primary-gold);
+        }
+        #share-btn:hover { background: rgba(212, 175, 55, 0.1); color: #fff; }
+
+        /* SUCCESS MESSAGE */
+        #success-msg {
+            display: none; 
+            color: #25D366;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            margin-top: 20px;
+        }
+        .check-icon { font-size: 4rem; margin-bottom: 20px; display: block; }
+
+        /* IOS INSTRUCTIONS */
+        .ios-note {
+            margin-top: 30px; font-size: 0.85rem; color: #888; border-top: 1px solid #333; padding-top: 20px;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+    <a href="index.html" class="home-link"><i class="fas fa-home"></i> Home</a>
+
+    <div class="container">
+        <div class="install-card">
+            <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" width="100" style="margin-bottom: 20px;">
+            
+            <div id="content-area">
+                <h1>Get the App</h1>
+                <p>Install <b>Siyonu Prardhana Mandhiram</b> for offline access to daily verses and easy prayer requests.</p>
+                
+                <div class="btn-group">
+                    <button id="install-btn" class="action-btn">
+                        <i class="fas fa-download"></i> Install App
+                    </button>
+
+                    <button id="share-btn" class="action-btn">
+                        <i class="fas fa-share-alt"></i> Share App
+                    </button>
+                </div>
+
+                <div class="ios-note">
+                    <p><b>iPhone Users:</b> Tap <i class="fas fa-share-square"></i> Share & select <b>"Add to Home Screen"</b>.</p>
+                </div>
+            </div>
+
+            <div id="success-msg">
+                <i class="fas fa-check-circle check-icon"></i>
+                App Installed!
+                <p style="font-size: 1rem; color: #fff; margin-top: 10px;">Check your home screen.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('install-btn');
+        const shareBtn = document.getElementById('share-btn');
+        const contentArea = document.getElementById('content-area');
+        const successMsg = document.getElementById('success-msg');
+
+        // --- 1. INSTALL LOGIC ---
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log("Install prompt captured");
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User choice: ${outcome}`);
+                deferredPrompt = null;
+            } else {
+                alert("To install: \n1. Open in Chrome (Android) or Safari (iOS).\n2. Tap 'Add to Home Screen' in the menu.");
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            contentArea.style.display = 'none';
+            successMsg.style.display = 'block';
+        });
+
+        // --- 2. SHARE LOGIC ---
+        shareBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: 'Siyonu Prardhana Mandhiram App',
+                text: 'Download the Siyonu App for Daily Verses and Prayer Requests!',
+                url: window.location.href // Sharing the current page link
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                }
+            } else {
+                // Fallback for browsers that don't support native sharing
+                prompt("Copy this link to share:", window.location.href);
+            }
+        });
+
+        // --- 3. REGISTER SERVICE WORKER ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+
+</body>
+</html>
