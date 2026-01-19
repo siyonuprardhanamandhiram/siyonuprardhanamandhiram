@@ -113,7 +113,7 @@
             box-shadow: var(--card-shadow); color: var(--text-light); text-align: center;
         }
 
-        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header { text-align: center; margin-bottom: 60px; position: relative; }
         .section-header h2 { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--primary-gold); margin-bottom: 15px; }
         .section-header p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; color: #fff; opacity: 0.8; }
         
@@ -196,6 +196,25 @@
             color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.6;
+        }
+
+        /* LOGIN BUTTON IN HEADER */
+        .admin-login-btn {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--primary-gold);
+            text-decoration: none;
+            border: 1px solid var(--primary-gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: 0.3s;
+            opacity: 0.7;
+        }
+        .admin-login-btn:hover {
+            opacity: 1;
+            background: var(--primary-gold);
+            color: #000;
         }
 
         /* SERVICES GRID */
@@ -339,6 +358,10 @@
             <div class="section-header reveal">
                 <h2>Daily Updates</h2>
                 <p>Latest News & Announcements</p>
+                
+                <a href="admin.html" class="admin-login-btn">
+                    <i class="fas fa-lock"></i> Admin Login
+                </a>
             </div>
 
             <div id="posts-container" class="posts-grid">
