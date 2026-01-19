@@ -8,6 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#d4af37">
     <link rel="apple-touch-icon" href="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png">
+    <link rel="shortcut icon" href="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" type="image/png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,6 +71,13 @@
             animation: popIn 0.8s ease-out;
         }
 
+        /* Logo Style */
+        .app-logo {
+            width: 120px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
+
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.2rem;
@@ -102,7 +110,7 @@
         #install-btn {
             background: var(--primary-gold); color: #000;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-            /* Always show for testing, logic handles functionality */
+            /* Always show for testing */
             display: flex; 
         }
         #install-btn:hover { transform: scale(1.05); background: #fff; }
@@ -142,7 +150,7 @@
 
     <div class="container">
         <div class="install-card">
-            <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" width="100" style="margin-bottom: 20px;">
+            <img src="https://static.wixstatic.com/media/4bcdbb_f010231e1b7f419a9e3162403e55237d~mv2.png" class="app-logo" alt="Church Logo">
             
             <div id="content-area">
                 <h1>Get the App</h1>
@@ -193,6 +201,7 @@
                 console.log(`User choice: ${outcome}`);
                 deferredPrompt = null;
             } else {
+                // If browser doesn't support automatic install, give instructions
                 alert("To install: \n1. Open in Chrome (Android) or Safari (iOS).\n2. Tap 'Add to Home Screen' in the menu.");
             }
         });
