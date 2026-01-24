@@ -97,6 +97,15 @@
 
         .hero-desc { font-size: 1.1rem; color: var(--secondary-gold); max-width: 800px; margin: 0 auto 50px; font-weight: 400; line-height: 1.8; }
 
+        /* BUTTONS */
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
         .hero-btn {
             padding: 18px 50px; background: linear-gradient(to right, var(--deep-red), #5a0000); color: #fff;
             font-family: 'Montserrat', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 3px;
@@ -105,6 +114,20 @@
             animation: pulse-gold 2s infinite; 
         }
         .hero-btn:hover { background: var(--primary-gold); color: #0b0f19; transform: translateY(-5px); animation: none; }
+
+        /* Secondary Button Style (For Daily Verse) */
+        .hero-btn.gold-outline {
+            background: transparent;
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            animation: none;
+        }
+        .hero-btn.gold-outline:hover {
+            background: var(--primary-gold);
+            color: #0b0f19;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            transform: translateY(-5px);
+        }
 
         /* SECTIONS & CARDS */
         .glass-card {
@@ -129,7 +152,7 @@
             position: relative; display: inline-block;
         }
 
-        /* NEW: Daily Verse Button Styles */
+        /* NEW: Daily Verse Button Styles (Lower Section) */
         .verse-btn-container { margin-top: 30px; }
         .verse-btn {
             background: transparent;
@@ -313,7 +336,13 @@
             <p class="hero-desc reveal">
                 A beacon of hope in Yernagudem. This Christmas, we invite you to step out of the shadows and into His marvelous light. Join our spiritual family as we celebrate the Incarnation of our Savior.
             </p>
-            <a href="#services" class="hero-btn reveal">Join Us</a>
+            
+            <div class="hero-actions reveal">
+                <a href="#services" class="hero-btn">Join Us</a>
+                <a href="studio.html" class="hero-btn gold-outline">
+                    <i class="fas fa-bible"></i> Daily Verse
+                </a>
+            </div>
         </div>
     </section>
 
