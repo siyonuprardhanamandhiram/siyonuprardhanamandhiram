@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Zion Studio (Mobile Fixed)</title>
+    <title>Zion Studio (Layout Fix)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,88 +15,88 @@
     <style>
         :root { 
             --bg-body: #000;
-            --bg-panel: #111;
+            --bg-header: #080808;
+            --bg-editor: #111;
             --bg-card: #1c1c1c;
-            --bg-input: #2a2a2a;
             --accent: #00e5ff;
             --border: #333;
             --text-main: #fff;
-            --nav-height: 60px; /* Fixed height for bottom nav */
+            --nav-height: 65px;
         }
         
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
+        /* 1. VIEWPORT SETUP */
         body { 
             margin: 0; padding: 0; background: var(--bg-body); color: var(--text-main);
-            height: 100dvh; width: 100vw; overflow: hidden;
+            height: 100dvh; /* Dynamic Height for Mobile Browsers */
+            width: 100vw; overflow: hidden;
             font-family: 'Inter', sans-serif;
             display: flex; flex-direction: column;
         }
 
-        /* --- HEADER --- */
+        /* 2. HEADER (Fixed Top) */
         header {
-            height: 50px; background: #080808; border-bottom: 1px solid var(--border);
+            height: 50px; background: var(--bg-header); border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 10px; z-index: 100; flex-shrink: 0;
+            padding: 0 12px; flex-shrink: 0; z-index: 100;
         }
-
-        /* Home Button - Visible & Touch Friendly */
-        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-left { display: flex; align-items: center; gap: 10px; }
         .home-btn { 
-            color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;
-            width: 36px; height: 36px; border-radius: 50%; background: #222; border: 1px solid #444; 
-            transition: 0.2s;
+            width: 34px; height: 34px; border-radius: 50%; background: #222; border: 1px solid #444; 
+            display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none;
         }
-        .home-btn:active { background: var(--accent); color: #000; border-color: var(--accent); }
-        
         .brand { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
-        
         .save-btn {
             background: #fff; color: #000; border: none;
             padding: 6px 14px; border-radius: 20px; font-weight: 800; cursor: pointer;
-            font-size: 0.75rem; display: flex; align-items: center; gap: 5px;
+            font-size: 0.7rem; display: flex; align-items: center; gap: 4px;
         }
 
-        /* --- MAIN LAYOUT ENGINE --- */
+        /* 3. MAIN LAYOUT (Flex Column) */
         main { 
             flex: 1; /* Fills remaining height */
             display: flex; 
-            flex-direction: column; /* Stack vertically on mobile */
-            overflow: hidden; 
+            flex-direction: column; 
+            overflow: hidden; /* Prevents body scroll */
+            position: relative;
         }
 
-        /* 1. PREVIEW STAGE (Top) */
+        /* 4. PREVIEW AREA (Top 38%) */
         .stage-area {
-            flex: 0 0 40%; /* Takes top 40% of screen */
+            height: 38vh; /* Explicit height */
+            width: 100%;
             background: #050505;
             display: flex; justify-content: center; align-items: center;
             overflow: hidden; position: relative;
             border-bottom: 1px solid var(--border);
+            flex-shrink: 0; /* Prevent shrinking */
             background-image: radial-gradient(#222 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        /* 2. EDITOR PANEL (Bottom) */
-        .editor-panel {
-            flex: 1; /* Takes bottom 60% */
-            background: var(--bg-panel);
+        /* 5. EDITOR AREA (Bottom Remaining%) */
+        .editor-area {
+            flex: 1; /* Takes all remaining space */
+            background: var(--bg-editor);
             display: flex; flex-direction: column;
-            overflow: hidden;
+            overflow: hidden; /* Crucial for internal scroll */
+            min-height: 0; /* MAGIC FIX: Allows flex child to scroll */
             position: relative;
         }
 
-        /* 3. SCROLLABLE CONTROLS */
-        .controls-wrapper {
-            flex: 1; /* Takes available space above nav */
-            overflow-y: auto; /* Internal Scroll */
+        /* 6. SCROLLABLE CONTROLS */
+        .controls-scroll {
+            flex: 1; 
+            overflow-y: auto; /* Enable Scroll */
             padding: 15px;
-            /* Extra padding at bottom so last card isn't hidden by nav */
+            /* Padding bottom ensures content isn't hidden behind nav */
             padding-bottom: 20px; 
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 4. STICKY BOTTOM NAV */
-        .nav-bar {
+        /* 7. BOTTOM NAVIGATION (Fixed) */
+        .bottom-nav {
             height: var(--nav-height); 
             background: #000; 
             border-top: 1px solid var(--border);
@@ -107,55 +107,19 @@
         .nav-btn {
             flex: 1; background: transparent; border: none; color: #666;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 0.65rem; font-weight: 600; cursor: pointer; gap: 4px;
-            transition: 0.2s;
+            font-size: 0.65rem; font-weight: 600; cursor: pointer; gap: 3px;
         }
         .nav-btn .material-icons-round { font-size: 24px; }
-        
-        /* Active State for Tabs */
-        .nav-btn.active { 
-            color: var(--accent); 
-            background: #111; 
-            border-top: 2px solid var(--accent);
-        }
+        .nav-btn.active { color: var(--accent); background: #111; border-top: 2px solid var(--accent); }
 
-        /* --- DESKTOP TWEAKS --- */
+
+        /* --- DESKTOP ADJUSTMENTS --- */
         @media (min-width: 900px) {
-            main { flex-direction: row; } 
-            .stage-area { flex: 1; height: 100%; border-bottom: none; border-right: 1px solid var(--border); }
-            .editor-panel { flex: 0 0 400px; height: 100%; }
-            .nav-bar { order: -1; border-top: none; border-bottom: 1px solid var(--border); } 
+            main { flex-direction: row; }
+            .stage-area { height: 100%; flex: 1; border-bottom: none; border-right: 1px solid var(--border); }
+            .editor-area { flex: 0 0 400px; height: 100%; }
+            .bottom-nav { order: -1; border-top: none; border-bottom: 1px solid var(--border); }
         }
-
-        /* --- CARD CSS --- */
-        #viewport-scaler { transform-origin: center center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .card { width: 1080px; height: 1080px; background-color: #fff; position: relative; overflow: hidden; }
-        .vector-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-        .texture-layer { position: absolute; inset: 0; z-index: 2; opacity: 0.15; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); }
-        .vignette { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(transparent 40%, rgba(0,0,0,0.8) 100%); opacity: 0.5; }
-        
-        .tag-pill { position: absolute; top: 40px; right: 0; background: #c0392b; padding: 12px 45px 12px 25px; border-radius: 50px 0 0 50px; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; border: 4px solid #fff; border-right: none; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .tag-small { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 15px; font-weight: 700; opacity: 0.9; }
-        .tag-big { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 28px; font-weight: 900; line-height: 1; }
-        
-        .text-area { position: absolute; top: 100px; left: 60px; width: 620px; z-index: 10; text-align: center; }
-        .telugu-white { font-family: 'Ramabhadra'; font-size: 48px; color: #fff; line-height: 1.4; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .telugu-yellow { font-family: 'Ramabhadra'; font-size: 80px; color: #ffee00; line-height: 1.1; margin-top: 10px; text-shadow: 0 4px 0 rgba(0,0,0,0.2); -webkit-text-stroke: 0px transparent; }
-        .verse-ref { font-family: 'Ramabhadra'; font-size: 26px; color: #a0c4c7; margin-top: 15px; }
-        .watermark { font-family: 'Oswald'; font-weight: 900; font-size: 45px; color: rgba(255,255,255,0.06); text-transform: uppercase; margin-top: 35px; letter-spacing: 5px; }
-        
-        .eng-box { background: linear-gradient(90deg, #3d0a0a, #2b0505); width: 100%; padding: 25px; border-left: 12px solid #5e1b1b; margin-top: 25px; border-radius: 0 15px 15px 0; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
-        .eng-txt { font-family: 'Oswald'; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; line-height: 1.3; }
-        .eng-ref { font-family: 'Oswald'; font-size: 16px; color: #bbb; text-align: right; margin-top: 8px; letter-spacing: 1px; }
-        
-        .img-main-con { position: absolute; top: 50%; right: -60px; transform: translateY(-50%); width: 640px; height: 640px; border-radius: 50%; overflow: hidden; z-index: 15; border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4); background-color: #222; background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800'); }
-        .img-pastor-con { position: absolute; bottom: 40px; left: 50px; width: 340px; height: 340px; border-radius: 50%; border: 12px solid #fff; background: #9ab0ff; overflow: hidden; z-index: 20; box-shadow: 10px 10px 30px rgba(0,0,0,0.25); background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg'); }
-        .footer-sig { position: absolute; bottom: 50px; right: 50px; text-align: right; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; }
-        .sig-text { font-family: 'Great Vibes'; font-size: 80px; color: #d4af37; margin-bottom: 5px; line-height: 1; text-shadow: 2px 2px 0 rgba(255,255,255,0.8); }
-        .social-bar { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #444; margin-bottom: 8px; }
-        .prayer-req { font-family: 'Inter'; font-size: 20px; color: #555; font-weight: 700; background: rgba(255,255,255,0.9); padding: 6px 20px; border-radius: 30px; }
-        .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
-        .quote-bg::after { content: '“'; }
 
         /* --- CONTROL WIDGETS --- */
         .ctrl-card {
@@ -164,14 +128,14 @@
         }
         .ctrl-head {
             font-size: 0.75rem; color: var(--accent); font-weight: 800; letter-spacing: 0.5px;
-            text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+            text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
         }
-        
-        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 6px; display: block; font-weight: 600; }
+        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 5px; display: block; font-weight: 600; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         
+        /* High Vis Inputs */
         input[type="text"], textarea {
-            width: 100%; background: var(--bg-input); border: 1px solid #444; color: #fff;
+            width: 100%; background: #2a2a2a; border: 1px solid #444; color: #fff;
             padding: 10px; border-radius: 6px; font-size: 16px; margin-bottom: 8px;
         }
         input[type="text"]:focus, textarea:focus { border-color: var(--accent); background: #333; }
@@ -182,20 +146,40 @@
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; width: 20px; height: 20px; background: #fff;
-            border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            border-radius: 50%; border: 2px solid var(--accent);
         }
 
-        .toggle-row { display: flex; background: #000; padding: 4px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #333; }
+        .toggle-row { display: flex; background: #000; padding: 3px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #333; }
         .toggle-btn { flex: 1; padding: 8px; background: none; border: none; color: #666; font-size: 0.7rem; font-weight: 700; cursor: pointer; border-radius: 4px; }
         .toggle-btn.active { background: #333; color: #fff; }
-
-        .btn {
-            width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555;
-            border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem;
-        }
-        .btn:hover { background: #444; border-color: #fff; }
-
+        .btn { width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem; }
         input[type=color] { width: 100%; height: 35px; border: 1px solid #555; padding: 0; background: none; border-radius: 4px; }
+
+        /* --- CARD CSS --- */
+        #viewport-scaler { transform-origin: center center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .card { width: 1080px; height: 1080px; background-color: #fff; position: relative; overflow: hidden; }
+        .vector-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+        .texture-layer { position: absolute; inset: 0; z-index: 2; opacity: 0.15; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); }
+        .vignette { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(transparent 40%, rgba(0,0,0,0.8) 100%); opacity: 0.5; }
+        .tag-pill { position: absolute; top: 40px; right: 0; background: #c0392b; padding: 12px 45px 12px 25px; border-radius: 50px 0 0 50px; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; border: 4px solid #fff; border-right: none; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .tag-small { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 15px; font-weight: 700; opacity: 0.9; }
+        .tag-big { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 28px; font-weight: 900; line-height: 1; }
+        .text-area { position: absolute; top: 100px; left: 60px; width: 620px; z-index: 10; text-align: center; }
+        .telugu-white { font-family: 'Ramabhadra'; font-size: 48px; color: #fff; line-height: 1.4; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .telugu-yellow { font-family: 'Ramabhadra'; font-size: 80px; color: #ffee00; line-height: 1.1; margin-top: 10px; text-shadow: 0 4px 0 rgba(0,0,0,0.2); -webkit-text-stroke: 0px transparent; }
+        .verse-ref { font-family: 'Ramabhadra'; font-size: 26px; color: #a0c4c7; margin-top: 15px; }
+        .watermark { font-family: 'Oswald'; font-weight: 900; font-size: 45px; color: rgba(255,255,255,0.06); text-transform: uppercase; margin-top: 35px; letter-spacing: 5px; }
+        .eng-box { background: linear-gradient(90deg, #3d0a0a, #2b0505); width: 100%; padding: 25px; border-left: 12px solid #5e1b1b; margin-top: 25px; border-radius: 0 15px 15px 0; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+        .eng-txt { font-family: 'Oswald'; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; line-height: 1.3; }
+        .eng-ref { font-family: 'Oswald'; font-size: 16px; color: #bbb; text-align: right; margin-top: 8px; letter-spacing: 1px; }
+        .img-main-con { position: absolute; top: 50%; right: -60px; transform: translateY(-50%); width: 640px; height: 640px; border-radius: 50%; overflow: hidden; z-index: 15; border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4); background-color: #222; background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800'); }
+        .img-pastor-con { position: absolute; bottom: 40px; left: 50px; width: 340px; height: 340px; border-radius: 50%; border: 12px solid #fff; background: #9ab0ff; overflow: hidden; z-index: 20; box-shadow: 10px 10px 30px rgba(0,0,0,0.25); background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg'); }
+        .footer-sig { position: absolute; bottom: 50px; right: 50px; text-align: right; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; }
+        .sig-text { font-family: 'Great Vibes'; font-size: 80px; color: #d4af37; margin-bottom: 5px; line-height: 1; text-shadow: 2px 2px 0 rgba(255,255,255,0.8); }
+        .social-bar { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #444; margin-bottom: 8px; }
+        .prayer-req { font-family: 'Inter'; font-size: 20px; color: #555; font-weight: 700; background: rgba(255,255,255,0.9); padding: 6px 20px; border-radius: 30px; }
+        .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
+        .quote-bg::after { content: '“'; }
 
     </style>
 </head>
@@ -203,8 +187,8 @@
 
     <header>
         <div class="header-left">
-            <a href="index.html" class="home-btn" title="Home">
-                <span class="material-icons-round" style="font-size:20px;">home</span>
+            <a href="index.html" class="home-btn" title="Back">
+                <span class="material-icons-round" style="font-size:20px">home</span>
             </a>
             <div class="brand">ZION STUDIO</div>
         </div>
@@ -229,12 +213,7 @@
                     <div class="texture-layer" id="texLayer"></div>
                     <div class="vignette" id="elVignette"></div>
                     <div class="quote-bg"></div>
-
-                    <div class="tag-pill">
-                        <div class="tag-small">అనుదినం</div>
-                        <div class="tag-big">ఆశీర్వాదం</div>
-                    </div>
-
+                    <div class="tag-pill"><div class="tag-small">అనుదినం</div><div class="tag-big">ఆశీర్వాదం</div></div>
                     <div class="text-area" id="elText">
                         <div id="telWhite" class="telugu-white">యెహోవా<br>నా కాపరి</div>
                         <div id="telYellow" class="telugu-yellow">నాకు లేమి కలుగదు</div>
@@ -245,10 +224,8 @@
                             <div id="engRef" class="eng-ref">PSALM 23:1</div>
                         </div>
                     </div>
-
                     <div id="elMainImg" class="img-main-con"></div>
                     <div id="elPastor" class="img-pastor-con"></div>
-
                     <div class="footer-sig">
                         <div id="sigName" class="sig-text">Sis. Dayamani</div>
                         <div class="social-bar"><span>@Zion.Prayer_House</span></div>
@@ -258,11 +235,11 @@
             </div>
         </div>
 
-        <div class="editor-panel">
-            <div class="controls-wrapper" id="controls">
+        <div class="editor-area">
+            <div class="controls-scroll" id="controls">
                 </div>
 
-            <div class="nav-bar">
+            <div class="bottom-nav">
                 <button class="nav-btn active" onclick="setLayer('text')">
                     <span class="material-icons-round">edit_note</span> Text
                 </button>
@@ -283,7 +260,6 @@
     </main>
 
     <script>
-        /* --- LOGIC --- */
         const layouts = {
             curve: "M0 0 H100 V75 Q50 100 0 75 Z",
             diag: "M0 0 H100 V40 L0 100 H0 Z",
@@ -303,7 +279,6 @@
                         <div class="label">Reference</div>
                         <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
                     </div>
-
                     <div class="ctrl-card">
                         <div class="ctrl-head">HIGHLIGHT STYLE</div>
                         <div class="label">Font Size</div>
@@ -314,6 +289,14 @@
                         </div>
                         <div class="label">Outline Width</div>
                         <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">ALIGNMENT</div>
+                        <div class="toggle-row">
+                            <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'left')">Left</button>
+                            <button class="toggle-btn active" onclick="setStyle('elText', 'textAlign', 'center')">Center</button>
+                            <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'right')">Right</button>
+                        </div>
                     </div>
                 `
             },
@@ -329,7 +312,6 @@
                         <div class="label" style="margin-top:10px">Opacity</div>
                         <input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)">
                     </div>
-
                     <div class="ctrl-card">
                         <div class="ctrl-head">POSITION & ZOOM</div>
                         <div class="label">Zoom Level</div>
@@ -386,8 +368,8 @@
                             <div><div class="label">Size</div><input type="range" min="150" max="500" value="340" oninput="resizePastor(this.value)"></div>
                             <div><div class="label">X-Pos</div><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
                         </div>
-                         <div class="label">Y-Pos</div>
-                         <input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')">
+                        <div class="label">Y-Pos</div>
+                        <input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')">
                     </div>
                 `
             },
@@ -413,11 +395,7 @@
             }
         };
 
-        window.onload = () => { 
-            fitCard(); 
-            window.onresize = fitCard;
-            setLayer('text'); // INIT FIRST LAYER
-        };
+        window.onload = () => { fitCard(); window.onresize = fitCard; setLayer('text'); };
 
         function setLayer(key) {
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -427,7 +405,6 @@
 
         function updateText(id, val) { document.getElementById(id).innerHTML = val; }
         function setStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
-
         function setVectorLayout(type) { document.getElementById('bgPath').setAttribute('d', layouts[type]); }
         
         function updateVectorGradient() {
