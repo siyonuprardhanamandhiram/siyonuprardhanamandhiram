@@ -2,237 +2,196 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zion Studio v27 (Vector)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Zion Studio (Stable)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Oswald:wght@500;700&family=Great+Vibes&family=Inter:wght@400;600;800&family=Noto+Sans+Telugu:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Oswald:wght@500;700&family=Great+Vibes&family=Inter:wght@400;600;800&family=Noto+Sans+Telugu:wght@400;600;700;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root { 
-            --bg-body: #050505;
-            --bg-panel: #121212;
-            --bg-input: #1e1e1e;
-            --text-main: #e0e0e0;
-            --accent: #00bcd4;
+            --bg-body: #000;
+            --bg-panel: #111;
+            --bg-card: #1c1c1c;
+            --bg-input: #2a2a2a;
+            --accent: #00e5ff;
             --border: #333;
+            --text-main: #fff;
+            --text-muted: #aaa;
         }
         
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
         body { 
             margin: 0; padding: 0; background: var(--bg-body); color: var(--text-main);
-            height: 100vh; width: 100vw; overflow: hidden;
+            height: 100dvh; width: 100vw; overflow: hidden;
             font-family: 'Inter', sans-serif;
             display: flex; flex-direction: column;
         }
 
-        /* HEADER */
+        /* --- HEADER --- */
         header {
-            height: 50px; background: var(--bg-panel); border-bottom: 1px solid var(--border);
+            height: 45px; background: #080808; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 15px; z-index: 100; flex-shrink: 0;
+            padding: 0 12px; z-index: 100; flex-shrink: 0;
         }
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .home-btn { 
-            color: #888; text-decoration: none; display: flex; align-items: center; 
-            padding: 6px; border-radius: 50%; border: 1px solid #333; transition: 0.2s;
-        }
-        .home-btn:hover { color: #fff; border-color: var(--accent); background: #222; }
         .brand { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
-        
         .save-btn {
             background: #fff; color: #000; border: none;
-            padding: 6px 16px; border-radius: 4px; font-weight: 800; cursor: pointer;
-            font-size: 0.7rem; display: flex; align-items: center; gap: 6px;
-            transition: 0.2s; letter-spacing: 0.5px;
+            padding: 5px 12px; border-radius: 4px; font-weight: 800; cursor: pointer;
+            font-size: 0.7rem; display: flex; align-items: center; gap: 4px;
         }
-        .save-btn:hover { background: var(--accent); box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
 
-        /* LAYOUT */
-        main { flex: 1; display: flex; height: calc(100% - 50px); overflow: hidden; }
-        @media (min-width: 900px) { main { flex-direction: row; } }
+        /* --- MAIN LAYOUT ENGINE --- */
+        main { 
+            flex: 1; /* Fills remaining height */
+            display: flex; 
+            flex-direction: column; /* Stack vertically on mobile */
+            overflow: hidden; 
+        }
 
-        /* PREVIEW AREA */
-        .stage-container {
-            flex: 1; background: #000;
+        /* 1. PREVIEW STAGE (Top 40%) */
+        .stage-area {
+            flex: 0 0 40%; /* Rigid 40% height */
+            background: #050505;
             display: flex; justify-content: center; align-items: center;
-            overflow: hidden; padding: 20px; position: relative;
+            overflow: hidden; position: relative;
+            border-bottom: 1px solid var(--border);
             background-image: radial-gradient(#222 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-size: 20px 20px;
         }
 
-        #viewport-scaler { 
-            transform-origin: center center; 
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 150px rgba(0,0,0,0.9); 
-        }
-
-        /* --- THE CARD (1080px Fixed) --- */
-        .card {
-            width: 1080px; height: 1080px;
-            background-color: #fff;
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column;
-        }
-
-        /* --- VECTOR BACKGROUND (SVG) --- */
-        /* This fixes the export issue. SVGs render perfectly in html2canvas. */
-        .vector-bg {
-            position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
-        }
-
-        /* LAYERS */
-        .texture-layer { 
-            position: absolute; inset: 0; z-index: 2; opacity: 0.15; pointer-events: none; 
-            /* Simple opacity blend is safer for export than mix-blend-mode */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); 
-        }
-        .vignette { 
-            position: absolute; inset: 0; z-index: 3; pointer-events: none; 
-            background: radial-gradient(transparent 40%, rgba(0,0,0,0.8) 100%); opacity: 0.5; 
-        }
-        .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
-        .quote-bg::after { content: '“'; }
-
-        /* ELEMENTS */
-        .tag-pill {
-            position: absolute; top: 40px; right: 0;
-            background: #c0392b; padding: 12px 45px 12px 25px;
-            border-radius: 50px 0 0 50px; z-index: 20;
-            display: flex; flex-direction: column; align-items: flex-end;
-            border: 4px solid #fff; border-right: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-        }
-        .tag-small { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 15px; font-weight: 700; opacity: 0.9; }
-        .tag-big { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 28px; font-weight: 900; line-height: 1; }
-
-        .text-area { position: absolute; top: 100px; left: 60px; width: 620px; z-index: 10; text-align: center; }
-        .telugu-white { font-family: 'Ramabhadra'; font-size: 48px; color: #fff; line-height: 1.4; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        
-        .telugu-yellow { 
-            font-family: 'Ramabhadra'; font-size: 80px; color: #ffee00; line-height: 1.1; margin-top: 10px; 
-            text-shadow: 0 4px 0 rgba(0,0,0,0.2); 
-            -webkit-text-stroke: 0px transparent;
-        }
-        
-        .verse-ref { font-family: 'Ramabhadra'; font-size: 26px; color: #a0c4c7; margin-top: 15px; }
-        .watermark { font-family: 'Oswald'; font-weight: 900; font-size: 45px; color: rgba(255,255,255,0.06); text-transform: uppercase; margin-top: 35px; letter-spacing: 5px; }
-
-        .eng-box {
-            background: linear-gradient(90deg, #3d0a0a, #2b0505);
-            width: 100%; padding: 25px; border-left: 12px solid #5e1b1b;
-            margin-top: 25px; border-radius: 0 15px 15px 0; position: relative;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-        }
-        .eng-txt { font-family: 'Oswald'; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; line-height: 1.3; }
-        .eng-ref { font-family: 'Oswald'; font-size: 16px; color: #bbb; text-align: right; margin-top: 8px; letter-spacing: 1px; }
-
-        /* IMAGES (Background Method for Stability) */
-        .img-main-con {
-            position: absolute; top: 50%; right: -60px; transform: translateY(-50%);
-            width: 640px; height: 640px; border-radius: 50%; overflow: hidden; z-index: 15;
-            border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4);
-            background-color: #222;
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-            background-image: url('https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800');
-        }
-
-        .img-pastor-con {
-            position: absolute; bottom: 40px; left: 50px;
-            width: 340px; height: 340px; border-radius: 50%; border: 12px solid #fff;
-            background: #9ab0ff; overflow: hidden; z-index: 20;
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.25);
-            background-size: cover; background-position: center; background-repeat: no-repeat;
-            background-image: url('https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg');
-        }
-
-        .footer-sig {
-            position: absolute; bottom: 50px; right: 50px;
-            text-align: right; z-index: 20; display: flex; flex-direction: column; align-items: flex-end;
-        }
-        .sig-text { font-family: 'Great Vibes'; font-size: 80px; color: #d4af37; margin-bottom: 5px; line-height: 1; text-shadow: 2px 2px 0 rgba(255,255,255,0.8); }
-        .social-bar { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #444; margin-bottom: 8px; }
-        .prayer-req { font-family: 'Inter'; font-size: 20px; color: #555; font-weight: 700; background: rgba(255,255,255,0.9); padding: 6px 20px; border-radius: 30px; }
-
-        /* --- CONTROL PANEL --- */
+        /* 2. EDITOR PANEL (Bottom 60%) */
         .editor-panel {
-            width: 480px; height: 100%; background: var(--bg-panel); border-left: 1px solid var(--border);
-            display: flex; flex-direction: column; flex-shrink: 0;
+            flex: 1; /* Fills remaining space */
+            background: var(--bg-panel);
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
-        @media (min-width: 900px) { .editor-panel { width: 450px; height: 100%; } }
 
-        /* Tabs */
-        .layer-nav {
-            padding: 0; border-bottom: 1px solid var(--border); background: #080808;
-            display: flex; overflow-x: auto;
+        /* 3. SCROLLABLE CONTROLS */
+        .controls-wrapper {
+            flex: 1; /* Takes available space */
+            overflow-y: auto; /* Internal Scroll */
+            padding: 15px;
+            /* Extra padding at bottom ensures last item isn't covered */
+            padding-bottom: 20px; 
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 4. NAVIGATION BAR (Fixed at bottom of panel on mobile) */
+        .nav-bar {
+            height: 60px; background: #000; border-top: 1px solid var(--border);
+            display: flex; flex-shrink: 0;
+            padding-bottom: env(safe-area-inset-bottom);
         }
         .nav-btn {
             flex: 1; background: transparent; border: none; color: #666;
-            padding: 16px; font-size: 0.7rem; font-weight: 700; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid transparent;
-            transition: 0.2s; white-space: nowrap;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 600; cursor: pointer; gap: 3px;
         }
-        .nav-btn:hover { color: #fff; background: #1a1a1a; }
-        .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); background: #1a1a1a; }
+        .nav-btn .material-icons-round { font-size: 22px; }
+        .nav-btn.active { color: var(--accent); background: #0f0f0f; }
 
-        .controls-scroll { flex: 1; overflow-y: auto; padding: 20px; }
-
-        .section { margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 20px; }
-        .section:last-child { border: none; }
-        .sec-head { 
-            font-size: 0.75rem; font-weight: 800; color: var(--accent); text-transform: uppercase; 
-            margin-bottom: 15px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px;
+        /* --- DESKTOP TWEAKS --- */
+        @media (min-width: 900px) {
+            main { flex-direction: row; } /* Side by side */
+            .stage-area { flex: 1; height: 100%; border-bottom: none; border-right: 1px solid var(--border); }
+            .editor-panel { flex: 0 0 400px; height: 100%; }
+            .nav-bar { order: -1; border-top: none; border-bottom: 1px solid var(--border); } /* Move Nav to Top */
         }
 
-        .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 12px; }
-        .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .lbl { font-size: 0.75rem; color: #bbb; font-weight: 500; white-space: nowrap; }
+        /* --- CARD CSS (The Image Being Created) --- */
+        #viewport-scaler { transform-origin: center center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .card { width: 1080px; height: 1080px; background-color: #fff; position: relative; overflow: hidden; }
+        .vector-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+        .texture-layer { position: absolute; inset: 0; z-index: 2; opacity: 0.15; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E"); }
+        .vignette { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: radial-gradient(transparent 40%, rgba(0,0,0,0.8) 100%); opacity: 0.5; }
+        
+        .tag-pill { position: absolute; top: 40px; right: 0; background: #c0392b; padding: 12px 45px 12px 25px; border-radius: 50px 0 0 50px; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; border: 4px solid #fff; border-right: none; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .tag-small { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 15px; font-weight: 700; opacity: 0.9; }
+        .tag-big { font-family: 'Noto Sans Telugu'; color: #fff; font-size: 28px; font-weight: 900; line-height: 1; }
+        
+        .text-area { position: absolute; top: 100px; left: 60px; width: 620px; z-index: 10; text-align: center; }
+        .telugu-white { font-family: 'Ramabhadra'; font-size: 48px; color: #fff; line-height: 1.4; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .telugu-yellow { font-family: 'Ramabhadra'; font-size: 80px; color: #ffee00; line-height: 1.1; margin-top: 10px; text-shadow: 0 4px 0 rgba(0,0,0,0.2); -webkit-text-stroke: 0px transparent; }
+        .verse-ref { font-family: 'Ramabhadra'; font-size: 26px; color: #a0c4c7; margin-top: 15px; }
+        .watermark { font-family: 'Oswald'; font-weight: 900; font-size: 45px; color: rgba(255,255,255,0.06); text-transform: uppercase; margin-top: 35px; letter-spacing: 5px; }
+        
+        .eng-box { background: linear-gradient(90deg, #3d0a0a, #2b0505); width: 100%; padding: 25px; border-left: 12px solid #5e1b1b; margin-top: 25px; border-radius: 0 15px 15px 0; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+        .eng-txt { font-family: 'Oswald'; font-weight: 600; font-size: 28px; color: #fff; text-transform: uppercase; line-height: 1.3; }
+        .eng-ref { font-family: 'Oswald'; font-size: 16px; color: #bbb; text-align: right; margin-top: 8px; letter-spacing: 1px; }
+        
+        .img-main-con { position: absolute; top: 50%; right: -60px; transform: translateY(-50%); width: 640px; height: 640px; border-radius: 50%; overflow: hidden; z-index: 15; border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4); background-color: #222; background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800'); }
+        .img-pastor-con { position: absolute; bottom: 40px; left: 50px; width: 340px; height: 340px; border-radius: 50%; border: 12px solid #fff; background: #9ab0ff; overflow: hidden; z-index: 20; box-shadow: 10px 10px 30px rgba(0,0,0,0.25); background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg'); }
+        
+        .footer-sig { position: absolute; bottom: 50px; right: 50px; text-align: right; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; }
+        .sig-text { font-family: 'Great Vibes'; font-size: 80px; color: #d4af37; margin-bottom: 5px; line-height: 1; text-shadow: 2px 2px 0 rgba(255,255,255,0.8); }
+        .social-bar { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #444; margin-bottom: 8px; }
+        .prayer-req { font-family: 'Inter'; font-size: 20px; color: #555; font-weight: 700; background: rgba(255,255,255,0.9); padding: 6px 20px; border-radius: 30px; }
+        .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
+        .quote-bg::after { content: '“'; }
+
+        /* --- CONTROL WIDGET STYLES --- */
+        .ctrl-card {
+            background: var(--bg-card); border: 1px solid #333;
+            border-radius: 8px; padding: 12px; margin-bottom: 12px;
+        }
+        .ctrl-head {
+            font-size: 0.7rem; color: var(--accent); font-weight: 800; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+        }
+        
+        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 5px; display: block; font-weight: 600; }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         
         input[type="text"], textarea {
-            width: 100%; background: var(--bg-input); border: 1px solid #333; color: #fff;
-            padding: 12px; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;
+            width: 100%; background: var(--bg-input); border: 1px solid #444; color: #fff;
+            padding: 10px; border-radius: 6px; font-size: 16px; /* Stop iOS Zoom */
+            font-family: inherit; margin-bottom: 8px;
         }
-        input[type="text"]:focus, textarea:focus { border-color: var(--accent); outline: none; }
+        input[type="text"]:focus, textarea:focus { border-color: var(--accent); }
 
-        input[type=range] { width: 100%; accent-color: var(--accent); height: 4px; cursor: pointer; background: #333; border-radius: 2px; }
-        input[type=color] { width: 35px; height: 35px; border: none; padding: 0; background: none; cursor: pointer; }
+        input[type=range] {
+            width: 100%; height: 6px; background: #333; border-radius: 3px;
+            -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 8px; cursor: pointer;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 18px; height: 18px; background: #fff;
+            border-radius: 50%; border: 2px solid var(--accent);
+        }
+
+        .toggle-row { display: flex; background: #000; padding: 3px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #333; }
+        .toggle-btn { flex: 1; padding: 8px; background: none; border: none; color: #666; font-size: 0.7rem; font-weight: 700; cursor: pointer; border-radius: 4px; }
+        .toggle-btn.active { background: #333; color: #fff; }
 
         .btn {
-            background: var(--bg-input); border: 1px solid #333; color: #ccc;
-            padding: 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; font-weight: 700;
-            display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s;
+            width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555;
+            border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem;
         }
-        .btn:hover { background: #333; color: #fff; border-color: var(--accent); }
-        .btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
-        .seg-group { display: flex; background: #000; padding: 3px; border-radius: 6px; border: 1px solid #333; }
-        .seg-btn { flex: 1; background: transparent; border: none; color: #777; padding: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; border-radius: 4px; }
-        .seg-btn.active { background: #333; color: #fff; }
+        input[type=color] { width: 100%; height: 35px; border: 1px solid #555; padding: 0; background: none; border-radius: 4px; }
 
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-left">
-            <a href="index.html" class="home-btn" title="Back to Home"><span class="material-icons-round">home</span></a>
-            <div class="brand">ZION STUDIO <span>FLAWLESS</span></div>
-        </div>
+        <div class="brand">ZION STUDIO</div>
         <button class="save-btn" onclick="downloadImage(this)">
-            <span class="material-icons-round" style="font-size:16px;">download</span> SAVE HD
+            <span class="material-icons-round" style="font-size:16px;">download</span> SAVE
         </button>
     </header>
 
     <main>
-        <div class="stage-container">
+        <div class="stage-area">
             <div id="viewport-scaler">
                 <div id="captureCard" class="card">
-                    
                     <svg class="vector-bg" id="bgSvg" viewBox="0 0 100 100" preserveAspectRatio="none">
                         <defs>
                             <linearGradient id="themeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -242,17 +201,16 @@
                         </defs>
                         <path id="bgPath" d="M0 0 H100 V75 Q50 100 0 75 Z" fill="url(#themeGrad)" />
                     </svg>
-
-                    <div id="texLayer" class="texture-layer tex-noise"></div>
-                    <div id="elVignette" class="vignette"></div>
+                    <div class="texture-layer" id="texLayer"></div>
+                    <div class="vignette" id="elVignette"></div>
                     <div class="quote-bg"></div>
 
-                    <div id="elTag" class="tag-pill">
-                        <div id="tagTop" class="tag-small">అనుదినం</div>
-                        <div id="tagBot" class="tag-big">ఆశీర్వాదం</div>
+                    <div class="tag-pill">
+                        <div class="tag-small">అనుదినం</div>
+                        <div class="tag-big">ఆశీర్వాదం</div>
                     </div>
 
-                    <div id="elText" class="text-area">
+                    <div class="text-area" id="elText">
                         <div id="telWhite" class="telugu-white">యెహోవా<br>నా కాపరి</div>
                         <div id="telYellow" class="telugu-yellow">నాకు లేమి కలుగదు</div>
                         <div id="telRef" class="verse-ref">కీర్తనలు 23:1</div>
@@ -268,32 +226,39 @@
 
                     <div class="footer-sig">
                         <div id="sigName" class="sig-text">Sis. Dayamani</div>
-                        <div class="social-bar">
-                            <span id="socialHandle">@Zion.Prayer_House</span>
-                        </div>
-                        <div id="phoneNum" class="prayer-req">For prayer requests: 7093165056</div>
+                        <div class="social-bar"><span>@Zion.Prayer_House</span></div>
+                        <div class="prayer-req">For prayer requests: 7093165056</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="editor-panel">
-            <div class="layer-nav">
-                <button class="nav-btn active" onclick="setLayer('text')">Text</button>
-                <button class="nav-btn" onclick="setLayer('photo')">Photos</button>
-                <button class="nav-btn" onclick="setLayer('style')">Style</button>
-                <button class="nav-btn" onclick="setLayer('pastor')">Pastor</button>
-                <button class="nav-btn" onclick="setLayer('english')">English</button>
+            <div class="controls-wrapper" id="controls">
+                </div>
+
+            <div class="nav-bar">
+                <button class="nav-btn active" onclick="setLayer('text')">
+                    <span class="material-icons-round">edit_note</span> Text
+                </button>
+                <button class="nav-btn" onclick="setLayer('photo')">
+                    <span class="material-icons-round">image</span> Photo
+                </button>
+                <button class="nav-btn" onclick="setLayer('style')">
+                    <span class="material-icons-round">palette</span> Style
+                </button>
+                <button class="nav-btn" onclick="setLayer('pastor')">
+                    <span class="material-icons-round">person</span> Pastor
+                </button>
+                <button class="nav-btn" onclick="setLayer('english')">
+                    <span class="material-icons-round">translate</span> Eng
+                </button>
             </div>
-            <div class="controls-scroll" id="controls"></div>
         </div>
     </main>
 
     <script>
-        // --- DATA & CONFIG ---
-        let txtShadow = { x: 0, y: 4, blur: 0, color: '#000000' };
-        
-        // SVG Paths for Layouts (0-100 coord system)
+        /* --- LOGIC --- */
         const layouts = {
             curve: "M0 0 H100 V75 Q50 100 0 75 Z",
             diag: "M0 0 H100 V40 L0 100 H0 Z",
@@ -304,133 +269,130 @@
         const layers = {
             text: {
                 html: `
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">edit</span> Telugu Content</div>
-                        <div class="ctrl-grid">
-                            <textarea rows="2" oninput="updateText('telWhite', this.value)">యెహోవా<br>నా కాపరి</textarea>
-                            <input type="text" value="నాకు లేమి కలుగదు" oninput="updateText('telYellow', this.value)">
-                            <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
-                        </div>
-                    </div>
-                    
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">format_paint</span> Highlight Style</div>
-                        <div class="row"><span class="lbl">Size</span><input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Color</span><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
-                        <div class="row"><span class="lbl">Stroke W</span><input type="range" min="0" max="5" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Stroke C</span><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">TELUGU CONTENT</div>
+                        <div class="label">Main Verse</div>
+                        <textarea rows="2" oninput="updateText('telWhite', this.value)">యెహోవా<br>నా కాపరి</textarea>
+                        <div class="label">Highlight Text</div>
+                        <input type="text" value="నాకు లేమి కలుగదు" oninput="updateText('telYellow', this.value)">
+                        <div class="label">Reference</div>
+                        <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
                     </div>
 
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">layers</span> Shadow Studio</div>
-                        <div class="row"><span class="lbl">Blur</span><input type="range" min="0" max="30" value="0" oninput="txtShadow.blur=this.value; updateTxtShadow()"></div>
-                        <div class="row"><span class="lbl">Offset Y</span><input type="range" min="-20" max="20" value="4" oninput="txtShadow.y=this.value; updateTxtShadow()"></div>
-                        <div class="row"><span class="lbl">Color</span><input type="color" value="#000000" oninput="txtShadow.color=this.value; updateTxtShadow()"></div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">HIGHLIGHT STYLE</div>
+                        <div class="label">Font Size</div>
+                        <input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')">
+                        <div class="grid-2">
+                            <div><div class="label">Text Color</div><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
+                            <div><div class="label">Outline</div><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
+                        </div>
+                        <div class="label">Outline Width</div>
+                        <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
                     </div>
                 `
             },
             photo: {
                 html: `
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">image</span> Main Photo</div>
-                        <div class="col-2">
-                            <button class="btn" onclick="document.getElementById('fileMain').click()">Upload</button>
-                            <button class="btn" onclick="randomMain()">Shuffle</button>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">MAIN IMAGE</div>
+                        <div class="grid-2">
+                            <button class="btn" onclick="document.getElementById('fileMain').click()">UPLOAD</button>
+                            <button class="btn" onclick="randomMain()">SHUFFLE</button>
                         </div>
                         <input type="file" id="fileMain" hidden accept="image/*" onchange="handleFile(this, 'elMainImg')">
-                        <div class="row" style="margin-top:10px;"><span class="lbl">Opacity</span><input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)"></div>
+                        <div class="label" style="margin-top:10px">Opacity</div>
+                        <input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)">
                     </div>
 
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">open_with</span> Positioning</div>
-                        <div class="row"><span class="lbl">Zoom</span><input type="range" min="100" max="250" value="100" oninput="setStyle('elMainImg', 'backgroundSize', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Pan X</span><input type="range" min="0" max="100" value="50" oninput="setStyle('elMainImg', 'backgroundPositionX', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Pan Y</span><input type="range" min="0" max="100" value="50" oninput="setStyle('elMainImg', 'backgroundPositionY', this.value + '%')"></div>
-                    </div>
-
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">crop_free</span> Frame</div>
-                        <div class="row"><span class="lbl">Radius</span><input type="range" min="0" max="50" value="50" oninput="setStyle('elMainImg', 'borderRadius', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Border</span><input type="range" min="0" max="50" value="15" oninput="setStyle('elMainImg', 'borderWidth', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Color</span><input type="color" value="#ffffff" oninput="setStyle('elMainImg', 'borderColor', this.value)"></div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">POSITION & ZOOM</div>
+                        <div class="label">Zoom Level</div>
+                        <input type="range" min="100" max="300" value="100" oninput="setStyle('elMainImg', 'backgroundSize', this.value + '%')">
+                        <div class="grid-2">
+                            <div><div class="label">Pan X</div><input type="range" min="0" max="100" value="50" oninput="setStyle('elMainImg', 'backgroundPositionX', this.value + '%')"></div>
+                            <div><div class="label">Pan Y</div><input type="range" min="0" max="100" value="50" oninput="setStyle('elMainImg', 'backgroundPositionY', this.value + '%')"></div>
+                        </div>
                     </div>
                 `
             },
             style: {
                 html: `
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">dashboard</span> Vector Layout</div>
-                        <div class="col-2">
-                            <button class="btn" onclick="setVectorLayout('curve')">Curve</button>
-                            <button class="btn" onclick="setVectorLayout('diag')">Diagonal</button>
-                            <button class="btn" onclick="setVectorLayout('split')">Split</button>
-                            <button class="btn" onclick="setVectorLayout('full')">Full</button>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">VECTOR LAYOUT</div>
+                        <div class="toggle-row">
+                            <button class="toggle-btn" onclick="setVectorLayout('curve')">Curve</button>
+                            <button class="toggle-btn" onclick="setVectorLayout('diag')">Diag</button>
+                            <button class="toggle-btn" onclick="setVectorLayout('split')">Split</button>
+                            <button class="toggle-btn" onclick="setVectorLayout('full')">Full</button>
                         </div>
                     </div>
-
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">palette</span> Vector Theme</div>
-                        <div class="row"><span class="lbl">Start</span><input type="color" value="#00464f" id="c1" oninput="updateVectorGradient()"></div>
-                        <div class="row"><span class="lbl">End</span><input type="color" value="#021a1a" id="c2" oninput="updateVectorGradient()"></div>
-                        <div class="row"><span class="lbl">Angle</span><input type="range" min="0" max="360" value="135" id="gAng" oninput="updateVectorGradient()"></div>
-                    </div>
-
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">auto_fix_high</span> Atmosphere</div>
-                        <div class="row"><span class="lbl">Vignette</span><input type="range" min="0" max="100" value="50" oninput="setStyle('elVignette', 'opacity', this.value/100)"></div>
-                        <div class="row"><span class="lbl">Texture</span><input type="range" min="0" max="50" value="15" oninput="setStyle('texLayer', 'opacity', this.value/100)"></div>
-                        <div class="row"><span class="lbl">Watermark</span><input type="range" min="0" max="100" value="100" oninput="setStyle('elWatermark', 'opacity', this.value/100)"></div>
-                    </div>
-                `
-            },
-            english: {
-                html: `
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">translate</span> English Box</div>
-                        <div class="ctrl-grid">
-                            <textarea rows="2" oninput="updateText('engTxt', this.value)">THE LORD IS MY SHEPHERD<br>I SHALL NOT WANT</textarea>
-                            <input type="text" value="PSALM 23:1" oninput="updateText('engRef', this.value)">
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">THEME COLORS</div>
+                        <div class="grid-2">
+                            <div><div class="label">Top</div><input type="color" value="#00464f" id="c1" oninput="updateVectorGradient()"></div>
+                            <div><div class="label">Bottom</div><input type="color" value="#021a1a" id="c2" oninput="updateVectorGradient()"></div>
                         </div>
+                        <div class="label">Gradient Angle</div>
+                        <input type="range" min="0" max="360" value="135" id="gAng" oninput="updateVectorGradient()">
                     </div>
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">crop_square</span> Box Styling</div>
-                        <div class="row"><span class="lbl">Width</span><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'width', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Opacity</span><input type="range" min="0" max="100" value="100" oninput="setStyle('elEngBox', 'opacity', this.value/100)"></div>
-                        <div class="row"><span class="lbl">Border Radius</span><input type="range" min="0" max="50" value="0" oninput="setStyle('elEngBox', 'borderRadius', '0 '+this.value+'px '+this.value+'px 0')"></div>
-                        <div class="row"><span class="lbl">Padding</span><input type="range" min="10" max="50" value="25" oninput="setStyle('elEngBox', 'padding', this.value+'px')"></div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">EFFECTS</div>
+                        <div class="label">Vignette</div>
+                        <input type="range" min="0" max="100" value="50" oninput="setStyle('elVignette', 'opacity', this.value/100)">
+                        <div class="label">Texture</div>
+                        <input type="range" min="0" max="50" value="15" oninput="setStyle('texLayer', 'opacity', this.value/100)">
                     </div>
                 `
             },
             pastor: {
                 html: `
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">person</span> Profile</div>
-                        <div class="col-2">
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">PASTOR PROFILE</div>
+                        <div class="grid-2">
+                            <button class="btn" onclick="document.getElementById('filePastor').click()">UPLOAD</button>
                             <input type="text" value="Sis. Dayamani" oninput="updateText('sigName', this.value)">
-                            <button class="btn" onclick="document.getElementById('filePastor').click()">Upload</button>
                         </div>
                         <input type="file" id="filePastor" hidden accept="image/*" onchange="handleFile(this, 'elPastor')">
-                        <div class="row" style="margin-top:10px;"><span class="lbl">Spacing</span><input type="range" min="0" max="20" value="0" oninput="setStyle('sigName', 'letterSpacing', this.value+'px')"></div>
                     </div>
-                    
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">open_with</span> Frame Control</div>
-                        <div class="row"><span class="lbl">Size</span><input type="range" min="150" max="500" value="340" oninput="resizePastor(this.value)"></div>
-                        <div class="row"><span class="lbl">X Pos</span><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
-                        <div class="row"><span class="lbl">Y Pos</span><input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')"></div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">POSITION</div>
+                        <div class="grid-2">
+                            <div><div class="label">Size</div><input type="range" min="150" max="500" value="340" oninput="resizePastor(this.value)"></div>
+                            <div><div class="label">X-Pos</div><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
+                        </div>
+                         <div class="label">Y-Pos</div>
+                         <input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')">
                     </div>
-
-                    <div class="section">
-                        <div class="sec-head"><span class="material-icons-round">zoom_in</span> Image Adjust</div>
-                        <div class="row"><span class="lbl">Zoom</span><input type="range" min="100" max="250" value="100" oninput="setStyle('elPastor', 'backgroundSize', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Pan X</span><input type="range" min="0" max="100" value="50" oninput="setStyle('elPastor', 'backgroundPositionX', this.value + '%')"></div>
-                        <div class="row"><span class="lbl">Pan Y</span><input type="range" min="0" max="100" value="50" oninput="setStyle('elPastor', 'backgroundPositionY', this.value + '%')"></div>
+                `
+            },
+            english: {
+                html: `
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">ENGLISH TEXT</div>
+                        <textarea rows="2" oninput="updateText('engTxt', this.value)">THE LORD IS MY SHEPHERD<br>I SHALL NOT WANT</textarea>
+                        <input type="text" value="PSALM 23:1" oninput="updateText('engRef', this.value)">
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">BOX STYLE</div>
+                        <div class="grid-2">
+                            <div><div class="label">Width</div><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'width', this.value + '%')"></div>
+                            <div><div class="label">Opacity</div><input type="range" min="0" max="100" value="100" oninput="setStyle('elEngBox', 'opacity', this.value/100)"></div>
+                        </div>
+                        <div class="grid-2">
+                            <div><div class="label">Radius</div><input type="range" min="0" max="50" value="0" oninput="setStyle('elEngBox', 'borderRadius', '0 '+this.value+'px '+this.value+'px 0')"></div>
+                            <div><div class="label">Padding</div><input type="range" min="10" max="60" value="25" oninput="setStyle('elEngBox', 'padding', this.value+'px')"></div>
+                        </div>
                     </div>
                 `
             }
         };
 
-        window.onload = () => { fitCard(); window.onresize = fitCard; setLayer('text'); };
+        window.onload = () => { 
+            fitCard(); 
+            window.onresize = fitCard;
+            setLayer('text'); // INIT FIRST LAYER
+        };
 
         function setLayer(key) {
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -438,39 +400,21 @@
             document.getElementById('controls').innerHTML = layers[key].html;
         }
 
-        /* --- LOGIC --- */
         function updateText(id, val) { document.getElementById(id).innerHTML = val; }
         function setStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
+
+        function setVectorLayout(type) { document.getElementById('bgPath').setAttribute('d', layouts[type]); }
         
-        function updateTxtShadow() {
-            document.getElementById('telYellow').style.textShadow = `${txtShadow.x}px ${txtShadow.y}px ${txtShadow.blur}px ${txtShadow.color}`;
-        }
-
-        // --- VECTOR ENGINE ---
-        function setVectorLayout(type) {
-            document.getElementById('bgPath').setAttribute('d', layouts[type]);
-        }
-
         function updateVectorGradient() {
             const c1 = document.getElementById('c1').value;
             const c2 = document.getElementById('c2').value;
             const ang = document.getElementById('gAng').value;
-            
-            // Calculate coords for SVG Linear Gradient
             const rad = (ang - 90) * Math.PI / 180;
-            const x1 = 50 + 50 * Math.cos(rad);
-            const y1 = 50 + 50 * Math.sin(rad);
-            const x2 = 50 + 50 * Math.cos(rad + Math.PI);
-            const y2 = 50 + 50 * Math.sin(rad + Math.PI);
-
+            const x1 = 50 + 50 * Math.cos(rad); const y1 = 50 + 50 * Math.sin(rad);
+            const x2 = 50 + 50 * Math.cos(rad + Math.PI); const y2 = 50 + 50 * Math.sin(rad + Math.PI);
             const grad = document.getElementById('themeGrad');
-            grad.setAttribute('x1', x1+'%');
-            grad.setAttribute('y1', y1+'%');
-            grad.setAttribute('x2', x2+'%');
-            grad.setAttribute('y2', y2+'%');
-            
-            document.getElementById('stop1').style.stopColor = c1;
-            document.getElementById('stop2').style.stopColor = c2;
+            grad.setAttribute('x1', x1+'%'); grad.setAttribute('y1', y1+'%'); grad.setAttribute('x2', x2+'%'); grad.setAttribute('y2', y2+'%');
+            document.getElementById('stop1').style.stopColor = c1; document.getElementById('stop2').style.stopColor = c2;
         }
 
         function resizePastor(val) { const el = document.getElementById('elPastor'); el.style.width = val+'px'; el.style.height = val+'px'; }
@@ -478,63 +422,37 @@
         function handleFile(input, imgId) {
             if (input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById(imgId).style.backgroundImage = `url(${e.target.result})`;
-                };
+                reader.onload = (e) => { document.getElementById(imgId).style.backgroundImage = `url(${e.target.result})`; };
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
         function randomMain() {
             const bgs = ["https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800", "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800"];
             document.getElementById('elMainImg').style.backgroundImage = `url(${bgs[Math.floor(Math.random()*bgs.length)]})`;
         }
 
         function fitCard() {
-            const stage = document.querySelector('.stage-container');
-            const scale = Math.min((stage.clientWidth - 40) / 1080, (stage.clientHeight - 40) / 1080);
+            const stage = document.querySelector('.stage-area');
+            const availW = stage.clientWidth - 20;
+            const availH = stage.clientHeight - 20;
+            const scale = Math.min(availW / 1080, availH / 1080);
             document.getElementById('viewport-scaler').style.transform = `scale(${scale})`;
         }
 
-        /* --- EXPORT --- */
         async function downloadImage(btn) {
             const oldText = btn.innerHTML;
-            btn.innerHTML = `<span class="material-icons-round" style="animation:spin 1s linear infinite; font-size:16px;">sync</span> SAVING`;
-            
+            btn.innerHTML = `SAVING...`;
             await document.fonts.ready;
-
-            const originalCard = document.getElementById('captureCard');
-            const clone = originalCard.cloneNode(true);
-            
-            clone.style.width = "1080px";
-            clone.style.height = "1080px";
-            clone.style.position = "fixed";
-            clone.style.left = "-10000px";
-            clone.style.top = "0";
-            clone.style.transform = "none";
-            clone.style.borderRadius = "0";
-            
+            const clone = document.getElementById('captureCard').cloneNode(true);
+            clone.style.position = "fixed"; clone.style.left = "-10000px"; clone.style.transform = "none";
             document.body.appendChild(clone);
-
             try {
-                const canvas = await html2canvas(clone, {
-                    scale: 2, 
-                    useCORS: true,
-                    backgroundColor: null,
-                    width: 1080,
-                    height: 1080,
-                    logging: false
-                });
-
+                const canvas = await html2canvas(clone, { scale: 2, useCORS: true, backgroundColor: null, width: 1080, height: 1080 });
                 const link = document.createElement('a');
-                link.download = `Zion_Vector_Fixed_${Date.now()}.png`;
+                link.download = `Zion_${Date.now()}.png`;
                 link.href = canvas.toDataURL("image/png", 1.0);
                 link.click();
-
-            } catch (err) {
-                alert("Error generating image.");
-            }
-
+            } catch (err) { alert("Error"); }
             document.body.removeChild(clone);
             btn.innerHTML = oldText;
         }
