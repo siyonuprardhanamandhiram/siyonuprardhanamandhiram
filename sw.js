@@ -1,5 +1,5 @@
 // --- 1. INCREMENT THIS VERSION NUMBER EVERY TIME YOU UPDATE CODE ---
-const CACHE_NAME = "siyonu-app-v2.4"; 
+const CACHE_NAME = "siyonu-app-v2.5"; 
 
 const ASSETS_TO_CACHE = [
   "/",
