@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Zion Studio (Stable)</title>
+    <title>Zion Studio (Mobile Fixed)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
             --accent: #00e5ff;
             --border: #333;
             --text-main: #fff;
-            --text-muted: #aaa;
+            --nav-height: 60px; /* Fixed height for bottom nav */
         }
         
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
@@ -35,15 +35,26 @@
 
         /* --- HEADER --- */
         header {
-            height: 45px; background: #080808; border-bottom: 1px solid var(--border);
+            height: 50px; background: #080808; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 12px; z-index: 100; flex-shrink: 0;
+            padding: 0 10px; z-index: 100; flex-shrink: 0;
         }
+
+        /* Home Button - Visible & Touch Friendly */
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .home-btn { 
+            color: #fff; text-decoration: none; display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 50%; background: #222; border: 1px solid #444; 
+            transition: 0.2s;
+        }
+        .home-btn:active { background: var(--accent); color: #000; border-color: var(--accent); }
+        
         .brand { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
+        
         .save-btn {
             background: #fff; color: #000; border: none;
-            padding: 5px 12px; border-radius: 4px; font-weight: 800; cursor: pointer;
-            font-size: 0.7rem; display: flex; align-items: center; gap: 4px;
+            padding: 6px 14px; border-radius: 20px; font-weight: 800; cursor: pointer;
+            font-size: 0.75rem; display: flex; align-items: center; gap: 5px;
         }
 
         /* --- MAIN LAYOUT ENGINE --- */
@@ -54,9 +65,9 @@
             overflow: hidden; 
         }
 
-        /* 1. PREVIEW STAGE (Top 40%) */
+        /* 1. PREVIEW STAGE (Top) */
         .stage-area {
-            flex: 0 0 40%; /* Rigid 40% height */
+            flex: 0 0 40%; /* Takes top 40% of screen */
             background: #050505;
             display: flex; justify-content: center; align-items: center;
             overflow: hidden; position: relative;
@@ -65,9 +76,9 @@
             background-size: 20px 20px;
         }
 
-        /* 2. EDITOR PANEL (Bottom 60%) */
+        /* 2. EDITOR PANEL (Bottom) */
         .editor-panel {
-            flex: 1; /* Fills remaining space */
+            flex: 1; /* Takes bottom 60% */
             background: var(--bg-panel);
             display: flex; flex-direction: column;
             overflow: hidden;
@@ -76,37 +87,47 @@
 
         /* 3. SCROLLABLE CONTROLS */
         .controls-wrapper {
-            flex: 1; /* Takes available space */
+            flex: 1; /* Takes available space above nav */
             overflow-y: auto; /* Internal Scroll */
             padding: 15px;
-            /* Extra padding at bottom ensures last item isn't covered */
+            /* Extra padding at bottom so last card isn't hidden by nav */
             padding-bottom: 20px; 
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 4. NAVIGATION BAR (Fixed at bottom of panel on mobile) */
+        /* 4. STICKY BOTTOM NAV */
         .nav-bar {
-            height: 60px; background: #000; border-top: 1px solid var(--border);
+            height: var(--nav-height); 
+            background: #000; 
+            border-top: 1px solid var(--border);
             display: flex; flex-shrink: 0;
             padding-bottom: env(safe-area-inset-bottom);
+            z-index: 50;
         }
         .nav-btn {
             flex: 1; background: transparent; border: none; color: #666;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 0.65rem; font-weight: 600; cursor: pointer; gap: 3px;
+            font-size: 0.65rem; font-weight: 600; cursor: pointer; gap: 4px;
+            transition: 0.2s;
         }
-        .nav-btn .material-icons-round { font-size: 22px; }
-        .nav-btn.active { color: var(--accent); background: #0f0f0f; }
+        .nav-btn .material-icons-round { font-size: 24px; }
+        
+        /* Active State for Tabs */
+        .nav-btn.active { 
+            color: var(--accent); 
+            background: #111; 
+            border-top: 2px solid var(--accent);
+        }
 
         /* --- DESKTOP TWEAKS --- */
         @media (min-width: 900px) {
-            main { flex-direction: row; } /* Side by side */
+            main { flex-direction: row; } 
             .stage-area { flex: 1; height: 100%; border-bottom: none; border-right: 1px solid var(--border); }
             .editor-panel { flex: 0 0 400px; height: 100%; }
-            .nav-bar { order: -1; border-top: none; border-bottom: 1px solid var(--border); } /* Move Nav to Top */
+            .nav-bar { order: -1; border-top: none; border-bottom: 1px solid var(--border); } 
         }
 
-        /* --- CARD CSS (The Image Being Created) --- */
+        /* --- CARD CSS --- */
         #viewport-scaler { transform-origin: center center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .card { width: 1080px; height: 1080px; background-color: #fff; position: relative; overflow: hidden; }
         .vector-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
@@ -129,7 +150,6 @@
         
         .img-main-con { position: absolute; top: 50%; right: -60px; transform: translateY(-50%); width: 640px; height: 640px; border-radius: 50%; overflow: hidden; z-index: 15; border: 15px solid #fff; box-shadow: -20px 30px 60px rgba(0,0,0,0.4); background-color: #222; background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800'); }
         .img-pastor-con { position: absolute; bottom: 40px; left: 50px; width: 340px; height: 340px; border-radius: 50%; border: 12px solid #fff; background: #9ab0ff; overflow: hidden; z-index: 20; box-shadow: 10px 10px 30px rgba(0,0,0,0.25); background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('https://static.wixstatic.com/media/4bcdbb_fd7bd7e036414f2990de5493ef244bbd~mv2.jpeg'); }
-        
         .footer-sig { position: absolute; bottom: 50px; right: 50px; text-align: right; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; }
         .sig-text { font-family: 'Great Vibes'; font-size: 80px; color: #d4af37; margin-bottom: 5px; line-height: 1; text-shadow: 2px 2px 0 rgba(255,255,255,0.8); }
         .social-bar { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: 700; color: #444; margin-bottom: 8px; }
@@ -137,37 +157,35 @@
         .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
         .quote-bg::after { content: '“'; }
 
-        /* --- CONTROL WIDGET STYLES --- */
+        /* --- CONTROL WIDGETS --- */
         .ctrl-card {
             background: var(--bg-card); border: 1px solid #333;
-            border-radius: 8px; padding: 12px; margin-bottom: 12px;
+            border-radius: 8px; padding: 12px; margin-bottom: 15px;
         }
         .ctrl-head {
-            font-size: 0.7rem; color: var(--accent); font-weight: 800; letter-spacing: 0.5px;
-            text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; color: var(--accent); font-weight: 800; letter-spacing: 0.5px;
+            text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
         }
         
-        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 5px; display: block; font-weight: 600; }
-        
+        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 6px; display: block; font-weight: 600; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         
         input[type="text"], textarea {
             width: 100%; background: var(--bg-input); border: 1px solid #444; color: #fff;
-            padding: 10px; border-radius: 6px; font-size: 16px; /* Stop iOS Zoom */
-            font-family: inherit; margin-bottom: 8px;
+            padding: 10px; border-radius: 6px; font-size: 16px; margin-bottom: 8px;
         }
-        input[type="text"]:focus, textarea:focus { border-color: var(--accent); }
+        input[type="text"]:focus, textarea:focus { border-color: var(--accent); background: #333; }
 
         input[type=range] {
             width: 100%; height: 6px; background: #333; border-radius: 3px;
-            -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 8px; cursor: pointer;
+            -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 10px; cursor: pointer;
         }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 18px; height: 18px; background: #fff;
-            border-radius: 50%; border: 2px solid var(--accent);
+            -webkit-appearance: none; width: 20px; height: 20px; background: #fff;
+            border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
 
-        .toggle-row { display: flex; background: #000; padding: 3px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #333; }
+        .toggle-row { display: flex; background: #000; padding: 4px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #333; }
         .toggle-btn { flex: 1; padding: 8px; background: none; border: none; color: #666; font-size: 0.7rem; font-weight: 700; cursor: pointer; border-radius: 4px; }
         .toggle-btn.active { background: #333; color: #fff; }
 
@@ -175,6 +193,8 @@
             width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555;
             border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem;
         }
+        .btn:hover { background: #444; border-color: #fff; }
+
         input[type=color] { width: 100%; height: 35px; border: 1px solid #555; padding: 0; background: none; border-radius: 4px; }
 
     </style>
@@ -182,7 +202,12 @@
 <body>
 
     <header>
-        <div class="brand">ZION STUDIO</div>
+        <div class="header-left">
+            <a href="index.html" class="home-btn" title="Home">
+                <span class="material-icons-round" style="font-size:20px;">home</span>
+            </a>
+            <div class="brand">ZION STUDIO</div>
+        </div>
         <button class="save-btn" onclick="downloadImage(this)">
             <span class="material-icons-round" style="font-size:16px;">download</span> SAVE
         </button>
