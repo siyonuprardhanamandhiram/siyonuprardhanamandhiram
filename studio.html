@@ -3,141 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Zion Studio v30 (Pro Controls)</title>
+    <title>Zion Studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Oswald:wght@500;700&family=Great+Vibes&family=Inter:wght@400;600;800&family=Noto+Sans+Telugu:wght@400;600;700;900&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ramabhadra&family=Oswald:wght@500;700&family=Great+Vibes&family=Inter:wght@400;600;800&family=Noto+Sans+Telugu:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root { 
-            --bg-body: #000;
-            --bg-header: #080808;
-            --bg-editor: #111;
-            --bg-card: #1c1c1c;
             --accent: #00e5ff;
+            --bg-body: #000;
+            --bg-panel: #111;
+            --bg-card: #1c1c1c;
             --border: #333;
             --text-main: #fff;
-            --nav-height: 65px;
         }
         
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         
-        /* 1. VIEWPORT SETUP */
         body { 
             margin: 0; padding: 0; background: var(--bg-body); color: var(--text-main);
             height: 100dvh; width: 100vw; overflow: hidden;
             font-family: 'Inter', sans-serif;
-            display: flex; flex-direction: column;
+            
+            /* --- GRID LAYOUT SYSTEM --- */
+            display: grid;
+            /* Mobile Default: Header / Stage / Controls / Nav */
+            grid-template-rows: 50px 40vh 1fr 60px;
+            grid-template-columns: 100%;
         }
 
-        /* 2. HEADER */
+        /* 1. HEADER (Row 1) */
         header {
-            height: 50px; background: var(--bg-header); border-bottom: 1px solid var(--border);
+            grid-row: 1; background: #080808; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 12px; flex-shrink: 0; z-index: 100;
+            padding: 0 15px; z-index: 200;
         }
-        .header-left { display: flex; align-items: center; gap: 10px; }
-        .home-btn { 
-            width: 34px; height: 34px; border-radius: 50%; background: #222; border: 1px solid #444; 
-            display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none;
-        }
-        .brand { font-family: 'Oswald', sans-serif; font-weight: 700; color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
-        .save-btn {
-            background: #fff; color: #000; border: none;
-            padding: 6px 14px; border-radius: 20px; font-weight: 800; cursor: pointer;
-            font-size: 0.7rem; display: flex; align-items: center; gap: 4px;
-        }
+        .brand { font-family: 'Oswald'; color: var(--accent); letter-spacing: 1px; }
+        .save-btn { background: #fff; color: #000; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 0.7rem; border: none; display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
-        /* 3. MAIN LAYOUT */
-        main { 
-            flex: 1; display: flex; flex-direction: column; 
-            overflow: hidden; position: relative;
-        }
-
-        /* 4. PREVIEW AREA */
+        /* 2. PREVIEW STAGE (Row 2) */
         .stage-area {
-            height: 38vh; width: 100%;
-            background: #050505;
+            grid-row: 2; background: #050505;
             display: flex; justify-content: center; align-items: center;
-            overflow: hidden; position: relative;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0; 
-            background-image: radial-gradient(#222 1px, transparent 1px);
-            background-size: 20px 20px;
+            border-bottom: 1px solid var(--border); overflow: hidden;
+            position: relative;
+            background-image: radial-gradient(#222 1px, transparent 1px); background-size: 20px 20px;
         }
 
-        /* 5. EDITOR AREA */
+        /* 3. CONTROLS AREA (Row 3) */
         .editor-area {
-            flex: 1; background: var(--bg-editor);
-            display: flex; flex-direction: column;
-            overflow: hidden; min-height: 0; position: relative;
+            grid-row: 3; background: var(--bg-panel);
+            display: flex; flex-direction: column; overflow: hidden;
+            position: relative;
         }
 
-        /* 6. SCROLLABLE CONTROLS */
-        .controls-scroll {
+        /* Desktop Tabs (Hidden on Mobile) */
+        .desktop-tabs {
+            display: none; /* Mobile Hide */
+            background: #000; border-bottom: 1px solid var(--border);
+            padding: 0 10px; overflow-x: auto;
+        }
+        .dt-btn {
+            background: none; border: none; color: #888; padding: 15px;
+            font-size: 0.75rem; font-weight: 700; cursor: pointer; border-bottom: 2px solid transparent;
+        }
+        .dt-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        /* Scrollable Inputs */
+        #controls {
             flex: 1; overflow-y: auto; padding: 15px;
-            padding-bottom: 20px; -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* 7. BOTTOM NAV */
-        .bottom-nav {
-            height: var(--nav-height); background: #000; border-top: 1px solid var(--border);
-            display: flex; flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom); z-index: 50;
+        /* 4. BOTTOM NAV (Row 4 - Mobile Only) */
+        .mobile-nav {
+            grid-row: 4; background: #000; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding-bottom: env(safe-area-inset-bottom); z-index: 100;
         }
         .nav-btn {
-            flex: 1; background: transparent; border: none; color: #666;
+            flex: 1; height: 100%; background: none; border: none; color: #666;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 0.65rem; font-weight: 600; cursor: pointer; gap: 3px;
+            font-size: 0.65rem; font-weight: 600; cursor: pointer;
         }
-        .nav-btn .material-icons-round { font-size: 24px; }
+        .nav-btn .material-icons-round { font-size: 22px; margin-bottom: 2px; }
         .nav-btn.active { color: var(--accent); background: #111; border-top: 2px solid var(--accent); }
 
-        /* DESKTOP MEDIA QUERY */
+        /* --- DESKTOP TRANSFORMATION --- */
         @media (min-width: 900px) {
-            main { flex-direction: row; }
-            .stage-area { height: 100%; flex: 1; border-bottom: none; border-right: 1px solid var(--border); }
-            .editor-area { flex: 0 0 420px; height: 100%; }
-            .bottom-nav { order: -1; border-top: none; border-bottom: 1px solid var(--border); }
+            body {
+                /* Desktop: Header Top, then Split View Below */
+                grid-template-rows: 50px 1fr;
+                grid-template-columns: 1fr 400px; /* Stage | Controls */
+            }
+            header { grid-column: 1 / -1; } /* Header spans full width */
+            
+            .stage-area { 
+                grid-row: 2; grid-column: 1; 
+                height: 100%; border-bottom: none; border-right: 1px solid var(--border); 
+            }
+            
+            .editor-area { 
+                grid-row: 2; grid-column: 2; 
+                height: 100%; 
+            }
+            
+            .mobile-nav { display: none; } /* Hide Mobile Nav */
+            .desktop-tabs { display: flex; } /* Show Desktop Tabs */
         }
 
-        /* --- CONTROL WIDGETS --- */
-        .ctrl-card {
-            background: var(--bg-card); border: 1px solid #333;
-            border-radius: 8px; padding: 12px; margin-bottom: 15px;
-        }
-        .ctrl-head {
-            font-size: 0.75rem; color: var(--accent); font-weight: 800; letter-spacing: 0.5px;
-            text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #333; padding-bottom: 8px;
-        }
-        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 5px; display: block; font-weight: 600; }
+        /* --- WIDGET STYLES --- */
+        .ctrl-card { background: var(--bg-card); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+        .ctrl-head { font-size: 0.75rem; color: var(--accent); font-weight: 800; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 10px; text-transform: uppercase; }
+        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 4px; display: block; font-weight: 600; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         
-        input[type="text"], textarea {
-            width: 100%; background: #2a2a2a; border: 1px solid #444; color: #fff;
-            padding: 10px; border-radius: 6px; font-size: 16px; margin-bottom: 8px;
-        }
-        input[type="text"]:focus, textarea:focus { border-color: var(--accent); background: #333; }
-
-        input[type=range] {
-            width: 100%; height: 6px; background: #333; border-radius: 3px;
-            -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 10px; cursor: pointer;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 20px; height: 20px; background: #fff;
-            border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-
-        .toggle-row { display: flex; background: #000; padding: 3px; border-radius: 6px; margin-bottom: 10px; border: 1px solid #333; }
-        .toggle-btn { flex: 1; padding: 8px; background: none; border: none; color: #666; font-size: 0.7rem; font-weight: 700; cursor: pointer; border-radius: 4px; }
+        input[type="text"], textarea { width: 100%; background: #2a2a2a; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 4px; font-size: 16px; margin-bottom: 8px; font-family: inherit; }
+        input[type=range] { width: 100%; height: 6px; background: #333; border-radius: 3px; -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 10px; cursor: pointer; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #fff; border-radius: 50%; border: 2px solid var(--accent); }
+        .toggle-row { display: flex; background: #000; padding: 3px; border-radius: 4px; margin-bottom: 10px; border: 1px solid #333; }
+        .toggle-btn { flex: 1; padding: 8px; background: none; border: none; color: #666; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
         .toggle-btn.active { background: #333; color: #fff; }
-        .btn { width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 0.75rem; }
+        .btn { width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; font-weight: 700; font-size: 0.75rem; cursor: pointer; }
         input[type=color] { width: 100%; height: 35px; border: 1px solid #555; padding: 0; background: none; border-radius: 4px; cursor: pointer; }
 
-        /* --- CARD CSS --- */
+        /* CARD CSS */
         #viewport-scaler { transform-origin: center center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .card { width: 1080px; height: 1080px; background-color: #fff; position: relative; overflow: hidden; }
         .vector-bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
@@ -162,16 +156,13 @@
         .prayer-req { font-family: 'Inter'; font-size: 20px; color: #555; font-weight: 700; background: rgba(255,255,255,0.9); padding: 6px 20px; border-radius: 30px; }
         .quote-bg { position: absolute; top: 40px; left: 40px; font-family: serif; font-size: 400px; color: rgba(255,255,255,0.05); z-index: 2; line-height: 0; pointer-events: none; }
         .quote-bg::after { content: '“'; }
-
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-left">
-            <a href="index.html" class="home-btn" title="Home">
-                <span class="material-icons-round" style="font-size:20px">home</span>
-            </a>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <a href="index.html" class="home-btn"><span class="material-icons-round" style="font-size:20px">home</span></a>
             <div class="brand">ZION STUDIO</div>
         </div>
         <button class="save-btn" onclick="downloadImage(this)">
@@ -179,73 +170,108 @@
         </button>
     </header>
 
-    <main>
-        <div class="stage-area">
-            <div id="viewport-scaler">
-                <div id="captureCard" class="card">
-                    <svg class="vector-bg" id="bgSvg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        <defs>
-                            <linearGradient id="themeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#00464f; stop-opacity:1" id="stop1" />
-                                <stop offset="100%" style="stop-color:#021a1a; stop-opacity:1" id="stop2" />
-                            </linearGradient>
-                        </defs>
-                        <path id="bgPath" d="M0 0 H100 V75 Q50 100 0 75 Z" fill="url(#themeGrad)" />
-                    </svg>
-                    <div class="texture-layer" id="texLayer"></div>
-                    <div class="vignette" id="elVignette"></div>
-                    <div class="quote-bg" id="elQuote"></div>
-                    <div class="tag-pill" id="elTag"><div class="tag-small">అనుదినం</div><div class="tag-big">ఆశీర్వాదం</div></div>
-                    <div class="text-area" id="elText">
-                        <div id="telWhite" class="telugu-white">యెహోవా<br>నా కాపరి</div>
-                        <div id="telYellow" class="telugu-yellow">నాకు లేమి కలుగదు</div>
-                        <div id="telRef" class="verse-ref">కీర్తనలు 23:1</div>
-                        <div class="watermark" id="elWatermark">ZION PRAYER HOUSE</div>
-                        <div id="elEngBox" class="eng-box">
-                            <div id="engTxt" class="eng-txt">THE LORD IS MY SHEPHERD<br>I SHALL NOT WANT</div>
-                            <div id="engRef" class="eng-ref">PSALM 23:1</div>
-                        </div>
+    <div class="stage-area">
+        <div id="viewport-scaler">
+            <div id="captureCard" class="card">
+                <svg class="vector-bg" id="bgSvg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="themeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00464f; stop-opacity:1" id="stop1" />
+                            <stop offset="100%" style="stop-color:#021a1a; stop-opacity:1" id="stop2" />
+                        </linearGradient>
+                    </defs>
+                    <path id="bgPath" d="M0 0 H100 V75 Q50 100 0 75 Z" fill="url(#themeGrad)" />
+                </svg>
+                <div class="texture-layer" id="texLayer"></div>
+                <div class="vignette" id="elVignette"></div>
+                <div class="quote-bg" id="elQuote"></div>
+                <div class="tag-pill" id="elTag"><div class="tag-small">అనుదినం</div><div class="tag-big">ఆశీర్వాదం</div></div>
+                <div class="text-area" id="elText">
+                    <div id="telWhite" class="telugu-white">యెహోవా<br>నా కాపరి</div>
+                    <div id="telYellow" class="telugu-yellow">నాకు లేమి కలుగదు</div>
+                    <div id="telRef" class="verse-ref">కీర్తనలు 23:1</div>
+                    <div class="watermark" id="elWatermark">ZION PRAYER HOUSE</div>
+                    <div id="elEngBox" class="eng-box">
+                        <div id="engTxt" class="eng-txt">THE LORD IS MY SHEPHERD<br>I SHALL NOT WANT</div>
+                        <div id="engRef" class="eng-ref">PSALM 23:1</div>
                     </div>
-                    <div id="elMainImg" class="img-main-con"></div>
-                    <div id="elPastor" class="img-pastor-con"></div>
-                    <div class="footer-sig">
-                        <div id="sigName" class="sig-text">Sis. Dayamani</div>
-                        <div class="social-bar"><span>@Zion.Prayer_House</span></div>
-                        <div class="prayer-req">For prayer requests: 7093165056</div>
-                    </div>
+                </div>
+                <div id="elMainImg" class="img-main-con"></div>
+                <div id="elPastor" class="img-pastor-con"></div>
+                <div class="footer-sig">
+                    <div id="sigName" class="sig-text">Sis. Dayamani</div>
+                    <div class="social-bar"><span>@Zion.Prayer_House</span></div>
+                    <div class="prayer-req">For prayer requests: 7093165056</div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="editor-area">
-            <div class="controls-scroll" id="controls">
+    <div class="editor-area">
+        <div class="desktop-tabs">
+            <button class="dt-btn active" onclick="setLayer('text')">TEXT</button>
+            <button class="dt-btn" onclick="setLayer('photo')">PHOTO</button>
+            <button class="dt-btn" onclick="setLayer('style')">STYLE</button>
+            <button class="dt-btn" onclick="setLayer('pastor')">PASTOR</button>
+            <button class="dt-btn" onclick="setLayer('english')">ENG</button>
+        </div>
+
+        <div id="controls">
+            <div class="ctrl-card">
+                <div class="ctrl-head">TELUGU CONTENT</div>
+                <div class="label">Main Verse</div>
+                <textarea rows="2" oninput="updateText('telWhite', this.value)">యెహోవా<br>నా కాపరి</textarea>
+                <div class="label">Highlight</div>
+                <input type="text" value="నాకు లేమి కలుగదు" oninput="updateText('telYellow', this.value)">
+                <div class="label">Reference</div>
+                <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
+            </div>
+            <div class="ctrl-card">
+                <div class="ctrl-head">STYLE</div>
+                <div class="label">Font Size</div>
+                <input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')">
+                <div class="grid-2">
+                    <div><div class="label">Fill</div><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
+                    <div><div class="label">Stroke</div><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
                 </div>
-
-            <div class="bottom-nav">
-                <button class="nav-btn active" onclick="setLayer('text')">
-                    <span class="material-icons-round">edit_note</span> Text
-                </button>
-                <button class="nav-btn" onclick="setLayer('photo')">
-                    <span class="material-icons-round">image</span> Photo
-                </button>
-                <button class="nav-btn" onclick="setLayer('style')">
-                    <span class="material-icons-round">palette</span> Style
-                </button>
-                <button class="nav-btn" onclick="setLayer('pastor')">
-                    <span class="material-icons-round">person</span> Pastor
-                </button>
-                <button class="nav-btn" onclick="setLayer('english')">
-                    <span class="material-icons-round">translate</span> Eng
-                </button>
+                <div class="label">Stroke Width</div>
+                <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
+            </div>
+            <div class="ctrl-card">
+                <div class="ctrl-head">POSITION</div>
+                <div class="label">Move Vertical</div>
+                <input type="range" min="0" max="300" value="100" oninput="setStyle('elText', 'top', this.value + 'px')">
+                <div class="toggle-row">
+                    <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'left')">Left</button>
+                    <button class="toggle-btn active" onclick="setStyle('elText', 'textAlign', 'center')">Center</button>
+                    <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'right')">Right</button>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <div class="mobile-nav">
+        <button class="nav-btn active" onclick="setLayer('text')">
+            <span class="material-icons-round">edit_note</span> Text
+        </button>
+        <button class="nav-btn" onclick="setLayer('photo')">
+            <span class="material-icons-round">image</span> Photo
+        </button>
+        <button class="nav-btn" onclick="setLayer('style')">
+            <span class="material-icons-round">palette</span> Style
+        </button>
+        <button class="nav-btn" onclick="setLayer('pastor')">
+            <span class="material-icons-round">person</span> Pastor
+        </button>
+        <button class="nav-btn" onclick="setLayer('english')">
+            <span class="material-icons-round">translate</span> Eng
+        </button>
+    </div>
 
     <script>
-        /* --- STATE --- */
+        /* --- CONFIG --- */
         let txtShadow = { x: 0, y: 4, blur: 0, color: '#000000' };
         let imgFilters = { brightness: 100, contrast: 100, grayscale: 0, sepia: 0 };
-        
         const layouts = {
             curve: "M0 0 H100 V75 Q50 100 0 75 Z",
             diag: "M0 0 H100 V40 L0 100 H0 Z",
@@ -260,56 +286,59 @@
                         <div class="ctrl-head">TELUGU CONTENT</div>
                         <div class="label">Main Verse</div>
                         <textarea rows="2" oninput="updateText('telWhite', this.value)">యెహోవా<br>నా కాపరి</textarea>
-                        <div class="label">Highlight Text</div>
+                        <div class="label">Highlight</div>
                         <input type="text" value="నాకు లేమి కలుగదు" oninput="updateText('telYellow', this.value)">
                         <div class="label">Reference</div>
                         <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
                     </div>
-
                     <div class="ctrl-card">
-                        <div class="ctrl-head">POSITIONING</div>
+                        <div class="ctrl-head">STYLE</div>
+                        <div class="label">Font Size</div>
+                        <input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')">
+                        <div class="grid-2">
+                            <div><div class="label">Fill</div><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
+                            <div><div class="label">Stroke</div><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
+                        </div>
+                        <div class="label">Stroke Width</div>
+                        <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">POSITION</div>
                         <div class="label">Move Vertical</div>
                         <input type="range" min="0" max="300" value="100" oninput="setStyle('elText', 'top', this.value + 'px')">
-                        <div class="label">Alignment</div>
                         <div class="toggle-row">
                             <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'left')">Left</button>
                             <button class="toggle-btn active" onclick="setStyle('elText', 'textAlign', 'center')">Center</button>
                             <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'right')">Right</button>
                         </div>
                     </div>
-
-                    <div class="ctrl-card">
-                        <div class="ctrl-head">HIGHLIGHT STYLE</div>
-                        <div class="label">Font Size</div>
-                        <input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')">
-                        <div class="grid-2">
-                            <div><div class="label">Fill Color</div><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
-                            <div><div class="label">Outline Color</div><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
-                        </div>
-                        <div class="label">Outline Width</div>
-                        <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
-                    </div>
-
-                    <div class="ctrl-card">
-                        <div class="ctrl-head">SHADOW STUDIO</div>
-                        <div class="grid-2">
-                            <div><div class="label">Color</div><input type="color" value="#000000" oninput="txtShadow.color=this.value; updateTxtShadow()"></div>
-                            <div><div class="label">Blur</div><input type="range" min="0" max="40" value="0" oninput="txtShadow.blur=this.value; updateTxtShadow()"></div>
-                        </div>
-                        <div class="label">Y-Offset</div>
-                        <input type="range" min="-20" max="20" value="4" oninput="txtShadow.y=this.value; updateTxtShadow()">
-                    </div>
                 `
             },
             photo: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">SOURCE & ZOOM</div>
+                        <div class="ctrl-head">SOURCE</div>
                         <div class="grid-2">
                             <button class="btn" onclick="document.getElementById('fileMain').click()">UPLOAD</button>
                             <button class="btn" onclick="randomMain()">SHUFFLE</button>
                         </div>
                         <input type="file" id="fileMain" hidden accept="image/*" onchange="handleFile(this, 'elMainImg')">
+                        <div class="label">Opacity</div>
+                        <input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)">
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">FILTERS</div>
+                        <div class="grid-2">
+                            <div><div class="label">Bright</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.brightness=this.value; updateMainFilter()"></div>
+                            <div><div class="label">Contrast</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.contrast=this.value; updateMainFilter()"></div>
+                        </div>
+                        <div class="grid-2">
+                            <div><div class="label">Gray</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.grayscale=this.value; updateMainFilter()"></div>
+                            <div><div class="label">Sepia</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.sepia=this.value; updateMainFilter()"></div>
+                        </div>
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">TRANSFORM</div>
                         <div class="label">Zoom</div>
                         <input type="range" min="100" max="300" value="100" oninput="setStyle('elMainImg', 'backgroundSize', this.value + '%')">
                         <div class="grid-2">
@@ -317,77 +346,43 @@
                             <div><div class="label">Pan Y</div><input type="range" min="0" max="100" value="50" oninput="setStyle('elMainImg', 'backgroundPositionY', this.value + '%')"></div>
                         </div>
                     </div>
-
-                    <div class="ctrl-card">
-                        <div class="ctrl-head">COLOR GRADING</div>
-                        <div class="grid-2">
-                            <div><div class="label">Brightness</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.brightness=this.value; updateMainFilter()"></div>
-                            <div><div class="label">Contrast</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.contrast=this.value; updateMainFilter()"></div>
-                        </div>
-                        <div class="grid-2">
-                            <div><div class="label">Grayscale</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.grayscale=this.value; updateMainFilter()"></div>
-                            <div><div class="label">Sepia</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.sepia=this.value; updateMainFilter()"></div>
-                        </div>
-                         <div class="label">Opacity</div>
-                         <input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)">
-                    </div>
-
-                    <div class="ctrl-card">
-                        <div class="ctrl-head">FRAME STYLE</div>
-                        <div class="label">Blend Mode</div>
-                        <div class="toggle-row">
-                            <button class="toggle-btn" onclick="setStyle('elMainImg', 'mixBlendMode', 'normal')">Norm</button>
-                            <button class="toggle-btn" onclick="setStyle('elMainImg', 'mixBlendMode', 'multiply')">Mult</button>
-                            <button class="toggle-btn" onclick="setStyle('elMainImg', 'mixBlendMode', 'screen')">Scrn</button>
-                            <button class="toggle-btn" onclick="setStyle('elMainImg', 'mixBlendMode', 'overlay')">Over</button>
-                        </div>
-                         <div class="grid-2">
-                             <div><div class="label">Border Color</div><input type="color" value="#ffffff" oninput="setStyle('elMainImg', 'borderColor', this.value)"></div>
-                             <div><div class="label">Width</div><input type="range" min="0" max="40" value="15" oninput="setStyle('elMainImg', 'borderWidth', this.value + 'px')"></div>
-                        </div>
-                    </div>
                 `
             },
             style: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">LAYOUT & THEME</div>
+                        <div class="ctrl-head">LAYOUT</div>
                         <div class="toggle-row">
                             <button class="toggle-btn" onclick="setVectorLayout('curve')">Curve</button>
                             <button class="toggle-btn" onclick="setVectorLayout('diag')">Diag</button>
                             <button class="toggle-btn" onclick="setVectorLayout('split')">Split</button>
                             <button class="toggle-btn" onclick="setVectorLayout('full')">Full</button>
                         </div>
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">THEME</div>
                         <div class="grid-2">
                             <div><div class="label">Top Color</div><input type="color" value="#00464f" id="c1" oninput="updateVectorGradient()"></div>
                             <div><div class="label">Bot Color</div><input type="color" value="#021a1a" id="c2" oninput="updateVectorGradient()"></div>
                         </div>
-                        <div class="label">Gradient Angle</div>
+                        <div class="label">Angle</div>
                         <input type="range" min="0" max="360" value="135" id="gAng" oninput="updateVectorGradient()">
                     </div>
-
                     <div class="ctrl-card">
                         <div class="ctrl-head">ELEMENTS</div>
                         <div class="grid-2">
                             <div><div class="label">Tag Color</div><input type="color" value="#c0392b" oninput="setStyle('elTag', 'backgroundColor', this.value)"></div>
                             <div><div class="label">Text Color</div><input type="color" value="#ffffff" oninput="setStyle('tagTop', 'color', this.value); setStyle('tagBot', 'color', this.value)"></div>
                         </div>
-                        <div class="label">Quote Mark Opacity</div>
+                        <div class="label">Quote Visibility</div>
                         <input type="range" min="0" max="100" value="5" oninput="setStyle('elQuote', 'opacity', this.value/100)">
                     </div>
-                    
-                     <div class="ctrl-card">
-                        <div class="ctrl-head">WATERMARK</div>
-                        <input type="text" value="ZION PRAYER HOUSE" oninput="updateText('elWatermark', this.value)">
-                         <div class="label">Opacity</div>
-                         <input type="range" min="0" max="100" value="100" oninput="setStyle('elWatermark', 'opacity', this.value/100)">
-                     </div>
                 `
             },
             pastor: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">PROFILE IMAGE</div>
+                        <div class="ctrl-head">PROFILE</div>
                         <div class="grid-2">
                             <button class="btn" onclick="document.getElementById('filePastor').click()">UPLOAD</button>
                             <input type="text" value="Sis. Dayamani" oninput="updateText('sigName', this.value)">
@@ -395,12 +390,12 @@
                         <input type="file" id="filePastor" hidden accept="image/*" onchange="handleFile(this, 'elPastor')">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">FRAME STYLE</div>
+                        <div class="ctrl-head">FRAME</div>
                         <div class="grid-2">
-                            <div><div class="label">Border Color</div><input type="color" value="#ffffff" oninput="setStyle('elPastor', 'borderColor', this.value)"></div>
+                            <div><div class="label">Border</div><input type="color" value="#ffffff" oninput="setStyle('elPastor', 'borderColor', this.value)"></div>
                             <div><div class="label">Width</div><input type="range" min="0" max="30" value="12" oninput="setStyle('elPastor', 'borderWidth', this.value + 'px')"></div>
                         </div>
-                        <div class="label">Drop Shadow</div>
+                        <div class="label">Shadow</div>
                         <input type="range" min="0" max="50" value="10" oninput="setStyle('elPastor', 'boxShadow', '10px 10px '+this.value+'px rgba(0,0,0,0.5)')">
                     </div>
                     <div class="ctrl-card">
@@ -409,73 +404,64 @@
                             <div><div class="label">Size</div><input type="range" min="150" max="500" value="340" oninput="resizePastor(this.value)"></div>
                             <div><div class="label">X-Pos</div><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
                         </div>
-                         <div class="label">Y-Pos</div>
-                         <input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')">
+                        <div class="label">Y-Pos</div>
+                        <input type="range" min="0" max="500" value="40" oninput="setStyle('elPastor', 'bottom', this.value + 'px')">
                     </div>
                 `
             },
             english: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">ENGLISH CONTENT</div>
+                        <div class="ctrl-head">ENGLISH BOX</div>
                         <textarea rows="2" oninput="updateText('engTxt', this.value)">THE LORD IS MY SHEPHERD<br>I SHALL NOT WANT</textarea>
                         <input type="text" value="PSALM 23:1" oninput="updateText('engRef', this.value)">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">TYPOGRAPHY</div>
-                        <div class="grid-2">
-                            <div><div class="label">Text Color</div><input type="color" value="#ffffff" oninput="setStyle('engTxt', 'color', this.value)"></div>
-                            <div><div class="label">Ref Color</div><input type="color" value="#bbbbbb" oninput="setStyle('engRef', 'color', this.value)"></div>
-                        </div>
-                         <div class="label">Font Size</div>
-                         <input type="range" min="10" max="50" value="28" oninput="setStyle('engTxt', 'fontSize', this.value+'px')">
-                    </div>
-                    <div class="ctrl-card">
-                        <div class="ctrl-head">BOX BACKGROUND</div>
-                        <div class="grid-2">
-                            <div><div class="label">Left Color</div><input type="color" value="#3d0a0a" id="engC1" oninput="updateEngGrad()"></div>
-                            <div><div class="label">Right Color</div><input type="color" value="#2b0505" id="engC2" oninput="updateEngGrad()"></div>
-                        </div>
+                        <div class="ctrl-head">STYLE</div>
                         <div class="grid-2">
                             <div><div class="label">Width</div><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'width', this.value + '%')"></div>
                             <div><div class="label">Opacity</div><input type="range" min="0" max="100" value="100" oninput="setStyle('elEngBox', 'opacity', this.value/100)"></div>
                         </div>
+                        <div class="label">Padding</div>
+                        <input type="range" min="10" max="60" value="25" oninput="setStyle('elEngBox', 'padding', this.value+'px')">
+                        <div class="label">Font Size</div>
+                        <input type="range" min="10" max="50" value="28" oninput="setStyle('engTxt', 'fontSize', this.value+'px')">
                     </div>
                 `
             }
         };
 
-        window.onload = () => { 
-            fitCard(); 
-            window.onresize = fitCard;
-            setLayer('text');
-        };
+        window.onload = () => { fitCard(); window.onresize = fitCard; };
 
         function setLayer(key) {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            event.currentTarget.classList.add('active');
+            // Update Active Buttons (Mobile & Desktop)
+            document.querySelectorAll('.nav-btn, .dt-btn').forEach(b => b.classList.remove('active'));
+            // Find buttons that triggered this and activate them
+            if(event && event.currentTarget) event.currentTarget.classList.add('active');
+            
+            // For desktop tabs specifically
+            const desktopBtns = document.querySelectorAll('.dt-btn');
+            const keys = Object.keys(layers);
+            const index = keys.indexOf(key);
+            if(desktopBtns[index]) desktopBtns[index].classList.add('active');
+
             document.getElementById('controls').innerHTML = layers[key].html;
         }
 
         function updateText(id, val) { document.getElementById(id).innerHTML = val; }
         function setStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
-        
         function updateTxtShadow() {
             document.getElementById('telYellow').style.textShadow = `${txtShadow.x}px ${txtShadow.y}px ${txtShadow.blur}px ${txtShadow.color}`;
         }
-        
         function updateMainFilter() {
              document.getElementById('elMainImg').style.filter = `brightness(${imgFilters.brightness}%) contrast(${imgFilters.contrast}%) grayscale(${imgFilters.grayscale}%) sepia(${imgFilters.sepia}%)`;
         }
-        
         function updateEngGrad() {
              const c1 = document.getElementById('engC1').value;
              const c2 = document.getElementById('engC2').value;
              document.getElementById('elEngBox').style.background = `linear-gradient(90deg, ${c1}, ${c2})`;
         }
-
         function setVectorLayout(type) { document.getElementById('bgPath').setAttribute('d', layouts[type]); }
-        
         function updateVectorGradient() {
             const c1 = document.getElementById('c1').value;
             const c2 = document.getElementById('c2').value;
@@ -487,9 +473,7 @@
             grad.setAttribute('x1', x1+'%'); grad.setAttribute('y1', y1+'%'); grad.setAttribute('x2', x2+'%'); grad.setAttribute('y2', y2+'%');
             document.getElementById('stop1').style.stopColor = c1; document.getElementById('stop2').style.stopColor = c2;
         }
-
         function resizePastor(val) { const el = document.getElementById('elPastor'); el.style.width = val+'px'; el.style.height = val+'px'; }
-        
         function handleFile(input, imgId) {
             if (input.files[0]) {
                 const reader = new FileReader();
@@ -501,7 +485,6 @@
             const bgs = ["https://images.unsplash.com/photo-1540479859555-17af45c78602?w=800", "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800"];
             document.getElementById('elMainImg').style.backgroundImage = `url(${bgs[Math.floor(Math.random()*bgs.length)]})`;
         }
-
         function fitCard() {
             const stage = document.querySelector('.stage-area');
             const availW = stage.clientWidth - 20;
@@ -509,10 +492,9 @@
             const scale = Math.min(availW / 1080, availH / 1080);
             document.getElementById('viewport-scaler').style.transform = `scale(${scale})`;
         }
-
         async function downloadImage(btn) {
             const oldText = btn.innerHTML;
-            btn.innerHTML = `SAVING...`;
+            btn.innerHTML = `...`;
             await document.fonts.ready;
             const clone = document.getElementById('captureCard').cloneNode(true);
             clone.style.position = "fixed"; clone.style.left = "-10000px"; clone.style.transform = "none";
