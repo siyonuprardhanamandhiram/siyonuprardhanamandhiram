@@ -16,8 +16,8 @@
         :root { 
             --accent: #00e5ff;
             --bg-body: #000;
-            --bg-panel: #111;
-            --bg-card: #1c1c1c;
+            --bg-panel: #0a0a0a;
+            --bg-card: #161616;
             --border: #333;
             --text-main: #fff;
         }
@@ -28,58 +28,36 @@
             margin: 0; padding: 0; background: var(--bg-body); color: var(--text-main);
             height: 100dvh; width: 100vw; overflow: hidden;
             font-family: 'Inter', sans-serif;
-            
-            /* --- GRID LAYOUT SYSTEM --- */
             display: grid;
-            /* Mobile Default: Header / Stage / Controls / Nav */
-            grid-template-rows: 50px 40vh 1fr 60px;
+            /* HEADER | STAGE | CONTROLS | NAV */
+            grid-template-rows: 50px 38vh 1fr 65px;
             grid-template-columns: 100%;
         }
 
-        /* 1. HEADER (Row 1) */
+        /* 1. HEADER */
         header {
-            grid-row: 1; background: #080808; border-bottom: 1px solid var(--border);
+            grid-row: 1; background: #000; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 15px; z-index: 200;
         }
-        .brand { font-family: 'Oswald'; color: var(--accent); letter-spacing: 1px; }
-        .save-btn { background: #fff; color: #000; padding: 6px 12px; border-radius: 4px; font-weight: 800; font-size: 0.7rem; border: none; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .brand { font-family: 'Oswald'; color: var(--accent); letter-spacing: 1px; font-size: 0.9rem; }
+        .save-btn { background: #fff; color: #000; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 0.7rem; border: none; display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
-        /* 2. PREVIEW STAGE (Row 2) */
+        /* 2. STAGE */
         .stage-area {
             grid-row: 2; background: #050505;
             display: flex; justify-content: center; align-items: center;
-            border-bottom: 1px solid var(--border); overflow: hidden;
-            position: relative;
+            border-bottom: 1px solid var(--border); overflow: hidden; position: relative;
             background-image: radial-gradient(#222 1px, transparent 1px); background-size: 20px 20px;
         }
 
-        /* 3. CONTROLS AREA (Row 3) */
+        /* 3. EDITOR */
         .editor-area {
             grid-row: 3; background: var(--bg-panel);
-            display: flex; flex-direction: column; overflow: hidden;
-            position: relative;
+            display: flex; flex-direction: column; overflow: hidden; position: relative;
         }
 
-        /* Desktop Tabs (Hidden on Mobile) */
-        .desktop-tabs {
-            display: none; /* Mobile Hide */
-            background: #000; border-bottom: 1px solid var(--border);
-            padding: 0 10px; overflow-x: auto;
-        }
-        .dt-btn {
-            background: none; border: none; color: #888; padding: 15px;
-            font-size: 0.75rem; font-weight: 700; cursor: pointer; border-bottom: 2px solid transparent;
-        }
-        .dt-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-        /* Scrollable Inputs */
-        #controls {
-            flex: 1; overflow-y: auto; padding: 15px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* 4. BOTTOM NAV (Row 4 - Mobile Only) */
+        /* 4. NAV */
         .mobile-nav {
             grid-row: 4; background: #000; border-top: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
@@ -88,48 +66,48 @@
         .nav-btn {
             flex: 1; height: 100%; background: none; border: none; color: #666;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 0.65rem; font-weight: 600; cursor: pointer;
+            font-size: 0.6rem; font-weight: 600; cursor: pointer; gap: 2px;
         }
-        .nav-btn .material-icons-round { font-size: 22px; margin-bottom: 2px; }
+        .nav-btn .material-icons-round { font-size: 24px; }
         .nav-btn.active { color: var(--accent); background: #111; border-top: 2px solid var(--accent); }
 
-        /* --- DESKTOP TRANSFORMATION --- */
+        /* DESKTOP MODE */
+        .desktop-tabs { display: none; background: #000; border-bottom: 1px solid var(--border); overflow-x: auto; flex: 0 0 45px; }
+        .dt-btn { background: none; border: none; color: #888; padding: 0 20px; height: 100%; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-bottom: 2px solid transparent; }
+        .dt-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
         @media (min-width: 900px) {
-            body {
-                /* Desktop: Header Top, then Split View Below */
-                grid-template-rows: 50px 1fr;
-                grid-template-columns: 1fr 400px; /* Stage | Controls */
-            }
-            header { grid-column: 1 / -1; } /* Header spans full width */
-            
-            .stage-area { 
-                grid-row: 2; grid-column: 1; 
-                height: 100%; border-bottom: none; border-right: 1px solid var(--border); 
-            }
-            
-            .editor-area { 
-                grid-row: 2; grid-column: 2; 
-                height: 100%; 
-            }
-            
-            .mobile-nav { display: none; } /* Hide Mobile Nav */
-            .desktop-tabs { display: flex; } /* Show Desktop Tabs */
+            body { grid-template-rows: 50px 1fr; grid-template-columns: 1fr 420px; }
+            header { grid-column: 1 / -1; }
+            .stage-area { grid-row: 2; grid-column: 1; height: 100%; border-right: 1px solid var(--border); border-bottom: none; }
+            .editor-area { grid-row: 2; grid-column: 2; height: 100%; }
+            .mobile-nav { display: none; }
+            .desktop-tabs { display: flex; }
         }
 
-        /* --- WIDGET STYLES --- */
+        /* SCROLL AREA */
+        #controls { flex: 1; overflow-y: auto; padding: 15px; -webkit-overflow-scrolling: touch; padding-bottom: 30px; }
+
+        /* WIDGETS */
         .ctrl-card { background: var(--bg-card); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-        .ctrl-head { font-size: 0.75rem; color: var(--accent); font-weight: 800; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 10px; text-transform: uppercase; }
-        .label { font-size: 0.7rem; color: #bbb; margin-bottom: 4px; display: block; font-weight: 600; }
+        .ctrl-head { font-size: 0.7rem; color: var(--accent); font-weight: 800; border-bottom: 1px solid #333; padding-bottom: 8px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .label { font-size: 0.65rem; color: #aaa; margin-bottom: 4px; display: block; font-weight: 600; text-transform: uppercase; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
         
-        input[type="text"], textarea { width: 100%; background: #2a2a2a; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 4px; font-size: 16px; margin-bottom: 8px; font-family: inherit; }
-        input[type=range] { width: 100%; height: 6px; background: #333; border-radius: 3px; -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 10px; cursor: pointer; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #fff; border-radius: 50%; border: 2px solid var(--accent); }
+        input[type="text"], textarea { width: 100%; background: #222; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 4px; font-size: 16px; margin-bottom: 8px; font-family: inherit; }
+        input[type="text"]:focus { border-color: var(--accent); background: #333; }
+        
+        input[type=range] { width: 100%; height: 4px; background: #333; border-radius: 2px; -webkit-appearance: none; accent-color: var(--accent); margin-bottom: 12px; cursor: pointer; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #fff; border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        
         .toggle-row { display: flex; background: #000; padding: 3px; border-radius: 4px; margin-bottom: 10px; border: 1px solid #333; }
         .toggle-btn { flex: 1; padding: 8px; background: none; border: none; color: #666; font-size: 0.7rem; font-weight: 700; cursor: pointer; }
-        .toggle-btn.active { background: #333; color: #fff; }
-        .btn { width: 100%; padding: 10px; background: #333; color: #fff; border: 1px solid #555; border-radius: 4px; font-weight: 700; font-size: 0.75rem; cursor: pointer; }
-        input[type=color] { width: 100%; height: 35px; border: 1px solid #555; padding: 0; background: none; border-radius: 4px; cursor: pointer; }
+        .toggle-btn.active { background: #222; color: #fff; border-radius: 3px; }
+        
+        .btn { width: 100%; padding: 10px; background: #222; color: #fff; border: 1px solid #444; border-radius: 4px; font-weight: 700; font-size: 0.7rem; cursor: pointer; }
+        .btn:hover { border-color: var(--accent); }
+        input[type=color] { width: 100%; height: 35px; border: 1px solid #444; padding: 0; background: none; border-radius: 4px; cursor: pointer; }
 
         /* CARD CSS */
         #viewport-scaler { transform-origin: center center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
@@ -185,7 +163,7 @@
                 <div class="texture-layer" id="texLayer"></div>
                 <div class="vignette" id="elVignette"></div>
                 <div class="quote-bg" id="elQuote"></div>
-                <div class="tag-pill" id="elTag"><div class="tag-small">అనుదినం</div><div class="tag-big">ఆశీర్వాదం</div></div>
+                <div class="tag-pill" id="elTag"><div class="tag-small" id="tagTop">అనుదినం</div><div class="tag-big" id="tagBot">ఆశీర్వాదం</div></div>
                 <div class="text-area" id="elText">
                     <div id="telWhite" class="telugu-white">యెహోవా<br>నా కాపరి</div>
                     <div id="telYellow" class="telugu-yellow">నాకు లేమి కలుగదు</div>
@@ -221,25 +199,37 @@
                 <div class="ctrl-head">TELUGU CONTENT</div>
                 <div class="label">Main Verse</div>
                 <textarea rows="2" oninput="updateText('telWhite', this.value)">యెహోవా<br>నా కాపరి</textarea>
-                <div class="label">Highlight</div>
+                <div class="label">Highlight Text</div>
                 <input type="text" value="నాకు లేమి కలుగదు" oninput="updateText('telYellow', this.value)">
                 <div class="label">Reference</div>
                 <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
             </div>
             <div class="ctrl-card">
-                <div class="ctrl-head">STYLE</div>
-                <div class="label">Font Size</div>
-                <input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')">
+                <div class="ctrl-head">HIGHLIGHT STYLE</div>
                 <div class="grid-2">
+                    <div><div class="label">Size</div><input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')"></div>
+                    <div><div class="label">Spacing</div><input type="range" min="-5" max="20" value="0" oninput="setStyle('telYellow', 'letterSpacing', this.value + 'px')"></div>
+                </div>
+                <div class="grid-3">
                     <div><div class="label">Fill</div><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
                     <div><div class="label">Stroke</div><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
+                    <div><div class="label">Width</div><input type="range" min="0" max="8" value="0" style="margin-top:10px" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')"></div>
                 </div>
-                <div class="label">Stroke Width</div>
-                <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
             </div>
             <div class="ctrl-card">
-                <div class="ctrl-head">POSITION</div>
-                <div class="label">Move Vertical</div>
+                <div class="ctrl-head">SHADOW FX</div>
+                <div class="grid-2">
+                    <div><div class="label">Shadow Color</div><input type="color" value="#000000" oninput="txtShadow.color=this.value; updateTxtShadow()"></div>
+                    <div><div class="label">Blur Radius</div><input type="range" min="0" max="30" value="0" oninput="txtShadow.blur=this.value; updateTxtShadow()"></div>
+                </div>
+                <div class="grid-2">
+                    <div><div class="label">X-Offset</div><input type="range" min="-20" max="20" value="0" oninput="txtShadow.x=this.value; updateTxtShadow()"></div>
+                    <div><div class="label">Y-Offset</div><input type="range" min="-20" max="20" value="4" oninput="txtShadow.y=this.value; updateTxtShadow()"></div>
+                </div>
+            </div>
+            <div class="ctrl-card">
+                <div class="ctrl-head">LAYOUT</div>
+                <div class="label">Vertical Position</div>
                 <input type="range" min="0" max="300" value="100" oninput="setStyle('elText', 'top', this.value + 'px')">
                 <div class="toggle-row">
                     <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'left')">Left</button>
@@ -251,27 +241,16 @@
     </div>
 
     <div class="mobile-nav">
-        <button class="nav-btn active" onclick="setLayer('text')">
-            <span class="material-icons-round">edit_note</span> Text
-        </button>
-        <button class="nav-btn" onclick="setLayer('photo')">
-            <span class="material-icons-round">image</span> Photo
-        </button>
-        <button class="nav-btn" onclick="setLayer('style')">
-            <span class="material-icons-round">palette</span> Style
-        </button>
-        <button class="nav-btn" onclick="setLayer('pastor')">
-            <span class="material-icons-round">person</span> Pastor
-        </button>
-        <button class="nav-btn" onclick="setLayer('english')">
-            <span class="material-icons-round">translate</span> Eng
-        </button>
+        <button class="nav-btn active" onclick="setLayer('text')"><span class="material-icons-round">edit_note</span>Text</button>
+        <button class="nav-btn" onclick="setLayer('photo')"><span class="material-icons-round">image</span>Photo</button>
+        <button class="nav-btn" onclick="setLayer('style')"><span class="material-icons-round">palette</span>Style</button>
+        <button class="nav-btn" onclick="setLayer('pastor')"><span class="material-icons-round">person</span>Pastor</button>
+        <button class="nav-btn" onclick="setLayer('english')"><span class="material-icons-round">translate</span>Eng</button>
     </div>
 
     <script>
-        /* --- CONFIG --- */
         let txtShadow = { x: 0, y: 4, blur: 0, color: '#000000' };
-        let imgFilters = { brightness: 100, contrast: 100, grayscale: 0, sepia: 0 };
+        let imgFilters = { brightness: 100, contrast: 100, saturate: 100, hue: 0, grayscale: 0, sepia: 0 };
         const layouts = {
             curve: "M0 0 H100 V75 Q50 100 0 75 Z",
             diag: "M0 0 H100 V40 L0 100 H0 Z",
@@ -286,25 +265,37 @@
                         <div class="ctrl-head">TELUGU CONTENT</div>
                         <div class="label">Main Verse</div>
                         <textarea rows="2" oninput="updateText('telWhite', this.value)">యెహోవా<br>నా కాపరి</textarea>
-                        <div class="label">Highlight</div>
+                        <div class="label">Highlight Text</div>
                         <input type="text" value="నాకు లేమి కలుగదు" oninput="updateText('telYellow', this.value)">
                         <div class="label">Reference</div>
                         <input type="text" value="కీర్తనలు 23:1" oninput="updateText('telRef', this.value)">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">STYLE</div>
-                        <div class="label">Font Size</div>
-                        <input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')">
+                        <div class="ctrl-head">HIGHLIGHT STYLE</div>
                         <div class="grid-2">
+                            <div><div class="label">Size</div><input type="range" min="40" max="150" value="80" oninput="setStyle('telYellow', 'fontSize', this.value + 'px')"></div>
+                            <div><div class="label">Spacing</div><input type="range" min="-5" max="20" value="0" oninput="setStyle('telYellow', 'letterSpacing', this.value + 'px')"></div>
+                        </div>
+                        <div class="grid-3">
                             <div><div class="label">Fill</div><input type="color" value="#ffee00" oninput="setStyle('telYellow', 'color', this.value)"></div>
                             <div><div class="label">Stroke</div><input type="color" value="#000000" oninput="setStyle('telYellow', 'webkitTextStrokeColor', this.value)"></div>
+                            <div><div class="label">Width</div><input type="range" min="0" max="8" value="0" style="margin-top:10px" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')"></div>
                         </div>
-                        <div class="label">Stroke Width</div>
-                        <input type="range" min="0" max="8" value="0" oninput="setStyle('telYellow', 'webkitTextStrokeWidth', this.value + 'px')">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">POSITION</div>
-                        <div class="label">Move Vertical</div>
+                        <div class="ctrl-head">SHADOW FX</div>
+                        <div class="grid-2">
+                            <div><div class="label">Shadow Color</div><input type="color" value="#000000" oninput="txtShadow.color=this.value; updateTxtShadow()"></div>
+                            <div><div class="label">Blur Radius</div><input type="range" min="0" max="30" value="0" oninput="txtShadow.blur=this.value; updateTxtShadow()"></div>
+                        </div>
+                        <div class="grid-2">
+                            <div><div class="label">X-Offset</div><input type="range" min="-20" max="20" value="0" oninput="txtShadow.x=this.value; updateTxtShadow()"></div>
+                            <div><div class="label">Y-Offset</div><input type="range" min="-20" max="20" value="4" oninput="txtShadow.y=this.value; updateTxtShadow()"></div>
+                        </div>
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">LAYOUT</div>
+                        <div class="label">Vertical Position</div>
                         <input type="range" min="0" max="300" value="100" oninput="setStyle('elText', 'top', this.value + 'px')">
                         <div class="toggle-row">
                             <button class="toggle-btn" onclick="setStyle('elText', 'textAlign', 'left')">Left</button>
@@ -317,7 +308,7 @@
             photo: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">SOURCE</div>
+                        <div class="ctrl-head">SOURCE & OPACITY</div>
                         <div class="grid-2">
                             <button class="btn" onclick="document.getElementById('fileMain').click()">UPLOAD</button>
                             <button class="btn" onclick="randomMain()">SHUFFLE</button>
@@ -327,13 +318,17 @@
                         <input type="range" min="0" max="100" value="100" oninput="setStyle('elMainImg', 'opacity', this.value/100)">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">FILTERS</div>
+                        <div class="ctrl-head">COLOR GRADING</div>
                         <div class="grid-2">
-                            <div><div class="label">Bright</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.brightness=this.value; updateMainFilter()"></div>
+                            <div><div class="label">Brightness</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.brightness=this.value; updateMainFilter()"></div>
                             <div><div class="label">Contrast</div><input type="range" min="50" max="150" value="100" oninput="imgFilters.contrast=this.value; updateMainFilter()"></div>
                         </div>
                         <div class="grid-2">
-                            <div><div class="label">Gray</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.grayscale=this.value; updateMainFilter()"></div>
+                            <div><div class="label">Saturation</div><input type="range" min="0" max="200" value="100" oninput="imgFilters.saturate=this.value; updateMainFilter()"></div>
+                            <div><div class="label">Hue Rotate</div><input type="range" min="0" max="360" value="0" oninput="imgFilters.hue=this.value; updateMainFilter()"></div>
+                        </div>
+                        <div class="grid-2">
+                            <div><div class="label">Grayscale</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.grayscale=this.value; updateMainFilter()"></div>
                             <div><div class="label">Sepia</div><input type="range" min="0" max="100" value="0" oninput="imgFilters.sepia=this.value; updateMainFilter()"></div>
                         </div>
                     </div>
@@ -351,7 +346,7 @@
             style: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">LAYOUT</div>
+                        <div class="ctrl-head">VECTOR SHAPE</div>
                         <div class="toggle-row">
                             <button class="toggle-btn" onclick="setVectorLayout('curve')">Curve</button>
                             <button class="toggle-btn" onclick="setVectorLayout('diag')">Diag</button>
@@ -360,29 +355,31 @@
                         </div>
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">THEME</div>
+                        <div class="ctrl-head">THEME GRADIENT</div>
                         <div class="grid-2">
-                            <div><div class="label">Top Color</div><input type="color" value="#00464f" id="c1" oninput="updateVectorGradient()"></div>
-                            <div><div class="label">Bot Color</div><input type="color" value="#021a1a" id="c2" oninput="updateVectorGradient()"></div>
+                            <div><div class="label">Top</div><input type="color" value="#00464f" id="c1" oninput="updateVectorGradient()"></div>
+                            <div><div class="label">Bottom</div><input type="color" value="#021a1a" id="c2" oninput="updateVectorGradient()"></div>
                         </div>
                         <div class="label">Angle</div>
                         <input type="range" min="0" max="360" value="135" id="gAng" oninput="updateVectorGradient()">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">ELEMENTS</div>
+                        <div class="ctrl-head">DECORATIONS</div>
                         <div class="grid-2">
-                            <div><div class="label">Tag Color</div><input type="color" value="#c0392b" oninput="setStyle('elTag', 'backgroundColor', this.value)"></div>
-                            <div><div class="label">Text Color</div><input type="color" value="#ffffff" oninput="setStyle('tagTop', 'color', this.value); setStyle('tagBot', 'color', this.value)"></div>
+                            <div><div class="label">Tag Bg</div><input type="color" value="#c0392b" oninput="setStyle('elTag', 'backgroundColor', this.value)"></div>
+                            <div><div class="label">Tag Text</div><input type="color" value="#ffffff" oninput="setStyle('tagTop', 'color', this.value); setStyle('tagBot', 'color', this.value)"></div>
                         </div>
-                        <div class="label">Quote Visibility</div>
+                        <div class="label">Quote Mark Visibility</div>
                         <input type="range" min="0" max="100" value="5" oninput="setStyle('elQuote', 'opacity', this.value/100)">
+                        <div class="label">Texture Intensity</div>
+                        <input type="range" min="0" max="50" value="15" oninput="setStyle('texLayer', 'opacity', this.value/100)">
                     </div>
                 `
             },
             pastor: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">PROFILE</div>
+                        <div class="ctrl-head">PROFILE PHOTO</div>
                         <div class="grid-2">
                             <button class="btn" onclick="document.getElementById('filePastor').click()">UPLOAD</button>
                             <input type="text" value="Sis. Dayamani" oninput="updateText('sigName', this.value)">
@@ -390,16 +387,16 @@
                         <input type="file" id="filePastor" hidden accept="image/*" onchange="handleFile(this, 'elPastor')">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">FRAME</div>
+                        <div class="ctrl-head">FRAME STYLE</div>
                         <div class="grid-2">
                             <div><div class="label">Border</div><input type="color" value="#ffffff" oninput="setStyle('elPastor', 'borderColor', this.value)"></div>
                             <div><div class="label">Width</div><input type="range" min="0" max="30" value="12" oninput="setStyle('elPastor', 'borderWidth', this.value + 'px')"></div>
                         </div>
-                        <div class="label">Shadow</div>
+                        <div class="label">Drop Shadow</div>
                         <input type="range" min="0" max="50" value="10" oninput="setStyle('elPastor', 'boxShadow', '10px 10px '+this.value+'px rgba(0,0,0,0.5)')">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">POSITION</div>
+                        <div class="ctrl-head">POSITION & SIZE</div>
                         <div class="grid-2">
                             <div><div class="label">Size</div><input type="range" min="150" max="500" value="340" oninput="resizePastor(this.value)"></div>
                             <div><div class="label">X-Pos</div><input type="range" min="0" max="500" value="50" oninput="setStyle('elPastor', 'left', this.value + 'px')"></div>
@@ -412,20 +409,29 @@
             english: {
                 html: `
                     <div class="ctrl-card">
-                        <div class="ctrl-head">ENGLISH BOX</div>
+                        <div class="ctrl-head">ENGLISH CONTENT</div>
                         <textarea rows="2" oninput="updateText('engTxt', this.value)">THE LORD IS MY SHEPHERD<br>I SHALL NOT WANT</textarea>
                         <input type="text" value="PSALM 23:1" oninput="updateText('engRef', this.value)">
                     </div>
                     <div class="ctrl-card">
-                        <div class="ctrl-head">STYLE</div>
+                        <div class="ctrl-head">BOX APPEARANCE</div>
+                        <div class="grid-2">
+                            <div><div class="label">Left Clr</div><input type="color" value="#3d0a0a" id="engC1" oninput="updateEngGrad()"></div>
+                            <div><div class="label">Right Clr</div><input type="color" value="#2b0505" id="engC2" oninput="updateEngGrad()"></div>
+                        </div>
                         <div class="grid-2">
                             <div><div class="label">Width</div><input type="range" min="50" max="100" value="100" oninput="setStyle('elEngBox', 'width', this.value + '%')"></div>
                             <div><div class="label">Opacity</div><input type="range" min="0" max="100" value="100" oninput="setStyle('elEngBox', 'opacity', this.value/100)"></div>
                         </div>
-                        <div class="label">Padding</div>
-                        <input type="range" min="10" max="60" value="25" oninput="setStyle('elEngBox', 'padding', this.value+'px')">
-                        <div class="label">Font Size</div>
-                        <input type="range" min="10" max="50" value="28" oninput="setStyle('engTxt', 'fontSize', this.value+'px')">
+                        <div class="label">Glass Blur Effect</div>
+                        <input type="range" min="0" max="20" value="0" oninput="setStyle('elEngBox', 'backdropFilter', 'blur('+this.value+'px)')">
+                    </div>
+                    <div class="ctrl-card">
+                        <div class="ctrl-head">TYPOGRAPHY</div>
+                        <div class="grid-2">
+                            <div><div class="label">Color</div><input type="color" value="#ffffff" oninput="setStyle('engTxt', 'color', this.value)"></div>
+                            <div><div class="label">Size</div><input type="range" min="10" max="50" value="28" style="margin-top:10px" oninput="setStyle('engTxt', 'fontSize', this.value+'px')"></div>
+                        </div>
                     </div>
                 `
             }
@@ -434,28 +440,19 @@
         window.onload = () => { fitCard(); window.onresize = fitCard; };
 
         function setLayer(key) {
-            // Update Active Buttons (Mobile & Desktop)
             document.querySelectorAll('.nav-btn, .dt-btn').forEach(b => b.classList.remove('active'));
-            // Find buttons that triggered this and activate them
-            if(event && event.currentTarget) event.currentTarget.classList.add('active');
-            
-            // For desktop tabs specifically
-            const desktopBtns = document.querySelectorAll('.dt-btn');
-            const keys = Object.keys(layers);
-            const index = keys.indexOf(key);
-            if(desktopBtns[index]) desktopBtns[index].classList.add('active');
-
+            const mobBtns = document.querySelectorAll('.nav-btn');
+            const deskBtns = document.querySelectorAll('.dt-btn');
+            const idx = Object.keys(layers).indexOf(key);
+            if(mobBtns[idx]) mobBtns[idx].classList.add('active');
+            if(deskBtns[idx]) deskBtns[idx].classList.add('active');
             document.getElementById('controls').innerHTML = layers[key].html;
         }
 
         function updateText(id, val) { document.getElementById(id).innerHTML = val; }
         function setStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
-        function updateTxtShadow() {
-            document.getElementById('telYellow').style.textShadow = `${txtShadow.x}px ${txtShadow.y}px ${txtShadow.blur}px ${txtShadow.color}`;
-        }
-        function updateMainFilter() {
-             document.getElementById('elMainImg').style.filter = `brightness(${imgFilters.brightness}%) contrast(${imgFilters.contrast}%) grayscale(${imgFilters.grayscale}%) sepia(${imgFilters.sepia}%)`;
-        }
+        function updateTxtShadow() { document.getElementById('telYellow').style.textShadow = `${txtShadow.x}px ${txtShadow.y}px ${txtShadow.blur}px ${txtShadow.color}`; }
+        function updateMainFilter() { document.getElementById('elMainImg').style.filter = `brightness(${imgFilters.brightness}%) contrast(${imgFilters.contrast}%) saturate(${imgFilters.saturate}%) hue-rotate(${imgFilters.hue}deg) grayscale(${imgFilters.grayscale}%) sepia(${imgFilters.sepia}%)`; }
         function updateEngGrad() {
              const c1 = document.getElementById('engC1').value;
              const c2 = document.getElementById('engC2').value;
